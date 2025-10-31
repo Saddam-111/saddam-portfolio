@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import { images } from "../../assets/asset"; // optional project images for floating cards
+import { Link } from "react-router-dom";
 
 const ProjectsHero = () => {
   const particlesInit = async (main) => {
@@ -12,8 +13,8 @@ const ProjectsHero = () => {
   // Floating card animation variants
   const floatVariant = {
   float: {
-    x: ["0%", "-100%", "0%", "0%", "0%", "100%", "0%", "0%", "0%", "0%"],  // horizontal movement
-    y: ["0%", "0%", "0%", "100%", "0%", "0%", "0%", "-100%", "0%", "0%"],  // vertical movement
+    x: ["0%", "-100%", "0%", "0%", "0%", "100%", "0%", "0%", "0%"],  // horizontal movement
+    y: ["0%", "0%", "0%", "100%", "0%", "0%", "0%", "-100%", "0%"],  // vertical movement
     transition: { 
       x: { repeat: Infinity, repeatType: "mirror", duration: 2 },
       y: { repeat: Infinity, repeatType: "mirror", duration: 2 },
@@ -90,18 +91,18 @@ const ProjectsHero = () => {
         transition={{ delay: 1 }}
         className="mt-10 flex flex-wrap justify-center gap-4 relative z-10"
       >
-        <a
-          href="/projects"
+        <Link
+          to="/projects"
           className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-full shadow-lg hover:bg-pink-700 transition-all duration-300"
         >
           Explore Projects
-        </a>
-        <a
-          href="/contact"
+        </Link>
+        <Link
+          to="/contact"
           className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white font-semibold transition-all duration-300"
         >
           Hire Me
-        </a>
+        </Link>
       </motion.div>
     </section>
   );

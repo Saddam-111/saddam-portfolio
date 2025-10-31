@@ -69,8 +69,8 @@ const FeaturedProjects = () => {
           {filteredProjects.map((project, idx) => (
             <Tilt
               key={idx}
-              tiltMaxAngleX={15}
-              tiltMaxAngleY={15}
+              tiltMaxAngleX={35}
+              tiltMaxAngleY={30}
               glareEnable={true}
               glareMaxOpacity={0.3}
               className="cursor-pointer"

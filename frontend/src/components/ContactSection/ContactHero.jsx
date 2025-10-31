@@ -79,7 +79,7 @@ const ContactHero = () => {
           transition={{ delay: 0.5 }}
           className="mt-4 text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
         >
-          Have an idea, a collaboration, or a project in mind? Let’s connect and
+          Have an idea, a collaboration or a project in mind? Let’s connect and
           turn your vision into a reality. You can reach me through the form
           below or via any of my platforms.
         </motion.p>
@@ -95,7 +95,7 @@ const ContactHero = () => {
         {/* Contact Buttons */}
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <motion.a
-            href="mailto:yourmail@example.com"
+            href="mailto:saddam6389046@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -105,7 +105,7 @@ const ContactHero = () => {
           </motion.a>
 
           <motion.a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/in/saddam11"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
@@ -115,7 +115,7 @@ const ContactHero = () => {
           </motion.a>
 
           <motion.a
-            href="https://github.com"
+            href="https://github.com/Saddam-111"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}

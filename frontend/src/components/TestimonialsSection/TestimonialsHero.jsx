@@ -98,7 +98,7 @@ const TestimonialsHero = () => {
           className="mt-4 text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
         >
           Words of appreciation and recognition from my clients and colleagues,
-          reflecting the dedication, quality, and innovation I bring to every
+          reflecting the dedication, quality and innovation I bring to every
           project.
         </motion.p>
 

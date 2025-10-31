@@ -4,7 +4,7 @@ const ProjectModal =({ project, isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 mx-2">
       <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

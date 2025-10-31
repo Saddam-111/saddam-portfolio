@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AnimatedSection from "../Common/AnimatedSection";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import axios from "axios";
 
 const levelToPercentage = (level) => {
@@ -13,7 +13,7 @@ const levelToPercentage = (level) => {
     case "advanced":
       return 100;
     default:
-      return 0; // fallback if level is unknown
+      return 0;
   }
 };
 
@@ -44,9 +44,12 @@ const SkillsBars = () => {
 
   return (
     <AnimatedSection>
-      <section className="py-20 max-w-5xl mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-          Skills
+      <section className="py-20 max-w-5xl mx-auto px-4 relative overflow-hidden">
+        {/* Background soft gradient glow */}
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-100/10 via-blue-100/10 to-purple-100/10 dark:from-pink-500/10 dark:via-blue-500/10 dark:to-purple-500/10 blur-3xl"></div>
+
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white relative z-10">
+          My Skillset
         </h2>
 
         {loading ? (
@@ -54,33 +57,52 @@ const SkillsBars = () => {
         ) : skills.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-400">No skills found.</p>
         ) : (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-6 relative z-10">
             {skills.map((skill, idx) => (
-              <div key={skill._id || idx}>
-                <div className="flex items-center gap-3 mb-2">
+              <motion.div
+                key={skill._id || idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                viewport={{ once: true }}
+                className="bg-white/60 dark:bg-gray-900/50 backdrop-blur-md border border-pink-500/10 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300"
+              >
+                {/* Skill header */}
+                <div className="flex items-center gap-3 mb-3">
                   {skill.icon?.url && (
                     <img
                       src={skill.icon.url}
                       alt={skill.name}
-                      className="w-8 h-8 rounded-full object-contain"
+                      className="w-10 h-10 rounded-full object-contain bg-white/30 dark:bg-gray-800/30 p-1 border border-pink-500/20"
                     />
                   )}
-                  <p className="text-gray-900 dark:text-white font-semibold">{skill.name}</p>
-                  <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">
-                    {skill.level}
-                  </span>
+                  <div className="flex-1">
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {skill.name}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{skill.level}</p>
+                  </div>
+                  <motion.span
+                    className="text-sm font-semibold text-pink-600 dark:text-pink-400"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.8 + idx * 0.1 }}
+                  >
+                    {skill.levelPercent}%
+                  </motion.span>
                 </div>
 
-                <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-4">
+                {/* Progress Bar */}
+                <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden relative">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${skill.levelPercent}%` }}
                     viewport={{ once: true }}
-                    transition={{ duration: 1 + idx * 0.2 }}
-                    className="h-4 bg-pink-600 dark:bg-pink-500 rounded-full"
-                  />
+                    transition={{ duration: 1.2, delay: idx * 0.15 }}
+                    className="absolute top-0 left-0 h-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]"
+                  ></motion.div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
