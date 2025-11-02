@@ -7,7 +7,7 @@ const PersonalIntro =() =>{
     <AnimatedSection>
       <section className="py-20 text-center bg-white dark:bg-gray-950">
         <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">Hello, I'm Saddam Ansari</h2>
-        <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-1 mb-4">
+        <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-4">
           I am a passionate full-stack developer specializing in MERN stack. I love turning complex problems into interactive, beautiful and user-friendly applications. With hands-on experience in React, Node.js, MongoDB and modern UI/UX design, I aim to deliver high-quality digital solutions.
         </p>
         <p className="text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
