@@ -15,13 +15,10 @@ export default function AdminLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Reset error
-
+    setError("");
     try {
       const success = await loginAdmin(email, password);
-
       if (success) {
-        // Wait a moment for state updates
         setTimeout(() => {
           const token = localStorage.getItem("adminToken");
           if (token) {
@@ -41,68 +38,86 @@ export default function AdminLogin() {
   };
 
   const handleBackToHome = () => {
-    navigate("/"); // Navigate to home page
+    navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-600 to-blue-600 relative overflow-hidden">
-      {/* Background floating shapes */}
-      <span className="absolute w-72 h-72 bg-pink-400 opacity-30 rounded-full top-[-100px] left-[-100px] animate-spin-slow"></span>
-      <span className="absolute w-96 h-96 bg-blue-400 opacity-20 rounded-full bottom-[-150px] right-[-120px] animate-pulse-slow"></span>
+    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-linear-to-br from-pink-500 via-purple-600 to-blue-600 relative overflow-hidden px-4 py-10">
+      {/* Background Orbs */}
+      <div className="absolute w-72 h-72 bg-pink-400 opacity-25 rounded-full -top-20 -left-20 animate-spin-slow blur-3xl"></div>
+      <div className="absolute w-80 h-80 bg-blue-400 opacity-20 rounded-full bottom-[-100px] right-[-90px] animate-pulse-slow blur-3xl"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="relative z-10 w-full max-w-5xl grid md:grid-cols-2 gap-10 items-center"
+        transition={{ duration: 0.8 }}
+        className="relative z-10 w-full max-w-5xl bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 md:p-10 flex flex-col md:grid md:grid-cols-2 gap-8"
       >
-        {/* Left Image Section */}
-        <div className="hidden md:flex flex-col justify-center items-center h-full w-full gap-6">
-          <div className="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+        {/* Left Section (Hidden on small screens) */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="hidden md:flex flex-col justify-center items-center text-center space-y-6"
+        >
+          <div className="relative w-full h-96 rounded-2xl overflow-hidden border border-white/20 shadow-xl">
             <img
               src={images.login_bg}
               alt="Admin Background"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover brightness-90"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center p-6">
-              <div className="w-28 h-28 rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+            <div className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center px-6">
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4"
+              >
                 <img
                   src={images.profile_img}
                   alt="Admin"
                   className="w-full h-full object-cover"
                 />
-              </div>
-              <h3 className="text-white text-3xl font-bold">Secure Access Panel</h3>
-              <p className="text-gray-200 text-sm md:text-base leading-relaxed mt-2">
-                Manage, Monitor, and Maintain Your Application
-                <br />
-                <span className="font-medium">
-                  Admin Controls • Analytics • User Management
+              </motion.div>
+              <h3 className="text-white text-3xl font-bold tracking-wide">
+                Admin Control Panel
+              </h3>
+              <p className="text-gray-300 text-sm mt-2 leading-relaxed">
+                Manage • Monitor • Maintain <br />
+                <span className="font-semibold text-pink-300">
+                  Access your secure dashboard
                 </span>
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right Login Form */}
-        <form
+        {/* Right Section - Login Form */}
+        <motion.form
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
           onSubmit={handleLogin}
-          className="bg-white dark:bg-gray-900 p-10 rounded-2xl shadow-2xl flex flex-col gap-6"
+          className="bg-white/30 dark:bg-gray-900/50 backdrop-blur-xl p-6 md:p-8 rounded-2xl shadow-lg border border-white/20 flex flex-col gap-5"
         >
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-2">
-            Admin Login
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white">
+            🔐 Admin Login
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 text-center mb-6">
-            Enter your credentials to access the admin dashboard.
+          <p className="text-gray-700 dark:text-gray-300 text-center text-sm md:text-base">
+            Please enter your credentials below.
           </p>
 
-          {error && <p className="text-red-500 text-center">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-center text-sm bg-red-50 p-2 rounded-lg">
+              {error}
+            </p>
+          )}
 
           {/* Email */}
           <input
             type="email"
             placeholder="Email"
-            className="w-full p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 transition-all"
+            className="w-full p-3 md:p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all text-sm md:text-base"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -113,7 +128,7 @@ export default function AdminLogin() {
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
-              className="w-full p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 transition-all"
+              className="w-full p-3 md:p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all text-sm md:text-base"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -121,7 +136,7 @@ export default function AdminLogin() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 hover:text-pink-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 hover:text-pink-600 transition"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
@@ -138,41 +153,36 @@ export default function AdminLogin() {
             Remember Me
           </label>
 
-          {/* Submit */}
+          {/* Login Button */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full py-4 bg-pink-600 text-white font-semibold rounded-lg shadow-lg hover:bg-pink-700 transition-all"
+            className="w-full py-3 md:py-4 bg-linear-to-r from-pink-600 to-blue-600 text-white font-semibold rounded-lg shadow-lg hover:opacity-90 transition-all text-sm md:text-base"
           >
             Login
           </motion.button>
 
-          <p className="text-gray-500 dark:text-gray-400 text-center mt-2 text-sm">
+          <p className="text-gray-500 dark:text-gray-400 text-center text-xs md:text-sm mt-3">
             Only authorized users can access this section.
           </p>
-        </form>
+        </motion.form>
       </motion.div>
 
       {/* Back to Home Button */}
       <motion.button
-  whileHover={{ scale: 1.05, y: -4 }}  // Slight upward shift for parallax effect
-  whileTap={{ scale: 0.95, y: 2 }}    // Downward shift for tap effect
-  onClick={handleBackToHome}
-  className="absolute bottom-5 left-2/5 transform -translate-x-1/2 py-3 px-6 rounded-xl bg-white bg-opacity-20 backdrop-blur-lg shadow-xl text-gray-900 font-semibold transition-all duration-300 ease-in-out"
-  style={{
-    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.3)",  // Adding subtle shadow for depth
-    backdropFilter: "blur(10px)",  // Glassmorphism effect
-    border: "1px solid rgba(255, 255, 255, 0.2)"  // Light border for more definition
-  }}
->
-  Back to Home
-</motion.button>
+        whileHover={{ scale: 1.05, y: -3 }}
+        whileTap={{ scale: 0.95, y: 2 }}
+        onClick={handleBackToHome}
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 py-2.5 px-5 rounded-xl bg-white/20 backdrop-blur-md shadow-lg text-white text-sm md:text-base font-medium border border-white/30 hover:bg-white/30 transition-all"
+      >
+        ⬅ Back to Home
+      </motion.button>
 
       {/* Animations */}
       <style>{`
         .animate-spin-slow { animation: spin 20s linear infinite; }
-        .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulse 10s ease-in-out infinite; }
         @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
         @keyframes pulse { 0%,100% {transform: scale(1); opacity: 0.2;} 50% {transform: scale(1.3); opacity: 0.4;} }
       `}</style>

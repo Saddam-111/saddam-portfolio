@@ -58,20 +58,23 @@ export default function CertificatesManager() {
   };
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-xl font-bold">Certificates</h3>
+    <div className="space-y-6 p-4 sm:p-6 bg-gray-50 dark:bg-gray-950 rounded-xl shadow-sm">
+      <h3 className="text-2xl font-bold text-gray-900 dark:text-white text-center sm:text-left">
+        Certificates
+      </h3>
 
-      <div className="flex gap-2 items-center">
+      {/* Upload Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
         <input
           type="file"
           onChange={(e) => setFile(e.target.files[0])}
-          className="p-2 border rounded"
+          className="w-full sm:w-auto p-2 border rounded-lg text-sm bg-white dark:bg-gray-800 dark:text-white"
         />
         <button
           onClick={handleUpload}
           disabled={loading}
-          className={`px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center gap-2 ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
+          className={`w-full sm:w-auto px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg flex items-center justify-center gap-2 transition-all duration-300 ${
+            loading ? "opacity-60 cursor-not-allowed" : ""
           }`}
         >
           <FaPlus /> {loading ? "Uploading..." : "Upload"}
@@ -79,32 +82,40 @@ export default function CertificatesManager() {
       </div>
 
       {loading && (
-        <p className="text-gray-500 text-sm animate-pulse">Loading...</p>
+        <p className="text-gray-500 text-sm animate-pulse text-center">
+          Loading...
+        </p>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {Array.isArray(certificates) &&
+      {/* Certificates Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {Array.isArray(certificates) && certificates.length > 0 ? (
           certificates.map((cert) => (
             <motion.div
               key={cert._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-900 p-3 rounded-xl shadow-md relative"
+              className="relative bg-white dark:bg-gray-900 p-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
             >
               <img
                 src={cert.certificateImage?.url}
                 alt={cert.title || "Certificate"}
-                className="w-full h-32 object-cover rounded-md"
+                className="w-full h-40 sm:h-48 object-cover rounded-md"
               />
               <button
                 onClick={() => handleDelete(cert._id)}
                 disabled={loading}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-600"
+                className="absolute top-2 right-2 text-red-500 hover:text-red-600 bg-white/70 dark:bg-gray-800/70 rounded-full p-1"
               >
                 <FaTrash />
               </button>
             </motion.div>
-          ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-600 dark:text-gray-400 col-span-full">
+            No certificates uploaded yet.
+          </p>
+        )}
       </div>
     </div>
   );
