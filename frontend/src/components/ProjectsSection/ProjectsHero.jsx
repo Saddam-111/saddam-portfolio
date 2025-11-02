@@ -23,7 +23,7 @@ const ProjectsHero = () => {
 };
 
   return (
-    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
+    <section className="relative min-h-[95vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
       {/* Background Particles */}
       <Particles
         id="tsparticles"
@@ -51,7 +51,7 @@ const ProjectsHero = () => {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-500 to-blue-600 relative z-10"
+        className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-500 to-blue-600 relative z-10 pb-3"
       >
         My Projects
       </motion.h1>
@@ -67,7 +67,7 @@ const ProjectsHero = () => {
       </motion.p>
 
       {/* Floating Project Cards */}
-      <div className="absolute top-1/2 left-1/2 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 flex justify-center flex-wrap gap-8 z-0">
+      <div className="absolute top-1/2 left-1/2 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 flex justify-center flex-wrap gap-8 z-0 ">
         {[1, 2, 3, 4].map((i) => (
           <motion.div
             key={i}

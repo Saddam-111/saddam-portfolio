@@ -9,7 +9,7 @@ const Experience = () => {
   return (
     <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
       <Navbar />
-      <main className="pt-20 overflow-hidden">
+      <main className="pt-15 overflow-hidden">
         <ExperienceHero />
         <ExperienceTimeline />
         <ExperienceCTA />

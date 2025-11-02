@@ -60,7 +60,7 @@ const AboutHero = () => {
   });
 
   return (
-    <section className="relative overflow-hidden flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black text-center px-6">
+    <section className="relative overflow-hidden flex flex-col items-center justify-center min-h-screen bg-linear-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black text-center px-6">
       {/* Background Glow */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -146,7 +146,7 @@ const AboutHero = () => {
       >
         <Link
           href="/projects"
-          className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-full shadow-lg hover:bg-pink-700 transition"
+          className="px-6 py-3 mt-2 bg-pink-600 text-white font-semibold rounded-full shadow-lg hover:bg-pink-700 transition"
         >
           View My Projects
         </Link>

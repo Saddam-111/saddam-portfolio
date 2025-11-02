@@ -16,7 +16,7 @@ const About = () => {
       <Navbar />
 
       {/* All Sections */}
-      <main className="pt-20 overflow-hidden">
+      <main className="pt-15 overflow-hidden">
         <AboutHero />
         <PersonalIntro />
         <TimeLine />

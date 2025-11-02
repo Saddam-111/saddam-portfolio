@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
       <Navbar />
-      <main className='pt-20'>
+      <main className='pt-15'>
       <HeroSection />
       <AboutSection />
       <SkillsSection />

@@ -5,13 +5,13 @@ import { images } from "../../assets/asset";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center text-center md:text-left gap-10 px-6 md:px-20 py-10 bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
+    <section className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center text-center md:text-left gap-10 px-6 md:px-20 bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
       {/* === Left Text Section === */}
       <motion.div
         initial={{ x: -80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="max-w-xl"
+        className="max-w-2xl"
       >
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white leading-tight">
           Hi, I'm{" "}
@@ -70,7 +70,7 @@ const HeroSection = () => {
         <motion.img
           src={images.profile_img}
           alt="Saddam Ansari"
-          className="w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white dark:border-gray-700 shadow-[0_0_25px_rgba(236,72,153,0.5)] object-cover relative z-10 hover:scale-105 transition-transform duration-300"
+          className="w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white dark:border-gray-700 shadow-[0_0_25px_rgba(236,72,153,0.5)] object-cover relative z-10 hover:scale-105 transition-transform duration-300 mt-8"
           whileHover={{ rotate: 3, scale: 1.05 }}
         />
 

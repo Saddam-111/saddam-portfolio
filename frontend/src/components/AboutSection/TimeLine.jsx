@@ -18,9 +18,9 @@ const TimeLine =()  =>{
 
   return (
     <AnimatedSection>
-      <section className="py-20 bg-gradient-to-r from-blue-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-black">
+      <section className="py-20 bg-linear-to-r from-blue-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-black">
         <h2 className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white">Career Timeline</h2>
-        <div className="max-w-4xl mx-auto relative border-l-2 border-pink-600">
+        <div className="max-w-4xl mx-4 relative border-l-2 border-pink-600">
           {events.map((event, idx) => (
             <motion.div
               key={idx}
