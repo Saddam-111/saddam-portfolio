@@ -4,12 +4,14 @@ import Navbar from '../components/Navbar'
 import ExperienceHero from '../components/ExperienceSection/ExperienceHero'
 import ExperienceTimeline from '../components/ExperienceSection/ExperienceTimeline'
 import ExperienceCTA from '../components/ExperienceSection/ExperienceCTA'
+import ParticleBackground from '../components/Common/ParticleBackground'
 
 const Experience = () => {
   return (
     <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
       <Navbar />
       <main className="pt-15 overflow-hidden">
+        <ParticleBackground />
         <ExperienceHero />
         <ExperienceTimeline />
         <ExperienceCTA />
