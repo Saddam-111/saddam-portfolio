@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AdminContext } from "../../context/AdminContext"; // adjust path as needed
 import AnimatedSection from "../Common/AnimatedSection";
 import ProjectFilters from "./ProjectFilters";
 import ProjectModal from "./ProjectModal";
@@ -7,28 +8,18 @@ import Tilt from "react-parallax-tilt";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import axios from "axios";
 
 const FeaturedProjects = () => {
-  const [projects, setProjects] = useState([]);
+  const { projects, fetchProjects, loading } = useContext(AdminContext);
   const [filter, setFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [loading, setLoading] = useState(true);
 
+  // 🔁 Fetch projects when component mounts if not already loaded
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/projects`);
-        setProjects(res.data.projects);
-        console.log(res.data.projects)
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProjects();
-  }, []);
+    if (!projects || projects.length === 0) {
+      fetchProjects();
+    }
+  }, [projects, fetchProjects]);
 
   const categories = ["All", ...new Set(projects.map((p) => p.category))];
   const filteredProjects =
@@ -59,10 +50,7 @@ const FeaturedProjects = () => {
           Featured Projects
         </h2>
 
-        <ProjectFilters
-          categories={categories}
-          onFilter={setFilter}
-        />
+        <ProjectFilters categories={categories} onFilter={setFilter} />
 
         {/* Desktop Grid */}
         <div className="hidden md:grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -92,9 +80,9 @@ const FeaturedProjects = () => {
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300">
                   {project.description
-    ? project.description.split(" ").slice(0, 25).join(" ") +
-      (project.description.split(" ").length > 25 ? "..." : "")
-    : ""}
+                    ? project.description.split(" ").slice(0, 25).join(" ") +
+                      (project.description.split(" ").length > 25 ? "..." : "")
+                    : ""}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {project.techStack?.map((tech, i) => (

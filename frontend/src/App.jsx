@@ -10,7 +10,7 @@ import Skills from "./pages/Skills";
 import Experience from "./pages/Experience";
 import Testimonials from "./pages/Testimonials";
 import Contact from "./pages/Contact";
-
+import ResumeView from "./pages/ResumeView";
 // Admin
 import AdminLogin from "./components/Admin/AdminLogin";
 import AdminDashboard from "./components/Admin/AdminDashboard";
@@ -20,6 +20,8 @@ import MessagesManager from "./components/Admin/MessagesManager";
 import SkillsManager from "./components/Admin/SkillsManager";
 import ExperienceManager from "./components/Admin/ExperienceManager";
 import CertificatesManager from "./components/Admin/CertificatesManager";
+import ResumeManager from "./components/Admin/ResumeManager";
+
 
 // Page transition wrapper
 const PageWrapper = ({ children }) => (
@@ -95,6 +97,14 @@ const App = () => {
               </PageWrapper>
             }
           />
+          <Route
+            path="/resume-view"
+            element={
+              <PageWrapper>
+                <ResumeView />
+              </PageWrapper>
+            }
+          />
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
@@ -113,6 +123,7 @@ const App = () => {
             <Route path="skills" element={<SkillsManager />} />
             <Route path="experience" element={<ExperienceManager />} />
             <Route path="certificates" element={<CertificatesManager />} />
+            <Route path="resume" element={<ResumeManager />} />
           </Route>
 
           {/* Catch all / 404 */}

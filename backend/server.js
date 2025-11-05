@@ -12,7 +12,7 @@ import projectRoute from './routes/projectRoute.js'
 import testimonialRoute from './routes/testimonialRoute.js'
 import certificateRoute from './routes/certificateRoute.js'
 import messageRoute from './routes/messageRoute.js'
-
+import resumeRoute from './routes/resumeRoute.js'
 
 
 const app = express()
@@ -38,6 +38,7 @@ app.use("/api/projects", projectRoute);
 app.use("/api/testimonials", testimonialRoute);
 app.use("/api/certificates", certificateRoute);
 app.use("/api/messages", messageRoute);
+app.use("/api/resume", resumeRoute);
 
 app.get("/", (req, res) => {
   res.send("Portfolio Backend Running 🚀");

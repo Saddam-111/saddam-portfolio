@@ -11,9 +11,6 @@ import ParticleBackground from '../components/Common/ParticleBackground'
 
 
 const Home = () => {
-  const particlesInit = async (main) => {
-      await loadFull(main);
-    };
   return (
     <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
       <Navbar />

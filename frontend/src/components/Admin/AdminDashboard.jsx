@@ -15,6 +15,7 @@ import {
   FaCertificate,
   FaBriefcase,
   FaUserShield,
+  FaFileAlt
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -36,6 +37,7 @@ export default function AdminDashboard() {
     { name: "Skills", icon: <FaCogs />, path: "skills" },
     { name: "Experience", icon: <FaBriefcase />, path: "experience" },
     { name: "Certificates", icon: <FaCertificate />, path: "certificates" },
+    { name: "Resume", icon: <FaFileAlt />, path: "resume" },
   ];
 
   const isDashboardRoot =

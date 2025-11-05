@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AdminContext } from "../../context/AdminContext";
 import { images } from "../../assets/asset";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const { resumes, fetchResumes } = useContext(AdminContext);
+
+  useEffect(() => {
+    if (!resumes.length) fetchResumes();
+  }, []);
+
+  const handleViewResume = () => {
+    if (resumes[0]?.resumeFile?.url) {
+      navigate("/resume-view", {
+        state: { resumeUrl: resumes[0].resumeFile.url },
+      });
+    } else {
+      alert("Resume not uploaded yet!");
+    }
+  };
+
   return (
     <section className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center text-center md:text-left gap-10 px-6 md:px-20 bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
       {/* === Left Text Section === */}
@@ -29,19 +47,28 @@ const HeroSection = () => {
           ideas to life.
         </p>
 
+        {/* === Buttons === */}
         <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
           <Link
             to="/projects"
-            className="px-6 py-3 bg-pink-600 text-white font-medium rounded-full hover:scale-105 hover:shadow-[0_0_20px_#ec4899] transition-all duration-300"
+            className="px-6 py-3 bg-pink-600 text-white font-medium rounded-full hover:scale-105 hover:shadow-[0_0_20px_#ec4899] transition-all duration-300 cursor-pointer"
           >
             View My Work
           </Link>
+
           <Link
             to="/contact"
-            className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white hover:scale-105 transition-all duration-300"
+            className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             Contact Me
           </Link>
+
+          <button
+            onClick={handleViewResume}
+            className="px-6 py-3 border-2 border-pink-600 text-pink-600 rounded-full hover:bg-pink-600 hover:text-white hover:scale-105 transition-all duration-300"
+          >
+            View Resume
+          </button>
         </div>
       </motion.div>
 
@@ -52,7 +79,6 @@ const HeroSection = () => {
         transition={{ duration: 0.8, delay: 0.3 }}
         className="relative flex justify-center items-center"
       >
-        {/* Glow circle behind image */}
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
@@ -66,15 +92,12 @@ const HeroSection = () => {
           className="absolute w-64 h-64 md:w-80 md:h-80 bg-gradient-to-r from-pink-500 to-blue-500 rounded-full blur-3xl opacity-30"
         ></motion.div>
 
-        {/* Profile image */}
         <motion.img
           src={images.profile_img}
           alt="Saddam Ansari"
           className="w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white dark:border-gray-700 shadow-[0_0_25px_rgba(236,72,153,0.5)] object-cover relative z-10 hover:scale-105 transition-transform duration-300 mt-8"
           whileHover={{ rotate: 3, scale: 1.05 }}
         />
-
-        {/* Floating Tag */}
       </motion.div>
     </section>
   );

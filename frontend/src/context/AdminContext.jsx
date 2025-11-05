@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import API from "../utils/api";
 
 export const AdminContext = createContext();
@@ -8,10 +8,10 @@ export const AdminProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+   const [resumes, setResumes] = useState([]);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [experience, setExperience] = useState([]);
+  const [experiences, setExperiences] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [certificates, setCertificates] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -75,7 +75,7 @@ export const AdminProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await API.get("/experience");
-      setExperience(res.data.experience || []);
+      setExperiences(res.data.experiences || []);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     } finally {
@@ -107,6 +107,22 @@ export const AdminProvider = ({ children }) => {
     }
   };
 
+  const fetchResumes = async () => {
+    try {
+      setLoading(true);
+      const res = await API.get("/resume");
+      setResumes(res.data.resumes || []);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect( () => {
+    fetchResumes()
+  },[])
+
   return (
     <AdminContext.Provider
       value={{
@@ -118,13 +134,15 @@ export const AdminProvider = ({ children }) => {
         fetchProjects,
         skills,
         fetchSkills,
-        experience,
+        experiences,
         fetchExperience,
         testimonials,
         certificates,
         fetchCertificates,
         messages,
         fetchMessages,
+        resumes,
+        fetchResumes,
         loading,
         error,
         setError,

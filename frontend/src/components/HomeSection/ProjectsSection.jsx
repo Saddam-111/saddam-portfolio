@@ -1,33 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import { AdminContext } from "../../context/AdminContext";
 import ProjectModal from "../ProjectsSection/ProjectModal";
 
 const ProjectsSection = () => {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedProject, setSelectedProject] = useState(null); // ✅ For modal
+  const { projects, fetchProjects, loading } = useContext(AdminContext);
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  // ✅ Fetch projects
-  const fetchProjects = async () => {
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/projects`
-      );
-      if (data.success) {
-        setProjects(data.projects.slice(0, 3)); // show only featured
-      }
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // ✅ Fetch projects only once
   useEffect(() => {
-    fetchProjects();
+    if (!projects.length) fetchProjects();
   }, []);
+
+  // ✅ Filter only top 3 featured projects
+  const featuredProjects = projects.slice(0, 3);
 
   return (
     <section className="py-20 text-center bg-white dark:bg-gray-950 relative overflow-hidden">
@@ -40,17 +27,17 @@ const ProjectsSection = () => {
 
       {loading ? (
         <p className="text-gray-600 dark:text-gray-400">Loading projects...</p>
-      ) : projects.length === 0 ? (
+      ) : featuredProjects.length === 0 ? (
         <p className="text-gray-600 dark:text-gray-400">No projects found.</p>
       ) : (
         <div className="grid md:grid-cols-3 gap-8 px-6 relative z-10">
-          {projects.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <motion.div
               key={project._id || index}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
               className="bg-gray-100 dark:bg-gray-900 p-6 rounded-2xl shadow-lg flex flex-col justify-between cursor-pointer hover:shadow-pink-500/20 hover:shadow-lg"
-              onClick={() => setSelectedProject(project)} // ✅ Click to open modal
+              onClick={() => setSelectedProject(project)}
             >
               {/* Thumbnail */}
               {project.thumbnail?.url ? (
@@ -62,7 +49,7 @@ const ProjectsSection = () => {
                   transition={{ type: "spring", stiffness: 200 }}
                 />
               ) : (
-                <div className="h-44 bg-linear-to-br from-pink-400 to-blue-400 rounded-xl mb-4"></div>
+                <div className="h-44 bg-gradient-to-br from-pink-400 to-blue-400 rounded-xl mb-4"></div>
               )}
 
               {/* Info */}
@@ -102,7 +89,7 @@ const ProjectsSection = () => {
         View All Projects →
       </Link>
 
-      {/* ✅ Modal for full project view */}
+      {/* Modal */}
       {selectedProject && (
         <ProjectModal
           project={selectedProject}

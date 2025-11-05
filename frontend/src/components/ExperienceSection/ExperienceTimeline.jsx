@@ -1,29 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AnimatedSection from "../Common/AnimatedSection";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from "axios";
+import { AdminContext } from "../../context/AdminContext"; // adjust path as needed
 
 const ExperienceTimeline = () => {
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [selectedImage, setSelectedImage] = useState(null); // <-- New state for fullscreen image
+  const { experiences, fetchExperience, loading } = useContext(AdminContext);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  // Fetch experiences only if not already loaded
   useEffect(() => {
-    const fetchExperiences = async () => {
-      try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/experience`);
-        setExperiences(res.data.experiences);
-      } catch (err) {
-        setError("Failed to load experiences. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchExperiences();
-  }, []);
+    if (!experiences || experiences.length === 0) {
+      fetchExperience();
+    }
+  }, [experiences, fetchExperience]);
 
-  // Close on Esc key
+  // Close modal on Esc
   useEffect(() => {
     const handleEsc = (e) => e.key === "Escape" && setSelectedImage(null);
     window.addEventListener("keydown", handleEsc);
@@ -33,7 +24,7 @@ const ExperienceTimeline = () => {
   return (
     <AnimatedSection>
       <section className="py-20 max-w-5xl mx-auto px-4 relative">
-        {/* Background gradient glow */}
+        {/* Background glow */}
         <div className="absolute inset-0 bg-linear-to-b from-pink-200/10 to-blue-200/10 dark:from-pink-500/10 dark:to-blue-500/10 blur-3xl rounded-full"></div>
 
         <h2 className="text-4xl font-bold text-center mb-14 text-gray-900 dark:text-white relative z-10">
@@ -44,8 +35,6 @@ const ExperienceTimeline = () => {
           <p className="text-center text-gray-600 dark:text-gray-300">
             Loading experiences...
           </p>
-        ) : error ? (
-          <p className="text-center text-red-500">{error}</p>
         ) : experiences.length === 0 ? (
           <p className="text-center text-gray-500 dark:text-gray-400">
             No experiences found.
@@ -61,7 +50,7 @@ const ExperienceTimeline = () => {
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 className="mb-12 ml-6 group relative"
               >
-                {/* Timeline dot with glow */}
+                {/* Timeline dot */}
                 <span className="absolute -left-12 w-5 h-5 bg-pink-600 dark:bg-pink-500 rounded-full shadow-[0_0_15px_rgba(236,72,153,0.6)]"></span>
 
                 {/* Experience Card */}
@@ -89,7 +78,7 @@ const ExperienceTimeline = () => {
                       className="w-28 h-28 mt-4 rounded-xl object-cover shadow-md border border-pink-400/30 cursor-pointer"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 200 }}
-                      onClick={() => setSelectedImage(exp.thumbnail.url)} // <-- Open fullscreen
+                      onClick={() => setSelectedImage(exp.thumbnail.url)}
                     />
                   )}
                 </div>
@@ -110,13 +99,13 @@ const ExperienceTimeline = () => {
             >
               <motion.img
                 src={selectedImage}
-                alt="Certificate Preview"
+                alt="Experience Preview"
                 className="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl border border-pink-400/50 cursor-pointer"
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                onClick={(e) => e.stopPropagation()} // prevent close when clicking image
+                onClick={(e) => e.stopPropagation()}
               />
             </motion.div>
           )}

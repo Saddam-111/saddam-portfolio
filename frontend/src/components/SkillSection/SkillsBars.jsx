@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import AnimatedSection from "../Common/AnimatedSection";
-import { motion, useAnimation } from "framer-motion";
-import axios from "axios";
+import { motion } from "framer-motion";
+import { AdminContext } from "../../context/AdminContext"; // adjust import path as needed
 
 const levelToPercentage = (level) => {
   switch (level.toLowerCase()) {
@@ -18,34 +18,25 @@ const levelToPercentage = (level) => {
 };
 
 const SkillsBars = () => {
-  const [skills, setSkills] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { skills, fetchSkills, loading } = useContext(AdminContext);
 
-  const fetchSkills = async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/skills`);
-      if (data.success) {
-        const processedSkills = data.skills.map((skill) => ({
-          ...skill,
-          levelPercent: levelToPercentage(skill.level || "")
-        }));
-        setSkills(processedSkills);
-      }
-    } catch (error) {
-      console.error("Error fetching skills:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // 🔁 Fetch skills only if not already loaded
   useEffect(() => {
-    fetchSkills();
-  }, []);
+    if (!skills || skills.length === 0) {
+      fetchSkills();
+    }
+  }, [skills, fetchSkills]);
+
+  // Add calculated progress percentage
+  const processedSkills = skills.map((skill) => ({
+    ...skill,
+    levelPercent: levelToPercentage(skill.level || ""),
+  }));
 
   return (
     <AnimatedSection>
       <section className="py-20 max-w-5xl mx-auto px-4 relative overflow-hidden">
-        {/* Background soft gradient glow */}
+        {/* Background glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-pink-100/10 via-blue-100/10 to-purple-100/10 dark:from-pink-500/10 dark:via-blue-500/10 dark:to-purple-500/10 blur-3xl"></div>
 
         <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white relative z-10">
@@ -53,12 +44,16 @@ const SkillsBars = () => {
         </h2>
 
         {loading ? (
-          <p className="text-center text-gray-600 dark:text-gray-400">Loading skills...</p>
-        ) : skills.length === 0 ? (
-          <p className="text-center text-gray-600 dark:text-gray-400">No skills found.</p>
+          <p className="text-center text-gray-600 dark:text-gray-400">
+            Loading skills...
+          </p>
+        ) : processedSkills.length === 0 ? (
+          <p className="text-center text-gray-600 dark:text-gray-400">
+            No skills found.
+          </p>
         ) : (
           <div className="flex flex-col gap-6 relative z-10">
-            {skills.map((skill, idx) => (
+            {processedSkills.map((skill, idx) => (
               <motion.div
                 key={skill._id || idx}
                 initial={{ opacity: 0, y: 30 }}
@@ -67,7 +62,7 @@ const SkillsBars = () => {
                 viewport={{ once: true }}
                 className="bg-white/60 dark:bg-gray-900/50 backdrop-blur-md border border-pink-500/10 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300"
               >
-                {/* Skill header */}
+                {/* Skill Header */}
                 <div className="flex items-center gap-3 mb-3">
                   {skill.icon?.url && (
                     <img
@@ -80,7 +75,9 @@ const SkillsBars = () => {
                     <p className="text-lg font-semibold text-gray-900 dark:text-white">
                       {skill.name}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{skill.level}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {skill.level}
+                    </p>
                   </div>
                   <motion.span
                     className="text-sm font-semibold text-pink-600 dark:text-pink-400"
