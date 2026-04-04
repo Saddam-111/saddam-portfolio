@@ -1,80 +1,106 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import ParticleBackground from "../Common/ParticleBackground";
+import TerminalText from "../Common/TerminalText";
+import TerminalButton from "../Common/TerminalButton";
 
 const ProjectsHero = () => {
-  const floatVariant = {
-    float: {
-      x: ["0%", "-100%", "0%", "100%", "0%"],
-      y: ["0%", "0%", "100%", "0%", "-100%"],
-      transition: {
-        x: { repeat: Infinity, repeatType: "mirror", duration: 2 },
-        y: { repeat: Infinity, repeatType: "mirror", duration: 2 },
-      },
-    },
-  };
+  const [showCursor, setShowCursor] = useState(true);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setShowCursor((v) => !v);
+    }, 530);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <section className="relative min-h-[95vh] flex flex-col justify-center items-center text-center bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
-      <ParticleBackground />
-
-      {/* Heading */}
-      <motion.h1
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-600 via-purple-500 to-blue-600 relative z-10 pb-3"
-      >
-        My Projects
-      </motion.h1>
-
-      {/* Subtitle */}
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 1 }}
-        className="mt-4 text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-3xl relative z-10"
-      >
-        A showcase of my MERN stack applications, interactive web solutions, and freelance projects with modern UI/UX.
-      </motion.p>
-
-      {/* Floating Cards */}
-      <div className="absolute top-1/2 left-1/2 w-full max-w-5xl -translate-x-1/2 -translate-y-1/2 flex justify-center flex-wrap gap-8 z-0">
-        {[1, 2, 3, 4].map((i) => (
-          <motion.div
-            key={i}
-            variants={floatVariant}
-            animate="float"
-            className="w-32 h-32 md:w-44 md:h-44 bg-linear-to-b from-yellow-300 to-white dark:from-red-300 dark:to-sky-400 rounded-xl shadow-2xl flex items-center justify-center text-xl font-bold text-gray-800 dark:text-white border-0"
-            style={{
-              rotate: `${i * 45}deg`,
-              position: "absolute",
-            }}
-          />
-        ))}
+    <section className="relative min-h-[95vh] flex flex-col justify-center items-center text-center bg-[#0a0a0a] overflow-hidden">
+      {/* Scanline Effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-5">
+        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
       </div>
 
-      {/* CTA Buttons */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="mt-10 flex flex-wrap justify-center gap-4 relative z-10"
-      >
-        <Link
-          to="/projects"
-          className="px-6 py-3 bg-pink-600 text-white font-semibold rounded-full shadow-lg hover:bg-pink-700 transition-all duration-300"
-        >
-          Explore Projects
-        </Link>
-        <Link
-          to="/contact"
-          className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white font-semibold transition-all duration-300"
-        >
-          Hire Me
-        </Link>
-      </motion.div>
+      {/* Terminal Frame */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4">
+        {/* Terminal Header */}
+        <div className="border border-[#1f521f] mb-6">
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+            </div>
+            <span className="text-[#33ff00] font-mono text-xs ml-2">
+              projects.sh
+            </span>
+          </div>
+          
+          {/* Content */}
+          <div className="p-8">
+            {/* Heading */}
+            <h1 className="text-4xl md:text-6xl font-mono text-[#33ff00] uppercase tracking-wider mb-4" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              <TerminalText text="> MY_PROJECTS" speed={60} />
+            </h1>
+
+            {/* Subtitle - Terminal Command Style */}
+            <div className="mb-8">
+              <span className="text-[#ffb000] font-mono text-sm">$ cat description.txt</span>
+              <p className="text-gray-400 font-mono mt-3 text-lg md:text-xl max-w-2xl leading-relaxed">
+                A showcase of MERN stack applications, interactive web solutions, and freelance projects with modern UI/UX.
+              </p>
+            </div>
+
+            {/* Project Stats */}
+            <div className="flex justify-center gap-8 mb-10">
+              <div className="text-center">
+                <span className="block text-[#33ff00] font-mono text-3xl font-bold">20+</span>
+                <span className="text-gray-500 font-mono text-sm">Projects</span>
+              </div>
+              <div className="text-center">
+                <span className="block text-[#ffb000] font-mono text-3xl font-bold">5+</span>
+                <span className="text-gray-500 font-mono text-sm">Years Exp</span>
+              </div>
+              <div className="text-center">
+                <span className="block text-[#33ff00] font-mono text-3xl font-bold">50+</span>
+                <span className="text-gray-500 font-mono text-sm">Clients</span>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/projects">
+                <TerminalButton variant="primary">
+                  EXPLORE_PROJECTS
+                </TerminalButton>
+              </Link>
+              <Link to="/contact">
+                <TerminalButton variant="secondary">
+                  HIRE_ME
+                </TerminalButton>
+              </Link>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="border-t border-[#1f521f] p-2 text-right">
+            <span className="text-[#33ff00] font-mono text-xs">
+              user@portfolio:~$ <span className={showCursor ? "opacity-100" : "opacity-0"}>█</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ASCII Art Decoration */}
+      <div className="absolute bottom-4 left-4 text-[#1f521f] font-mono text-xs hidden md:block opacity-50">
+        <pre>{`
+  _________
+ |  _____  |
+ | |     | |
+ | |_____| |
+ |_________|
+        `}</pre>
+      </div>
     </section>
   );
 };

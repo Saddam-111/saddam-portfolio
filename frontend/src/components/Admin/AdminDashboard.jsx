@@ -7,15 +7,13 @@ import {
 } from "react-router-dom";
 import {
   FaSignOutAlt,
-  FaBars,
-  FaTimes,
   FaProjectDiagram,
   FaEnvelope,
   FaCogs,
   FaCertificate,
   FaBriefcase,
-  FaUserShield,
-  FaFileAlt
+  FaFileAlt,
+  FaHome
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -24,51 +22,50 @@ export default function AdminDashboard() {
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("rememberMe");
     navigate("/admin");
   };
 
   const menuItems = [
-    { name: "Projects", icon: <FaProjectDiagram />, path: "projects" },
-    { name: "Messages", icon: <FaEnvelope />, path: "messages" },
-    { name: "Skills", icon: <FaCogs />, path: "skills" },
-    { name: "Experience", icon: <FaBriefcase />, path: "experience" },
-    { name: "Certificates", icon: <FaCertificate />, path: "certificates" },
-    { name: "Resume", icon: <FaFileAlt />, path: "resume" },
+    { name: "PROJECTS", icon: <FaProjectDiagram />, path: "projects" },
+    { name: "MESSAGES", icon: <FaEnvelope />, path: "messages" },
+    { name: "SKILLS", icon: <FaCogs />, path: "skills" },
+    { name: "EXPERIENCE", icon: <FaBriefcase />, path: "experience" },
+    { name: "CERTIFICATES", icon: <FaCertificate />, path: "certificates" },
+    { name: "RESUME", icon: <FaFileAlt />, path: "resume" },
   ];
 
   const isDashboardRoot =
     location.pathname === "/admin/dashboard" || location.pathname === "/admin/dashboard/";
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-white flex">
+    <div className="min-h-screen bg-[#0a0a0a] text-[#cccccc] flex">
       {/* Sidebar */}
       <aside
-        className={`fixed md:relative top-0 left-0 h-screen ${
-          sidebarExpanded ? "w-64" : "w-20"
-        } bg-gray-800 dark:bg-gray-900 text-white flex flex-col transform ${
+        className={`fixed md:relative top-0 left-0 h-screen bg-[#0a0a0a] border-r border-[#1f521f] flex flex-col transform transition-all duration-300 z-50 ${
+          sidebarCollapsed ? "w-16" : "w-56"
+        } ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
-        } transition-all duration-300 ease-in-out z-50`}
+        }`}
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
-          {sidebarExpanded && <h2 className="text-xl font-bold">Admin Panel</h2>}
+        <div className="border-b border-[#1f521f] p-3 flex items-center justify-between">
+          {!sidebarCollapsed && (
+            <Link to="/admin/dashboard" className="font-mono text-sm text-[#33ff00]">
+              ADMIN_PANEL
+            </Link>
+          )}
 
           <button
-            className="md:hidden text-gray-400 hover:text-white"
+            className="md:hidden text-[#33ff00]"
             onClick={() => setSidebarOpen(false)}
           >
-            <FaTimes size={20} />
-          </button>
-
-          <button
-            className="hidden md:block text-gray-400 hover:text-white ml-auto"
-            onClick={() => setSidebarExpanded(!sidebarExpanded)}
-          >
-            {sidebarExpanded ? <FaTimes size={18} /> : <FaBars size={18} />}
+            ×
           </button>
         </div>
 
@@ -81,85 +78,137 @@ export default function AdminDashboard() {
                 key={item.name}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 p-3 rounded-md transition-all ${
+                className={`flex items-center gap-3 p-2 font-mono text-xs transition-all ${
                   isActive
-                    ? "bg-pink-600 text-white"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                }`}
+                    ? "bg-[#33ff00] text-[#0a0a0a]"
+                    : "text-[#33ff00] hover:bg-[#1f521f]/50"
+                } ${sidebarCollapsed ? "justify-center" : ""}`}
+                title={sidebarCollapsed ? item.name : ""}
               >
-                <span className="text-lg">{item.icon}</span>
-                {sidebarExpanded && (
+                <span className="text-sm">{item.icon}</span>
+                {!sidebarCollapsed && (
                   <span className="whitespace-nowrap">{item.name}</span>
                 )}
               </Link>
             );
           })}
         </nav>
+
+        {/* Collapse Toggle */}
+        <button
+          className="hidden md:block p-3 border-t border-[#1f521f] text-[#666666] hover:text-[#33ff00] text-xs font-mono text-center"
+          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+        >
+          {sidebarCollapsed ? "[ + ]" : "[ - ]"}
+        </button>
       </aside>
 
       {/* Main Content */}
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          sidebarExpanded ? "md:ml-2" : "md:ml-2"
-        }`}
-      >
+      <div className="flex-1 flex flex-col">
         {/* Top Navbar */}
-        <header
-          className={`fixed top-0 left-0 right-0 md:left-auto z-40 bg-pink-600 text-white shadow-md transition-all duration-300 flex justify-between items-center p-4 ${
-            sidebarExpanded
-              ? "md:w-[calc(100%-16rem)] md:ml-64"
-              : "md:w-[calc(100%-5rem)] md:ml-20"
-          }`}
-        >
-          <div className="flex items-center gap-4">
+        <header className="fixed top-0 left-0 right-0 z-40 bg-[#0a0a0a] border-b border-[#1f521f] transition-all duration-300 flex justify-between items-center p-3 md:p-4">
+          <div className="flex items-center gap-3">
             <button
-              className="md:hidden text-white"
+              className="md:hidden text-[#33ff00]"
               onClick={() => setSidebarOpen(true)}
             >
-              <FaBars size={22} />
+              [=]
             </button>
-            <h1 className="text-xl font-bold hover:cursor-pointer" onClick={() => navigate('/admin/dashboard')}>Admin</h1>
+            
+            {/* Logo */}
+            <Link to="/admin/dashboard" className="font-mono text-xs text-[#33ff00] hover:text-[#ffb000]">
+              <span className="text-[#ffb000]">root@</span>admin:~
+            </Link>
+
+            {/* Back to Home */}
+            <Link 
+              to="/" 
+              className="hidden md:block font-mono text-xs text-[#666666] hover:text-[#33ff00] ml-4"
+            >
+              [ &lt; ] HOME
+            </Link>
           </div>
 
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded transition"
+            className="flex items-center gap-2 font-mono text-xs px-3 py-2 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a] transition-all"
           >
             <FaSignOutAlt />
-            Logout
+            <span className="hidden sm:inline">LOGOUT</span>
           </button>
         </header>
 
         {/* Scrollable Page Content */}
-        <main className="mt-[72px] p-6 overflow-y-auto h-[calc(100vh-72px)]">
+        <main className="mt-14 p-4 md:p-6 overflow-y-auto min-h-[calc(100vh-3.5rem)]">
           <Outlet />
 
           {/* Default Dashboard Overview */}
           {isDashboardRoot && (
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center mt-10"
+              className="max-w-4xl mx-auto"
             >
-              <h2 className="text-4xl font-bold mb-4 text-pink-600">
-                Welcome Back, Admin 👋
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-10">
-                Manage your portfolio’s projects, skills, experiences, and more — all in one place.
-              </p>
+              {/* Terminal-style header */}
+              <div className="border border-[#1f521f] mb-6">
+                <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+                  <div className="flex gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+                    <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+                    <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+                  </div>
+                  <span className="text-[#33ff00] font-mono text-xs ml-2">dashboard.sh</span>
+                </div>
+                <div className="p-6 text-center">
+                  <h2 className="text-xl md:text-2xl font-mono text-[#33ff00] mb-2" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+                    <span className="text-[#ffb000]">$</span> WELCOME_ADMIN
+                  </h2>
+                  <p className="font-mono text-xs text-[#666666]">
+                    Manage your portfolio's projects, skills, experiences, and more.
+                  </p>
+                </div>
+              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                {menuItems.map((item) => (
+              {/* Menu Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {menuItems.map((item, idx) => (
                   <Link
                     key={item.name}
                     to={item.path}
-                    className="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:scale-105 transition-transform duration-300 flex flex-col items-center"
+                    className="border border-[#1f521f] p-4 text-center hover:bg-[#1f521f]/30 hover:border-[#33ff00] transition-all group"
                   >
-                    <span className="text-4xl mb-2 text-pink-600">{item.icon}</span>
-                    <span className="text-lg font-semibold">{item.name}</span>
+                    <span className="text-2xl text-[#33ff00] group-hover:text-[#ffb000]">{item.icon}</span>
+                    <span className="block font-mono text-xs text-[#666666] mt-2 group-hover:text-[#33ff00]">
+                      {item.name}
+                    </span>
                   </Link>
                 ))}
+              </div>
+
+              {/* Quick Stats */}
+              <div className="mt-6 border border-[#1f521f]">
+                <div className="border-b border-[#1f521f] p-2">
+                  <span className="font-mono text-xs text-[#33ff00]">$ system_status</span>
+                </div>
+                <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <div>
+                    <span className="block font-mono text-lg text-[#ffb000]">OK</span>
+                    <span className="font-mono text-xs text-[#666666]">Database</span>
+                  </div>
+                  <div>
+                    <span className="block font-mono text-lg text-[#33ff00]">RUNNING</span>
+                    <span className="font-mono text-xs text-[#666666]">Server</span>
+                  </div>
+                  <div>
+                    <span className="block font-mono text-lg text-[#33ff00]">ACTIVE</span>
+                    <span className="font-mono text-xs text-[#666666]">Session</span>
+                  </div>
+                  <div>
+                    <span className="block font-mono text-lg text-[#33ff00]">v1.0.0</span>
+                    <span className="font-mono text-xs text-[#666666]">Version</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}

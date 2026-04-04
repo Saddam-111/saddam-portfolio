@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import AnimatedSection from "../Common/AnimatedSection";
 import { motion } from "framer-motion";
-import { AdminContext } from "../../context/AdminContext"; // adjust import path as needed
+import { AdminContext } from "../../context/AdminContext";
+import TerminalCard from "../Common/TerminalCard";
 
 const levelToPercentage = (level) => {
   switch (level.toLowerCase()) {
@@ -20,14 +21,12 @@ const levelToPercentage = (level) => {
 const SkillsBars = () => {
   const { skills, fetchSkills, loading } = useContext(AdminContext);
 
-  // 🔁 Fetch skills only if not already loaded
   useEffect(() => {
     if (!skills || skills.length === 0) {
       fetchSkills();
     }
   }, [skills, fetchSkills]);
 
-  // Add calculated progress percentage
   const processedSkills = skills.map((skill) => ({
     ...skill,
     levelPercent: levelToPercentage(skill.level || ""),
@@ -35,74 +34,75 @@ const SkillsBars = () => {
 
   return (
     <AnimatedSection>
-      <section className="py-20 max-w-5xl mx-auto px-4 relative overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-100/10 via-blue-100/10 to-purple-100/10 dark:from-pink-500/10 dark:via-blue-500/10 dark:to-purple-500/10 blur-3xl"></div>
-
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white relative z-10">
-          My Skillset
-        </h2>
-
-        {loading ? (
-          <p className="text-center text-gray-600 dark:text-gray-400">
-            Loading skills...
-          </p>
-        ) : processedSkills.length === 0 ? (
-          <p className="text-center text-gray-600 dark:text-gray-400">
-            No skills found.
-          </p>
-        ) : (
-          <div className="flex flex-col gap-6 relative z-10">
-            {processedSkills.map((skill, idx) => (
-              <motion.div
-                key={skill._id || idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.15 }}
-                viewport={{ once: true }}
-                className="bg-white/60 dark:bg-gray-900/50 backdrop-blur-md border border-pink-500/10 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:shadow-pink-500/20 transition-all duration-300"
-              >
-                {/* Skill Header */}
-                <div className="flex items-center gap-3 mb-3">
-                  {skill.icon?.url && (
-                    <img
-                      src={skill.icon.url}
-                      alt={skill.name}
-                      className="w-10 h-10 rounded-full object-contain bg-white/30 dark:bg-gray-800/30 p-1 border border-pink-500/20"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {skill.name}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {skill.level}
-                    </p>
-                  </div>
-                  <motion.span
-                    className="text-sm font-semibold text-pink-600 dark:text-pink-400"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.8 + idx * 0.1 }}
-                  >
-                    {skill.levelPercent}%
-                  </motion.span>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden relative">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.levelPercent}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, delay: idx * 0.15 }}
-                    className="absolute top-0 left-0 h-4 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 shadow-[0_0_15px_rgba(236,72,153,0.6)]"
-                  ></motion.div>
-                </div>
-              </motion.div>
-            ))}
+      <section className="py-20 bg-[#0a0a0a]">
+        <div className="max-w-4xl mx-auto px-4">
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              {"//"} MY_SKILLSET
+            </h2>
+            <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
           </div>
-        )}
+
+          {loading ? (
+            <TerminalCard title="loading.sh">
+              <span className="font-mono text-sm text-[#ffb000]">$ fetching skills...</span>
+            </TerminalCard>
+          ) : processedSkills.length === 0 ? (
+            <TerminalCard title="error.sh">
+              <span className="font-mono text-sm text-[#ff3333]">error: no skills found</span>
+            </TerminalCard>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {processedSkills.map((skill, idx) => (
+                <motion.div
+                  key={skill._id || idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <TerminalCard title={`skill_${idx + 1}.sh`} glowOnHover>
+                    {/* Skill Header */}
+                    <div className="flex items-center gap-3 mb-3">
+                      {skill.icon?.url && (
+                        <img
+                          src={skill.icon.url}
+                          alt={skill.name}
+                          className="w-8 h-8 object-contain bg-[#1f521f]/30 p-1"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <p className="font-mono text-[#33ff00]">{skill.name}</p>
+                        <p className="font-mono text-xs text-[#666666]">{skill.level}</p>
+                      </div>
+                      <motion.span
+                        className="font-mono text-sm text-[#ffb000]"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ delay: 0.5 + idx * 0.1 }}
+                      >
+                        {skill.levelPercent}%
+                      </motion.span>
+                    </div>
+
+                    {/* Progress Bar - Terminal style */}
+                    <div className="w-full bg-[#0a0a0a] border border-[#1f521f] h-4 overflow-hidden">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${skill.levelPercent}%` }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: idx * 0.1 }}
+                        className="h-full bg-[#33ff00]"
+                        style={{ boxShadow: "0 0 10px rgba(51,255,0,0.5)" }}
+                      ></motion.div>
+                    </div>
+                  </TerminalCard>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
     </AnimatedSection>
   );

@@ -7,150 +7,154 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
-    <footer className=" text-white relative overflow-hidden bg-gray-600 dark:bg-gray-900 py-6 mt-20 border-t border-gray-200 dark:border-gray-700">
-      {/* Decorative shapes */}
-      <span className="absolute w-72 h-72 bg-white/10 rounded-full top-[-80px] left-[-80px] animate-spin-slow"></span>
-      <span className="absolute w-96 h-96 bg-white/5 rounded-full bottom-[-120px] right-[-100px] animate-pulse-slow"></span>
+    <footer className="bg-[#0a0a0a] text-[#cccccc] border-t border-[#1f521f] py-8 mt-20">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Terminal-style header */}
+        <div className="border border-[#1f521f] mb-8">
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+            </div>
+            <span className="text-[#33ff00] font-mono text-xs ml-2">footer.sh</span>
+          </div>
+          
+          <div className="p-6 grid md:grid-cols-4 gap-6">
+            {/* About Section */}
+            <div>
+              <h3 className="text-[#33ff00] font-mono text-sm uppercase mb-3">
+                {"//"} ABOUT
+              </h3>
+              <p className="font-mono text-sm text-[#999999] leading-relaxed">
+                I am Saddam Ansari, a MERN Stack developer. I build responsive, modern and high-performance web applications.
+              </p>
+            </div>
 
-      <div className="container mx-auto py-10 px-6 grid md:grid-cols-4 gap-10">
-        {/* About Section */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">About Me</h3>
-          <p className="text-gray-200">
-            I am Saddam Ansari, a MERN Stack developer. I build responsive,
-            modern and high-performance web applications.
-          </p>
-        </div>
+            {/* Quick Links */}
+            <div>
+              <h3 className="text-[#33ff00] font-mono text-sm uppercase mb-3">
+                {"//"} QUICK_LINKS
+              </h3>
+              <ul className="font-mono text-sm space-y-2">
+                <li>
+                  <Link to="/" className="text-[#ffb000] hover:text-[#33ff00] transition-colors">
+                    → Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/about" className="text-[#ffb000] hover:text-[#33ff00] transition-colors">
+                    → About
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/projects" className="text-[#ffb000] hover:text-[#33ff00] transition-colors">
+                    → Projects
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-[#ffb000] hover:text-[#33ff00] transition-colors">
+                    → Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-        {/* Quick Links */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
-            <li>
-              <Link to="/" className="hover:text-pink-300 transition-colors">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="hover:text-pink-300 transition-colors"
-              >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/projects"
-                className="hover:text-pink-300 transition-colors"
-              >
-                Projects
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/contact"
-                className="hover:text-pink-300 transition-colors"
-              >
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
+            {/* Contact Info */}
+            <div>
+              <h3 className="text-[#33ff00] font-mono text-sm uppercase mb-3">
+                {"//"} CONTACT_INFO
+              </h3>
+              <ul className="font-mono text-sm text-[#999999] space-y-2">
+                <li>
+                  <span className="text-[#ffb000]">email:</span> saddam6389046@gmail.com
+                </li>
+                <li>
+                  <span className="text-[#ffb000]">phone:</span> +91 6389046018
+                </li>
+                <li>
+                  <span className="text-[#ffb000]">location:</span> Jhansi, India
+                </li>
+              </ul>
+            </div>
 
-        {/* Contact Section */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">Contact</h3>
-          <p className="text-gray-200">Email: saddam6389046@gmail.com</p>
-          <p className="text-gray-200">Phone: +91 6389046018</p>
-          <p className="text-gray-200">Location: Jhansi, India</p>
-        </div>
+            {/* Social Links */}
+            <div>
+              <h3 className="text-[#33ff00] font-mono text-sm uppercase mb-3">
+                {"//"} CONNECT
+              </h3>
+              <div className="flex gap-4 mb-4">
+                <a
+                  href="https://github.com/Saddam-111"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#33ff00] hover:text-[#ffb000] transition-colors font-mono"
+                >
+                  [GH]
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/saddam11"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#33ff00] hover:text-[#ffb000] transition-colors font-mono"
+                >
+                  [LI]
+                </a>
+                <a
+                  href="mailto:saddam6389046@gmail.com"
+                  className="text-[#33ff00] hover:text-[#ffb000] transition-colors font-mono"
+                >
+                  [Mail]
+                </a>
+                <a
+                  href="https://twitter.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#33ff00] hover:text-[#ffb000] transition-colors font-mono"
+                >
+                  [TW]
+                </a>
+                <a
+                  href="https://instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#33ff00] hover:text-[#ffb000] transition-colors font-mono"
+                >
+                  [IG]
+                </a>
+              </div>
 
-        {/* Social & Newsletter */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">Connect With Me</h3>
-          <div className="flex gap-5 text-2xl mb-6 justify-center">
-            <a
-              href="https://github.com/Saddam-111"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-400 transition-all hover:scale-110"
-            >
-              <FaGithub />
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/saddam11"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-blue-400 transition-all hover:scale-110"
-            >
-              <FaLinkedin />
-            </a>
-
-            <a
-              href="mailto:saddam6389046@gmail.com"
-              className="hover:text-yellow-400 transition-all hover:scale-110"
-            >
-              <FaEnvelope />
-            </a>
-
-            <a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-sky-400 transition-all hover:scale-110"
-            >
-              <FaTwitter />
-            </a>
-
-            <a
-              href="https://instagram.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-pink-400 transition-all hover:scale-110"
-            >
-              <FaInstagram />
-            </a>
+              {/* Newsletter - Terminal style */}
+              <div className="mt-2">
+                <span className="text-[#ffb000] font-mono text-xs">$ newsletter --subscribe</span>
+                <form className="flex mt-2">
+                  <input
+                    type="email"
+                    placeholder="email@domain.com"
+                    className="flex-1 bg-[#0a0a0a] border border-[#1f521f] px-3 py-1.5 font-mono text-sm text-[#33ff00] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
+                  />
+                  <button className="bg-[#1f521f] text-[#33ff00] px-3 py-1.5 font-mono text-sm border border-[#1f521f] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-colors">
+                    →
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
 
-          <form className="flex flex-col gap-3">
-            <input
-              type="email"
-              placeholder="Subscribe for updates"
-              className="p-3 rounded-lg text-gray-200 ring-1 ring-purple-950 focus:ring-2 focus:ring-pink-400 transition-all"
-            />
-            <button className="bg-pink-600 hover:bg-pink-700 py-3 rounded-lg font-semibold transition-all">
-              Subscribe
-            </button>
-          </form>
+          {/* Footer Bottom */}
+          <div className="border-t border-[#1f521f] p-3 flex justify-between items-center">
+            <span className="font-mono text-xs text-[#666666]">
+              © {new Date().getFullYear()} Saddam Ansari. All rights reserved.
+            </span>
+            <span className="font-mono text-xs text-[#33ff00]">
+              user@portfolio:~$ _
+            </span>
+          </div>
         </div>
       </div>
-
-      {/* Footer Bottom */}
-      <div className="border-t border-white/20 pt-4 text-center text-gray-200">
-        © {new Date().getFullYear()} Saddam Ansari. All rights reserved.
-      </div>
-
-      {/* Tailwind Animations */}
-      <style>{`
-        .animate-spin-slow {
-          animation: spin 20s linear infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse 6s ease-in-out infinite;
-        }
-        @keyframes spin {
-          0%, 100% { transform: scale(2.5); opacity: 0.2; }
-          50% { transform: scale(1.3); opacity: 0.4; }
-        }
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.2; }
-          50% { transform: scale(1.3); opacity: 0.4; }
-        }
-      `}</style>
     </footer>
   );
 };

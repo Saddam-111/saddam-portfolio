@@ -7,7 +7,7 @@ import AchievementsGrid from '../components/TestimonialsSection/AchievementsGrid
 
 const Testimonials = () => {
   return (
-    <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+    <div className="bg-[#0a0a0a] text-[#cccccc] min-h-screen">
       <Navbar />
       <main className="pt-14 overflow-hidden">
         <TestimonialsHero />

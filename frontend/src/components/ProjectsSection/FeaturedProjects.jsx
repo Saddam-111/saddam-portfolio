@@ -1,20 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AdminContext } from "../../context/AdminContext"; // adjust path as needed
+import { AdminContext } from "../../context/AdminContext";
 import AnimatedSection from "../Common/AnimatedSection";
-import ProjectFilters from "./ProjectFilters";
-import ProjectModal from "./ProjectModal";
+import { TerminalCard, TerminalFilter, TerminalModal, TerminalText } from "../Common/TerminalComponents";
 import { motion } from "framer-motion";
-import Tilt from "react-parallax-tilt";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const FeaturedProjects = () => {
   const { projects, fetchProjects, loading } = useContext(AdminContext);
   const [filter, setFilter] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // 🔁 Fetch projects when component mounts if not already loaded
   useEffect(() => {
     if (!projects || projects.length === 0) {
       fetchProjects();
@@ -25,119 +19,140 @@ const FeaturedProjects = () => {
   const filteredProjects =
     filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
   if (loading) {
     return (
-      <section className="py-20 bg-white dark:bg-gray-950 text-center">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Loading Featured Projects...
-        </h2>
+      <section className="py-20 bg-[#0a0a0a] text-center">
+        <div className="max-w-6xl mx-auto px-4">
+          <TerminalCard title="loading_projects.sh">
+            <TerminalText text="Fetching repository data..." />
+          </TerminalCard>
+        </div>
       </section>
     );
   }
 
   return (
     <AnimatedSection>
-      <section className="py-20 bg-white dark:bg-gray-950">
-        <h2 className="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-          Featured Projects
-        </h2>
+      <section className="py-20 bg-[#0a0a0a]">
+        <div className="max-w-6xl mx-auto px-4">
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider mb-2">
+              <TerminalText text="> FEATURED_PROJECTS" speed={40} />
+            </h2>
+            <div className="text-[#1f521f] border-b border-[#1f521f] w-full"></div>
+          </div>
 
-        <ProjectFilters categories={categories} onFilter={setFilter} />
+          {/* Filters */}
+          <TerminalFilter 
+            categories={categories} 
+            onFilter={setFilter} 
+            activeFilter={filter}
+          />
 
-        {/* Desktop Grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {filteredProjects.map((project, idx) => (
-            <Tilt
-              key={idx}
-              tiltMaxAngleX={35}
-              tiltMaxAngleY={30}
-              glareEnable={true}
-              glareMaxOpacity={0.3}
-              className="cursor-pointer"
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="bg-gray-100 dark:bg-gray-900 rounded-xl p-6 shadow-lg"
-                onClick={() => setSelectedProject(project)}
-              >
-                {project.image && (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="rounded-lg mb-4 w-full h-40 object-cover"
-                  />
-                )}
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                  {project.title}
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  {project.description
-                    ? project.description.split(" ").slice(0, 25).join(" ") +
-                      (project.description.split(" ").length > 25 ? "..." : "")
-                    : ""}
-                </p>
-                <div className="flex flex-wrap gap-2 mt-3">
-                  {project.techStack?.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="px-2 py-1 bg-gray-200 dark:bg-gray-800 rounded-full text-sm text-gray-900 dark:text-gray-200"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            </Tilt>
-          ))}
-        </div>
-
-        {/* Mobile Carousel */}
-        <div className="md:hidden mt-8">
-          <Slider {...sliderSettings}>
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-3 gap-4">
             {filteredProjects.map((project, idx) => (
-              <div key={idx} onClick={() => setSelectedProject(project)}>
-                <Tilt
-                  tiltMaxAngleX={10}
-                  tiltMaxAngleY={10}
-                  glareEnable={true}
-                  glareMaxOpacity={0.2}
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+              >
+                <TerminalCard
+                  title={project.category || "PROJECT"}
+                  glowOnHover
+                  onClick={() => setSelectedProject(project)}
                 >
-                  <div className="bg-gray-100 dark:bg-gray-900 rounded-xl p-6 shadow-lg mx-4">
-                    {project.image && (
+                  {project.image && (
+                    <div className="mb-3 border border-[#1f521f] p-1">
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="rounded-lg mb-4 w-full h-40 object-cover"
+                        className="w-full h-40 object-cover grayscale hover:grayscale-0 transition-all duration-300"
                       />
+                    </div>
+                  )}
+                  <h3 className="text-lg font-mono text-[#33ff00] mb-2 uppercase">
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-400 font-mono text-sm line-clamp-3">
+                    {project.description
+                      ? project.description.split(" ").slice(0, 20).join(" ") +
+                        (project.description.split(" ").length > 20 ? "..." : "")
+                      : ""}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {project.techStack?.slice(0, 3).map((tech, i) => (
+                      <span
+                        key={i}
+                        className="font-mono text-xs text-[#ffb000] border border-[#ffb000] px-2 py-0.5"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.techStack?.length > 3 && (
+                      <span className="font-mono text-xs text-gray-500">
+                        +{project.techStack.length - 3} more
+                      </span>
                     )}
-                    <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                  </div>
+                </TerminalCard>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Mobile Carousel - Terminal Style */}
+          <div className="md:hidden mt-8">
+            <div className="text-[#33ff00] font-mono text-sm mb-4">
+              user@portfolio:~/projects$ ls -la
+            </div>
+            <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
+              {filteredProjects.map((project, idx) => (
+                <div key={idx} className="min-w-[280px] flex-shrink-0">
+                  <TerminalCard
+                    title={project.category || "PROJECT"}
+                    glowOnHover
+                    onClick={() => setSelectedProject(project)}
+                  >
+                    {project.image && (
+                      <div className="mb-3 border border-[#1f521f] p-1">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-40 object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                        />
+                      </div>
+                    )}
+                    <h3 className="text-lg font-mono text-[#33ff00] mb-2 uppercase">
                       {project.title}
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-gray-400 font-mono text-sm line-clamp-3">
                       {project.description}
                     </p>
-                  </div>
-                </Tilt>
-              </div>
-            ))}
-          </Slider>
-        </div>
+                  </TerminalCard>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        {selectedProject && (
-          <ProjectModal
-            project={selectedProject}
-            isOpen={!!selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        )}
+          {/* Empty State */}
+          {filteredProjects.length === 0 && (
+            <div className="text-center py-12">
+              <span className="text-[#ff3333] font-mono text-lg">
+                error: no projects found in this category
+              </span>
+            </div>
+          )}
+
+          {selectedProject && (
+            <TerminalModal
+              project={selectedProject}
+              isOpen={!!selectedProject}
+              onClose={() => setSelectedProject(null)}
+            />
+          )}
+        </div>
       </section>
     </AnimatedSection>
   );

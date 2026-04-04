@@ -12,7 +12,6 @@ export default function MessagesManager() {
     try {
       const res = await axios.get("/messages");
       setMessages(res.data.messages);
-      console.log(res.data)
     } catch (err) {
       setError(err.response?.data?.message || "Failed to fetch messages");
     }
@@ -34,26 +33,42 @@ export default function MessagesManager() {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-bold">Client Messages</h3>
-      <div className="grid gap-4">
+      {/* Header */}
+      <div className="border border-[#1f521f]">
+        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+          <span className="text-[#33ff00] font-mono text-xs">messages_manager.sh</span>
+        </div>
+        <div className="p-3">
+          <h3 className="font-mono text-[#33ff00] text-lg">MESSAGES_MANAGEMENT</h3>
+        </div>
+      </div>
+
+      {/* Messages List */}
+      <div className="grid gap-3">
         {Array.isArray(messages) && messages.map((msg) => (
           <motion.div
             key={msg._id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-md flex justify-between items-start"
+            className="border border-[#1f521f] bg-[#0a0a0a] p-4"
           >
-            <div>
-              <p className="font-semibold">{msg.name} ({msg.email})</p>
-              <p className="mt-1 text-gray-600 dark:text-gray-300">{msg.message}</p>
-              <p className="text-xs text-gray-400 mt-2">{new Date(msg.createdAt).toLocaleString()}</p>
+            <div className="flex justify-between items-start gap-3">
+              <div className="flex-1">
+                <p className="font-mono text-sm text-[#33ff00]">
+                  {msg.name} <span className="text-[#666666]">({msg.email})</span>
+                </p>
+                <p className="font-mono text-xs text-[#cccccc] mt-2">{msg.message}</p>
+                <p className="font-mono text-xs text-[#666666] mt-2">
+                  {new Date(msg.createdAt).toLocaleString()}
+                </p>
+              </div>
+              <button
+                onClick={() => handleDelete(msg._id)}
+                className="font-mono text-xs px-2 py-1 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a]"
+              >
+                [DEL]
+              </button>
             </div>
-            <button
-              onClick={() => handleDelete(msg._id)}
-              className="text-red-500 hover:text-red-600 transition-all"
-            >
-              <FaTrash />
-            </button>
           </motion.div>
         ))}
       </div>

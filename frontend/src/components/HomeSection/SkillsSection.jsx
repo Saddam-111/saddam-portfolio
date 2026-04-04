@@ -1,76 +1,69 @@
 import React from "react";
-import {
-  FaReact,
-  FaNodeJs,
-  FaDatabase,
-  FaPython,
-  FaJsSquare,
-  FaFileExcel,
-} from "react-icons/fa";
-import {
-  SiMongodb,
-  SiTailwindcss,
-  SiCplusplus,
-  SiNumpy,
-  SiPandas,
-  SiMysql,
-} from "react-icons/si";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import TerminalCard from "../Common/TerminalCard";
 
 const skills = [
-  { icon: <FaReact />, color: "text-blue-500", title: "React.js" },
-  { icon: <FaNodeJs />, color: "text-green-500", title: "Node.js" },
-  { icon: <SiMongodb />, color: "text-green-600", title: "MongoDB" },
-  { icon: <SiTailwindcss />, color: "text-sky-500", title: "Tailwind CSS" },
-  { icon: <FaDatabase />, color: "text-yellow-500", title: "SQL" },
-  { icon: <SiCplusplus />, color: "text-blue-600", title: "C++" },
-  { icon: <FaPython />, color: "text-blue-400", title: "Python" },
-  { icon: <SiNumpy />, color: "text-indigo-500", title: "NumPy" },
-  { icon: <SiPandas />, color: "text-indigo-700", title: "Pandas" },
-  { icon: <FaJsSquare />, color: "text-yellow-400", title: "JavaScript" },
-  { icon: <SiMysql />, color: "text-blue-800", title: "MySQL" },
-  { icon: <FaFileExcel />, color: "text-green-700", title: "Excel" },
+  { name: "React.js", color: "#61dafb" },
+  { name: "Node.js", color: "#68a063" },
+  { name: "MongoDB", color: "#47a248" },
+  { name: "Express", color: "#000000" },
+  { name: "Tailwind CSS", color: "#06b6d4" },
+  { name: "JavaScript", color: "#f7df1e" },
+  { name: "TypeScript", color: "#3178c6" },
+  { name: "Python", color: "#3776ab" },
+  { name: "C++", color: "#00599c" },
+  { name: "MySQL", color: "#4479a1" },
+  { name: "Git", color: "#f05032" },
+  { name: "Docker", color: "#2496ed" },
 ];
 
 const SkillsSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-r from-pink-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-950 dark:to-black text-center overflow-hidden">
-      <h2 className="text-4xl font-bold mb-10 text-gray-900 dark:text-white">
-        Skills
-      </h2>
+    <section className="py-20 bg-[#0a0a0a]">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            {"//"} SKILLS
+          </h2>
+          <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
+        </div>
 
-      {/* Infinite scroll container */}
-      <div className="relative w-full overflow-hidden">
-        {/* Inner container - doubled for seamless infinite loop */}
-        <motion.div
-          className="flex gap-12 text-6xl text-gray-700 dark:text-gray-300 w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            ease: "linear",
-            duration: 20,
-            repeat: Infinity,
-          }}
-        >
-          {/* Repeated twice for continuous scroll */}
-          {[...skills, ...skills].map((skill, index) => (
-            <div
-              key={index}
-              className={`hover:scale-110 transition-transform duration-300 ${skill.color}`}
-              title={skill.title}
-            >
-              {skill.icon}
-            </div>
-          ))}
-        </motion.div>
+        {/* Infinite scroll container - Terminal style */}
+        <div className="relative w-full overflow-hidden py-4">
+          <motion.div
+            className="flex gap-8 w-max"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              ease: "linear",
+              duration: 25,
+              repeat: Infinity,
+            }}
+          >
+            {[...skills, ...skills].map((skill, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.1, textShadow: `0 0 10px ${skill.color}` }}
+                className="flex items-center gap-2 font-mono text-lg whitespace-nowrap"
+              >
+                <span style={{ color: skill.color }}>●</span>
+                <span className="text-[#cccccc]">{skill.name}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* View More Link */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/skills"
+            className="text-[#33ff00] font-mono text-sm hover:text-[#ffb000] transition-colors"
+          >
+            [ EXPLORE_MORE_SKILLS ]
+          </Link>
+        </div>
       </div>
-
-      <Link
-        to="/skills"
-        className="block mt-10 text-blue-600 dark:text-blue-400 hover:underline text-lg"
-      >
-        Explore More →
-      </Link>
     </section>
   );
 };

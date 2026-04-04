@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import axios from "../../utils/api"; // make sure this is your axios setup
+import axios from "../../utils/api";
 import AnimatedSection from "../Common/AnimatedSection";
+import TerminalCard from "../Common/TerminalCard";
+import TerminalInput from "../Common/TerminalInput";
+import TerminalButton from "../Common/TerminalButton";
 
 const ContactForm = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -40,52 +43,70 @@ const ContactForm = () => {
 
   return (
     <AnimatedSection>
-      <section className="py-20 max-w-4xl mx-auto px-4">
-        <form onSubmit={handleSubmit} className="bg-gray-100 dark:bg-gray-900 rounded-xl p-8 shadow-lg flex flex-col gap-6">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Contact Me</h2>
-          
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            value={form.name}
-            onChange={handleChange}
-            className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-600"
-          />
-          {errors.name && <span className="text-red-500">{errors.name}</span>}
+      <section className="py-20 bg-[#0a0a0a]">
+        <div className="max-w-2xl mx-auto px-4">
+          <TerminalCard title="contact_form.sh">
+            <h2 className="text-xl font-mono text-[#33ff00] uppercase tracking-wider mb-6" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              {"//"} SEND_MESSAGE
+            </h2>
+            
+            <form onSubmit={handleSubmit}>
+              <TerminalInput
+                label="name"
+                placeholder="Your Name"
+                value={form.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
+                  error: {errors.name}
+                </span>
+              )}
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            value={form.email}
-            onChange={handleChange}
-            className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-600"
-          />
-          {errors.email && <span className="text-red-500">{errors.email}</span>}
+              <TerminalInput
+                type="email"
+                label="email"
+                placeholder="your@email.com"
+                value={form.email}
+                onChange={handleChange}
+              />
+              {errors.email && (
+                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
+                  error: {errors.email}
+                </span>
+              )}
 
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            value={form.message}
-            onChange={handleChange}
-            rows="6"
-            className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-pink-600"
-          />
-          {errors.message && <span className="text-red-500">{errors.message}</span>}
+              <TerminalInput
+                type="textarea"
+                label="message"
+                placeholder="Your message here..."
+                value={form.message}
+                onChange={handleChange}
+              />
+              {errors.message && (
+                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
+                  error: {errors.message}
+                </span>
+              )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={`bg-pink-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-pink-700 transition ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
+              <div className="flex items-center gap-4 mt-4">
+                <TerminalButton variant="primary" disabled={loading}>
+                  {loading ? "SENDING..." : "SEND_MESSAGE"}
+                </TerminalButton>
 
-          {submitted && <p className="text-green-500 mt-2">Message sent successfully!</p>}
-        </form>
+                {submitted && (
+                  <span className="font-mono text-sm text-[#33ff00]">
+                    ✓ message sent successfully
+                  </span>
+                )}
+              </div>
+            </form>
+
+            <div className="mt-4 font-mono text-xs text-[#666666]">
+              <span className="text-[#ffb000]">$</span> Press enter to submit
+            </div>
+          </TerminalCard>
+        </div>
       </section>
     </AnimatedSection>
   );

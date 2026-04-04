@@ -1,13 +1,65 @@
 @import 'tailwindcss';
 
-.scrollbar-hide {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+:root {
+  --bg-primary: #0a0a0a;
+  --text-primary: #33ff00;
+  --text-secondary: #ffb000;
+  --border-color: #1f521f;
+  --text-error: #ff3333;
+  --text-muted: #666666;
+  --text-body: #cccccc;
+}
 
-  /* Chrome, Safari, and Opera */
+* {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-body);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
+.text-glow {
+  text-shadow: 0 0 5px rgba(51, 255, 0, 0.5), 0 0 10px rgba(51, 255, 0, 0.3);
+}
+
+.terminal-border {
+  border: 1px solid var(--border-color);
+}
+
+.terminal-glow:hover {
+  box-shadow: 0 0 15px rgba(51, 255, 0, 0.2);
+}
+
+.scanline {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    transparent 50%,
+    rgba(51, 255, 0, 0.03) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+}

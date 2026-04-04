@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { AdminContext } from "../../context/AdminContext";
 import { images } from "../../assets/asset";
+import TerminalButton from "../Common/TerminalButton";
+import TerminalText from "../Common/TerminalText";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const { resumes, fetchResumes } = useContext(AdminContext);
+  const controls = useAnimation();
 
   useEffect(() => {
     if (!resumes.length) fetchResumes();
@@ -17,87 +20,122 @@ const HeroSection = () => {
       navigate("/resume-view", {
         state: { resumeUrl: resumes[0].resumeFile.url },
       });
-    } else {
-      alert("Resume not uploaded yet!");
     }
   };
 
   return (
-    <section className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center text-center md:text-left gap-10 px-6 md:px-20 bg-gradient-to-br from-pink-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-black overflow-hidden">
-      {/* === Left Text Section === */}
+    <section className="min-h-screen flex flex-col-reverse md:flex-row justify-center items-center gap-10 px-6 md:px-12 bg-[#0a0a0a] overflow-hidden relative">
+      {/* Scanline effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
+      </div>
+
+      {/* Left Text Section */}
       <motion.div
-        initial={{ x: -80, opacity: 0 }}
+        initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="max-w-2xl"
       >
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white leading-tight">
-          Hi, I'm{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-blue-600">
-            Saddam Ansari
-          </span>
-        </h1>
+        {/* Terminal-style header */}
+        <div className="border border-[#1f521f] mb-6">
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+            </div>
+            <span className="text-[#33ff00] font-mono text-xs ml-2">whoami.sh</span>
+          </div>
+          <div className="p-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-mono text-[#33ff00] leading-tight" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              <span className="text-[#ffb000]">root@</span>
+              <span className="text-[#33ff00]">portfolio</span>
+              <span className="text-[#666666]">:~$</span>
+            </h1>
+            
+            <h2 className="text-2xl md:text-3xl font-mono text-[#cccccc] mt-2">
+              HI, I'M <span className="text-[#ffb000]">SADDAM ANSARI</span>
+            </h2>
 
-        <p className="text-lg md:text-2xl mt-6 text-gray-700 dark:text-gray-300 leading-relaxed">
-          A passionate{" "}
-          <span className="text-blue-600 font-semibold">
-            MERN Stack Developer
-          </span>{" "}
-          crafting interactive, dynamic and seamless web experiences that bring
-          ideas to life.
-        </p>
+            <p className="font-mono text-[#999999] mt-4 text-lg leading-relaxed">
+              <span className="text-[#33ff00]">const</span> role = <span className="text-[#ffb000]">"MERN Stack Developer"</span>;
+              <br />
+              <span className="text-[#33ff00]">const</span> passion = <span className="text-[#ffb000]">"Building amazing web experiences"</span>;
+            </p>
 
-        {/* === Buttons === */}
-        <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-          <Link
-            to="/projects"
-            className="px-6 py-3 bg-pink-600 text-white font-medium rounded-full hover:scale-105 hover:shadow-[0_0_20px_#ec4899] transition-all duration-300 cursor-pointer"
-          >
-            View My Work
-          </Link>
-
-          <Link
-            to="/contact"
-            className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-600 hover:text-white hover:scale-105 transition-all duration-300 cursor-pointer"
-          >
-            Contact Me
-          </Link>
-
-          <button
-            onClick={handleViewResume}
-            className="px-6 py-3 border-2 border-pink-600 text-pink-600 rounded-full hover:bg-pink-600 hover:text-white hover:scale-105 transition-all duration-300"
-          >
-            View Resume
-          </button>
+            {/* Buttons */}
+            <div className="mt-8 flex flex-wrap gap-4">
+              <Link to="/projects">
+                <TerminalButton variant="primary">
+                  VIEW_PROJECTS
+                </TerminalButton>
+              </Link>
+              <Link to="/contact">
+                <TerminalButton variant="secondary">
+                  CONTACT_ME
+                </TerminalButton>
+              </Link>
+              <TerminalButton 
+                variant="ghost" 
+                onClick={handleViewResume}
+              >
+                VIEW_RESUME
+              </TerminalButton>
+            </div>
+          </div>
         </div>
       </motion.div>
 
-      {/* === Right Image Section === */}
+      {/* Right Image Section - Terminal Frame */}
       <motion.div
-        initial={{ x: 80, opacity: 0 }}
+        initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="relative flex justify-center items-center"
+        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+        className="relative"
       >
         <motion.div
           animate={{
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, 0],
+            scale: [1, 1.02, 1],
           }}
           transition={{
             repeat: Infinity,
-            duration: 6,
+            duration: 4,
             ease: "easeInOut",
           }}
-          className="absolute w-64 h-64 md:w-80 md:h-80 bg-gradient-to-r from-pink-500 to-blue-500 rounded-full blur-3xl opacity-30"
-        ></motion.div>
+          className="border-2 border-[#1f521f] p-1"
+        >
+          {/* Terminal Header */}
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2 bg-[#1f521f]/20">
+            <div className="flex gap-1.5">
+              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+            </div>
+            <span className="text-[#33ff00] font-mono text-xs ml-2">profile.png</span>
+          </div>
+          
+          {/* Image */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 200 }}
+          >
+            <img
+              src={images.profile_img}
+              alt="Saddam Ansari"
+              className="w-56 h-56 md:w-72 md:h-72 object-cover grayscale hover:grayscale-0 transition-all duration-500"
+            />
+          </motion.div>
+        </motion.div>
 
-        <motion.img
-          src={images.profile_img}
-          alt="Saddam Ansari"
-          className="w-56 h-56 md:w-72 md:h-72 rounded-full border-4 border-white dark:border-gray-700 shadow-[0_0_25px_rgba(236,72,153,0.5)] object-cover relative z-10 hover:scale-105 transition-transform duration-300 mt-8"
-          whileHover={{ rotate: 3, scale: 1.05 }}
-        />
+        {/* ASCII decoration */}
+        <div className="absolute -bottom-8 -left-4 text-[#1f521f] font-mono text-xs hidden lg:block">
+          <pre>{`
+   .____.
+   |    |
+   |____|
+          `}</pre>
+        </div>
       </motion.div>
     </section>
   );

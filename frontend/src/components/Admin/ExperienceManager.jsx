@@ -88,59 +88,69 @@ export default function ExperienceManager() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-bold">Experiences</h3>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="border border-[#1f521f] flex-1">
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+            <span className="text-[#33ff00] font-mono text-xs">experience_manager.sh</span>
+          </div>
+          <div className="p-3">
+            <h3 className="font-mono text-[#33ff00] text-lg">EXPERIENCE_MANAGEMENT</h3>
+          </div>
+        </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg shadow-md"
+          className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
         >
-          <FaPlus /> Add Experience
+          [ + ] ADD_EXPERIENCE
         </button>
       </div>
 
       {loading && (
         <div className="flex justify-center py-4">
-          <FaSpinner className="animate-spin text-pink-600 text-2xl" />
+          <FaSpinner className="animate-spin text-[#33ff00] text-xl" />
         </div>
       )}
 
-      <div className="grid gap-4">
+      {/* Experience List */}
+      <div className="grid gap-3">
         {Array.isArray(experiences) &&
           experiences.map((exp) => (
             <motion.div
               key={exp._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-900 p-4 rounded-xl shadow-md flex justify-between items-start gap-4"
+              className="border border-[#1f521f] bg-[#0a0a0a] p-4"
             >
-              <div className="flex flex-col gap-2">
-                <h4 className="font-semibold text-lg">{exp.role}</h4>
-                <p className="text-gray-500 dark:text-gray-400 font-medium">
-                  {exp.company} • {exp.duration}
-                </p>
-                <p className="text-sm">{exp.description}</p>
-                {exp.thumbnail?.url && (
-                  <img
-                    src={exp.thumbnail.url}
-                    alt={exp.role}
-                    className="w-24 h-24 object-cover rounded-md mt-2"
-                  />
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => openModal(exp)}
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => handleDelete(exp._id)}
-                  className="text-red-500 hover:text-red-600"
-                >
-                  <FaTrash />
-                </button>
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3">
+                <div className="flex-1">
+                  <h4 className="font-mono text-[#33ff00] text-sm">{exp.role}</h4>
+                  <p className="font-mono text-xs text-[#ffb000]">
+                    @ {exp.company} • {exp.duration}
+                  </p>
+                  <p className="font-mono text-xs text-[#666666] mt-2">{exp.description}</p>
+                  {exp.thumbnail?.url && (
+                    <img
+                      src={exp.thumbnail.url}
+                      alt={exp.role}
+                      className="w-20 h-20 object-cover mt-2 border border-[#1f521f]"
+                    />
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => openModal(exp)}
+                    className="font-mono text-xs px-2 py-1 border border-[#ffb000] text-[#ffb000] hover:bg-[#ffb000] hover:text-[#0a0a0a]"
+                  >
+                    [EDIT]
+                  </button>
+                  <button
+                    onClick={() => handleDelete(exp._id)}
+                    className="font-mono text-xs px-2 py-1 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a]"
+                  >
+                    [DEL]
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -148,70 +158,75 @@ export default function ExperienceManager() {
 
       {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white dark:bg-gray-900 p-6 rounded-2xl w-full max-w-md shadow-2xl"
+            className="bg-[#0a0a0a] border border-[#1f521f] w-full max-w-md"
           >
-            <h4 className="text-xl font-bold mb-4">
-              {currentExp ? "Edit Experience" : "Add Experience"}
-            </h4>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+            <div className="border-b border-[#1f521f] p-3 flex justify-between items-center">
+              <span className="font-mono text-xs text-[#33ff00]">
+                {currentExp ? "edit_experience.sh" : "add_experience.sh"}
+              </span>
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-[#ff3333] hover:text-[#ffb000]"
+              >
+                ×
+              </button>
+            </div>
+            <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-3">
               <input
                 type="text"
-                placeholder="Company"
+                placeholder="company"
                 value={formData.company}
                 onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
                 required
               />
               <input
                 type="text"
-                placeholder="Role"
+                placeholder="role"
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
                 required
               />
               <input
                 type="text"
-                placeholder="Duration (e.g. Jan 2023 - Dec 2023)"
+                placeholder="duration (e.g. Jan 2023 - Dec 2023)"
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
               />
               <textarea
-                placeholder="Description"
+                placeholder="description"
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00] resize-none"
                 rows={3}
               />
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setFormData({ ...formData, thumbnail: e.target.files[0] })
-                }
-                className="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.files[0] })}
+                className="font-mono text-xs text-[#666666]"
               />
-
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-lg hover:bg-gray-400 transition-all"
+                  className="font-mono text-xs px-4 py-2 border border-[#666666] text-[#666666] hover:border-[#ff3333] hover:text-[#ff3333]"
                 >
-                  Cancel
+                  [CANCEL]
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-all flex items-center gap-2"
+                  className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a]"
                 >
-                  {loading && <FaSpinner className="animate-spin" />}{" "}
-                  {currentExp ? "Update" : "Add"}
+                  {loading && <FaSpinner className="animate-spin mr-1" />}
+                  {currentExp ? "[UPDATE]" : "[ADD]"}
                 </button>
               </div>
             </form>

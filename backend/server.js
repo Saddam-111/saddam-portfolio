@@ -4,7 +4,7 @@ dotenv.config()
 import cors from 'cors'
 import { connectDB } from './config/db.js'
 import adminRoute from './routes/adminRoute.js'
-import aboutRoute from './routes/adminRoute.js'
+import aboutRoute from './routes/aboutRoute.js'
 import heroRoute from './routes/heroRoute.js'
 import skillRoute from './routes/skillRoute.js'
 import experienceRoute from './routes/experienceRoute.js'
@@ -17,7 +17,6 @@ import resumeRoute from './routes/resumeRoute.js'
 
 const app = express()
 const PORT = process.env.PORT
-await connectDB()
 
 //middleware
 app.use(express.json({ limit: "50mb" }));
@@ -45,5 +44,17 @@ app.get("/", (req, res) => {
 });
 
 
+// Connect to DB and start server
+const startServer = async () => {
+  try {
+    await connectDB();
+    console.log('Database connected successfully');
+    
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  } catch (err) {
+    console.error('Database connection failed:', err.message);
+    process.exit(1);
+  }
+};
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+startServer();

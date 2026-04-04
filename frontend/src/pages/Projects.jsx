@@ -7,7 +7,7 @@ import ProjectsCTA from '../components/ProjectsSection/ProjectsCTA'
 
 const Projects = () => {
   return (
-    <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+    <div className="bg-[#0a0a0a] text-gray-300 min-h-screen">
       <Navbar />
       <main className="pt-15 overflow-hidden">
         <ProjectsHero />

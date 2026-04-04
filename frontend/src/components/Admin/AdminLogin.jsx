@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -9,20 +9,30 @@ export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(() => {
+    return localStorage.getItem("rememberMe") === "true";
+  });
   const { loginAdmin, error, setError } = useContext(AdminContext);
   const navigate = useNavigate();
+
+  // Check if already logged in with remember me
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    const rememberMe = localStorage.getItem("rememberMe");
+    if (token && rememberMe === "true") {
+      navigate("/admin/dashboard");
+    }
+  }, [navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
     try {
-      const success = await loginAdmin(email, password);
+      const success = await loginAdmin(email, password, rememberMe);
       if (success) {
         setTimeout(() => {
           const token = localStorage.getItem("adminToken");
           if (token) {
-            if (rememberMe) localStorage.setItem("rememberMe", "true");
             navigate("/admin/dashboard");
           } else {
             setError("Login failed. Please try again.");
@@ -42,150 +52,178 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-linear-to-br from-pink-500 via-purple-600 to-blue-600 relative overflow-hidden px-4 py-10">
-      {/* Background Orbs */}
-      <div className="absolute w-72 h-72 bg-pink-400 opacity-25 rounded-full -top-20 -left-20 animate-spin-slow blur-3xl"></div>
-      <div className="absolute w-80 h-80 bg-blue-400 opacity-20 rounded-full bottom-[-100px] right-[-90px] animate-pulse-slow blur-3xl"></div>
+    <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] relative overflow-hidden px-4 py-10">
+      {/* Scanline effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
+      </div>
+
+      {/* Animated terminal glow */}
+      <div className="absolute w-72 h-72 bg-[#33ff00] opacity-5 rounded-full -top-20 -left-20 blur-3xl"></div>
+      <div className="absolute w-80 h-80 bg-[#ffb000] opacity-05 rounded-full bottom-[-100px] right-[-90px] blur-3xl"></div>
 
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-5xl bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-6 md:p-10 flex flex-col md:grid md:grid-cols-2 gap-8"
+        className="relative z-10 w-full max-w-4xl border border-[#1f521f]"
       >
-        {/* Left Section (Hidden on small screens) */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="hidden md:flex flex-col justify-center items-center text-center space-y-6"
-        >
-          <div className="relative w-full h-96 rounded-2xl overflow-hidden border border-white/20 shadow-xl">
-            <img
-              src={images.login_bg}
-              alt="Admin Background"
-              className="w-full h-full object-cover brightness-90"
-            />
-            <div className="absolute inset-0 bg-black/60 flex flex-col justify-center items-center px-6">
-              <motion.div
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="w-28 h-28 rounded-full overflow-hidden border-4 border-white shadow-lg mb-4"
-              >
-                <img
-                  src={images.profile_img}
-                  alt="Admin"
-                  className="w-full h-full object-cover"
-                />
-              </motion.div>
-              <h3 className="text-white text-3xl font-bold tracking-wide">
-                Admin Control Panel
-              </h3>
-              <p className="text-gray-300 text-sm mt-2 leading-relaxed">
-                Manage • Monitor • Maintain <br />
-                <span className="font-semibold text-pink-300">
-                  Access your secure dashboard
-                </span>
-              </p>
-            </div>
+        {/* Terminal Header */}
+        <div className="border-b border-[#1f521f] p-3 flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="w-3 h-3 bg-[#ff3333] rounded-full"></span>
+            <span className="w-3 h-3 bg-[#ffb000] rounded-full"></span>
+            <span className="w-3 h-3 bg-[#33ff00] rounded-full"></span>
           </div>
-        </motion.div>
+          <span className="text-[#33ff00] font-mono text-xs ml-2">admin_login.sh</span>
+        </div>
 
-        {/* Right Section - Login Form */}
-        <motion.form
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          onSubmit={handleLogin}
-          className="bg-white/30 dark:bg-gray-900/50 backdrop-blur-xl p-6 md:p-8 rounded-2xl shadow-lg border border-white/20 flex flex-col gap-5"
-        >
-          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 dark:text-white">
-            🔐 Admin Login
-          </h2>
-          <p className="text-gray-700 dark:text-gray-300 text-center text-sm md:text-base">
-            Please enter your credentials below.
-          </p>
-
-          {error && (
-            <p className="text-red-500 text-center text-sm bg-red-50 p-2 rounded-lg">
-              {error}
-            </p>
-          )}
-
-          {/* Email */}
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-3 md:p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all text-sm md:text-base"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          {/* Password */}
-          <div className="relative">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              className="w-full p-3 md:p-4 rounded-lg border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-white focus:ring-2 focus:ring-pink-500 focus:outline-none transition-all text-sm md:text-base"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-300 hover:text-pink-600 transition"
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </button>
-          </div>
-
-          {/* Remember Me */}
-          <label className="flex items-center gap-2 text-gray-700 dark:text-gray-300 text-sm">
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
-              className="w-4 h-4 accent-pink-600"
-            />
-            Remember Me
-          </label>
-
-          {/* Login Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            type="submit"
-            className="w-full py-3 md:py-4 bg-linear-to-r from-pink-600 to-blue-600 text-white font-semibold rounded-lg shadow-lg hover:opacity-90 transition-all text-sm md:text-base"
+        <div className="flex flex-col md:grid md:grid-cols-2">
+          {/* Left Section - Hidden on small screens */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="hidden md:flex flex-col justify-center items-center p-6 border-r border-[#1f521f]"
           >
-            Login
-          </motion.button>
+            <div className="w-full h-64 border border-[#1f521f] relative">
+              <div className="absolute inset-0 bg-[#0a0a0a]/80 flex flex-col justify-center items-center p-4">
+                <motion.div
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.5 }}
+                  className="w-20 h-20 border-2 border-[#33ff00] mb-3"
+                >
+                  <img
+                    src={images.profile_img}
+                    alt="Admin"
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
+                <h3 className="text-[#33ff00] font-mono text-lg tracking-wider">
+                  ADMIN_PANEL
+                </h3>
+                <p className="font-mono text-xs text-[#666666] mt-2 text-center">
+                  Manage • Monitor • Maintain<br />
+                  <span className="text-[#ffb000]">
+                    Secure access only
+                  </span>
+                </p>
+              </div>
+            </div>
+          </motion.div>
 
-          <p className="text-gray-500 dark:text-gray-400 text-center text-xs md:text-sm mt-3">
-            Only authorized users can access this section.
-          </p>
-        </motion.form>
+          {/* Right Section - Login Form */}
+          <motion.form
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            onSubmit={handleLogin}
+            className="p-6 md:p-8"
+          >
+            <h2 className="text-xl md:text-2xl font-mono text-[#33ff00] text-center mb-2" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              <span className="text-[#ffb000]">$</span> ADMIN_LOGIN
+            </h2>
+            <p className="font-mono text-xs text-[#666666] text-center mb-6">
+              Enter your credentials to continue
+            </p>
+
+            {error && (
+              <p className="text-[#ff3333] font-mono text-xs text-center bg-[#ff3333]/10 border border-[#ff3333] p-2 mb-4">
+                error: {error}
+              </p>
+            )}
+
+            {/* Email */}
+            <div className="mb-4">
+              <label className="block font-mono text-xs text-[#ffb000] mb-1">
+                <span className="text-[#33ff00]">$</span> email
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#33ff00] font-mono text-sm">
+                  {" >"}
+                </span>
+                <input
+                  type="email"
+                  placeholder="admin@example.com"
+                  className="w-full bg-[#0a0a0a] border border-[#1f521f] px-4 py-2 pl-8 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00] focus:shadow-[0_0_10px_rgba(51,255,0,0.3)]"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div className="mb-4">
+              <label className="block font-mono text-xs text-[#ffb000] mb-1">
+                <span className="text-[#33ff00]">$</span> password
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#33ff00] font-mono text-sm">
+                  {" >"}
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="********"
+                  className="w-full bg-[#0a0a0a] border border-[#1f521f] px-4 py-2 pl-8 pr-10 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00] focus:shadow-[0_0_10px_rgba(51,255,0,0.3)]"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#33ff00] transition-colors"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember Me */}
+            <label className="flex items-center gap-2 font-mono text-xs text-[#666666] mb-4 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 accent-[#33ff00] bg-[#0a0a0a] border border-[#1f521f]"
+              />
+              <span className={rememberMe ? "text-[#33ff00]" : ""}>
+                {rememberMe ? "[✓]" : "[ ]"} remember_me
+              </span>
+            </label>
+
+            {/* Login Button */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              className="w-full py-3 bg-[#1f521f] text-[#33ff00] font-mono text-sm border border-[#1f521f] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
+            >
+              [ EXECUTE_LOGIN ]
+            </motion.button>
+
+            <p className="font-mono text-xs text-[#666666] text-center mt-4">
+              {/* Only authorized users can access this section. */}
+              <span className="text-[#ffb000]">#</span> authorized access only
+            </p>
+          </motion.form>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-[#1f521f] p-3 flex justify-between items-center">
+          <button
+            onClick={handleBackToHome}
+            className="font-mono text-xs text-[#33ff00] hover:text-[#ffb000] transition-colors"
+          >
+            [ &lt; ] BACK_TO_HOME
+          </button>
+          <span className="font-mono text-xs text-[#33ff00]">
+            user@admin:~$ _
+          </span>
+        </div>
       </motion.div>
-
-      {/* Back to Home Button */}
-      <motion.button
-        whileHover={{ scale: 1.05, y: -3 }}
-        whileTap={{ scale: 0.95, y: 2 }}
-        onClick={handleBackToHome}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 py-2.5 px-5 rounded-xl bg-white/20 backdrop-blur-md shadow-lg text-white text-sm md:text-base font-medium border border-white/30 hover:bg-white/30 transition-all"
-      >
-        ⬅ Back to Home
-      </motion.button>
-
-      {/* Animations */}
-      <style>{`
-        .animate-spin-slow { animation: spin 20s linear infinite; }
-        .animate-pulse-slow { animation: pulse 10s ease-in-out infinite; }
-        @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
-        @keyframes pulse { 0%,100% {transform: scale(1); opacity: 0.2;} 50% {transform: scale(1.3); opacity: 0.4;} }
-      `}</style>
     </div>
   );
 }

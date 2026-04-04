@@ -30,9 +30,36 @@ const PageWrapper = ({ children }) => (
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.6 }}
+    className="bg-[#0a0a0a]"
   >
     {children}
   </motion.div>
+);
+
+const NotFound = () => (
+  <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
+    <div className="border border-[#1f521f] max-w-lg w-full">
+      <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+        <div className="flex gap-1.5">
+          <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+          <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+          <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+        </div>
+        <span className="text-[#33ff00] font-mono text-xs ml-2">error.sh</span>
+      </div>
+      <div className="p-8 text-center">
+        <h1 className="text-4xl font-mono text-[#ff3333] mb-4">404</h1>
+        <p className="font-mono text-[#999999] mb-4">error: page not found</p>
+        <p className="font-mono text-sm text-[#666666]">The requested resource could not be located.</p>
+        <a href="/" className="inline-block mt-6 font-mono text-sm text-[#33ff00] hover:text-[#ffb000]">
+          [ RETURN_HOME ]
+        </a>
+      </div>
+      <div className="border-t border-[#1f521f] p-2 text-right">
+        <span className="font-mono text-xs text-[#33ff00]">user@portfolio:~$ _</span>
+      </div>
+    </div>
+  </div>
 );
 
 const App = () => {
@@ -131,9 +158,7 @@ const App = () => {
             path="*"
             element={
               <PageWrapper>
-                <div className="min-h-screen flex items-center justify-center text-2xl font-bold">
-                  404 | Page Not Found
-                </div>
+                <NotFound />
               </PageWrapper>
             }
           />

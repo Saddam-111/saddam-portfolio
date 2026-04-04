@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import AnimatedSection from "../Common/AnimatedSection";
+import TerminalCard from "../Common/TerminalCard";
+import TerminalBadge from "../Common/TerminalBadge";
 
-
-const TimeLine =()  =>{
+const TimeLine = () => {
   const events = [
     {
       title: "Full Stack Intern — VEDSEEM INFOTECH",
@@ -18,29 +19,42 @@ const TimeLine =()  =>{
 
   return (
     <AnimatedSection>
-      <section className="py-20 bg-linear-to-r from-blue-50 via-white to-pink-50 dark:from-gray-900 dark:via-gray-950 dark:to-black">
-        <h2 className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white">Career Timeline</h2>
-        <div className="max-w-4xl mx-auto relative border-l-2 border-pink-600">
-          {events.map((event, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: idx * 0.2 }}
-              className="mb-10 ml-6"
-            >
-              <span className="absolute -left-4 top-1 w-6 h-6 bg-pink-600 rounded-full border-4 border-white dark:border-gray-950"></span>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{event.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{event.date}</p>
-              <p className="text-gray-700 dark:text-gray-300">{event.description}</p>
-            </motion.div>
-          ))}
+      <section className="py-20 bg-[#0a0a0a]">
+        <div className="max-w-4xl mx-auto px-4">
+          {/* Header */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              {"//"} CAREER_TIMELINE
+            </h2>
+            <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
+          </div>
+
+          {/* Timeline */}
+          <div className="relative border-l border-[#1f521f] ml-4">
+            {events.map((event, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.2 }}
+                className="mb-8 ml-6"
+              >
+                <span className="absolute -left-[5px] top-1 w-2.5 h-2.5 bg-[#33ff00]"></span>
+                <TerminalCard title={`career_${idx + 1}.sh`} glowOnHover>
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-2">
+                    <h3 className="font-mono text-[#33ff00]">{event.title}</h3>
+                    <TerminalBadge variant="secondary">{event.date}</TerminalBadge>
+                  </div>
+                  <p className="font-mono text-sm text-[#999999]">{event.description}</p>
+                </TerminalCard>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
     </AnimatedSection>
   );
-}
+};
 
-
-export default TimeLine
+export default TimeLine;

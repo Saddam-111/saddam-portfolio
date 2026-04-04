@@ -11,11 +11,8 @@ import ContactSection from '../components/HomeSection/ContactSection'
 
 const About = () => {
   return (
-    <div className="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
-      {/* Navbar */}
+    <div className="bg-[#0a0a0a] text-[#cccccc] min-h-screen">
       <Navbar />
-
-      {/* All Sections */}
       <main className="pt-15 overflow-hidden">
         <AboutHero />
         <PersonalIntro />
@@ -25,8 +22,6 @@ const About = () => {
         <FunFacts />
         <ContactSection />
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   )

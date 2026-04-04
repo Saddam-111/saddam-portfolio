@@ -1,74 +1,78 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaBriefcase } from "react-icons/fa";
+import TerminalText from "../Common/TerminalText";
 
 const ExperienceHero = () => {
   return (
-    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden bg-gradient-to-br from-blue-100 via-white to-pink-100 dark:from-gray-900 dark:via-gray-950 dark:to-black">
+    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden bg-[#0a0a0a] px-6">
+      {/* Scanline effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
+      </div>
 
-      {/* Animated Background Glow */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity }}
-        className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-pink-400 via-blue-500 to-purple-500 blur-3xl opacity-20 -z-10"
-      ></motion.div>
-
-      {/* Floating Icon */}
+      {/* Floating Icon - Terminal style */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: [1, 1.2, 1], opacity: 1, y: [0, -15, 0] }}
+        animate={{ scale: [1, 1.1, 1], opacity: 1, y: [0, -10, 0] }}
         transition={{
           duration: 3,
           delay: 0.5,
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="mb-6"
+        className="mb-6 font-mono text-5xl md:text-6xl text-[#1f521f]"
       >
-        <FaBriefcase className="text-6xl text-pink-600 dark:text-blue-400 drop-shadow-xl" />
+        [EXP]
       </motion.div>
 
-      {/* Title */}
-      <motion.h1
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white drop-shadow-lg"
-      >
-        My <span className="text-pink-600">Experience</span>
-      </motion.h1>
+      {/* Terminal Frame */}
+      <div className="border border-[#1f521f] max-w-3xl w-full">
+        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+            <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+            <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+          </div>
+          <span className="text-[#33ff00] font-mono text-xs ml-2">experience.sh</span>
+        </div>
 
-      {/* Subtitle */}
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 1 }}
-        className="mt-5 text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-2xl px-4"
-      >
-        A journey through my professional milestones, learning experiences and impactful projects.
-      </motion.p>
+        <div className="p-8">
+          {/* Title */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-mono text-[#33ff00] uppercase tracking-wider"
+            style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}
+          >
+            <TerminalText text="> MY_EXPERIENCE" speed={60} />
+          </motion.h1>
 
-      {/* Decorative glowing ring behind text */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity }}
-        className="absolute w-[400px] h-[400px] border-4 border-pink-500/30 rounded-full blur-xl"
-      ></motion.div>
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
+          >
+            A journey through my professional milestones, learning experiences and impactful projects.
+          </motion.p>
 
-      {/* Wave Divider at Bottom */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-        <svg
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          className="relative block w-full h-[80px]"
-        >
-          <path
-            d="M321.39,56.44C208.28,81.75,94.93,95.3,0,95.3V0H1200V95.3c-104.44-1.56-209.81-15.88-321.39-38.86C743.21,26.37,509.74,12.59,321.39,56.44Z"
-            className="fill-pink-100 dark:fill-gray-950"
-          ></path>
-        </svg>
+          {/* ASCII Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 1, duration: 1 }}
+            className="mx-auto mt-6 text-[#1f521f] font-mono text-xs"
+          >
+            {"══════════════════════════════════"}
+          </motion.div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-[#1f521f] p-2 text-right">
+          <span className="font-mono text-xs text-[#33ff00]">user@experience:~$ _</span>
+        </div>
       </div>
     </section>
   );

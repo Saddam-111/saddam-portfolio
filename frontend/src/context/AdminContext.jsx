@@ -16,15 +16,33 @@ export const AdminProvider = ({ children }) => {
   const [certificates, setCertificates] = useState([]);
   const [messages, setMessages] = useState([]);
 
+  // Check for remembered session on mount
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("rememberMe");
+    const savedToken = localStorage.getItem("adminToken");
+    if (rememberMe && savedToken) {
+      setToken(savedToken);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   // ✅ Login Function
-  const loginAdmin = async (email, password) => {
+  const loginAdmin = async (email, password, remember = false) => {
     try {
       setLoading(true);
       const res = await API.post("/admin/login", { email, password });
 
       if (res.data.success) {
         setToken(res.data.token);
-        localStorage.setItem("adminToken", res.data.token);
+        
+        if (remember) {
+          localStorage.setItem("adminToken", res.data.token);
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.setItem("adminToken", res.data.token);
+          localStorage.removeItem("rememberMe");
+        }
+        
         setIsAuthenticated(true);
         return true;
       } else {
@@ -44,6 +62,7 @@ export const AdminProvider = ({ children }) => {
     setToken(null);
     setIsAuthenticated(false);
     localStorage.removeItem("adminToken");
+    localStorage.removeItem("rememberMe");
   };
 
   // ✅ Data Fetching Functions

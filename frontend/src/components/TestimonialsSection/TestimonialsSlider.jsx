@@ -1,50 +1,72 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import TerminalCard from "../Common/TerminalCard";
 
-const TestimonialsSlider =() => {
-  const testimonials = [
-    { name: "Akash Tripathi", role: "CEO, Vedseem Info Tech", message: "Saddam built our e-commerce site flawlessly!" },
-    { name: "Dipendra Soni", role: "CMO,  Vedseem Info Tech", message: "Exceptional MERN stack development skills!" },
-    //{ name: "Alice Johnson", role: "Product Manager", message: "Highly professional and creative developer." },
-  ];
+const testimonials = [
+  { name: "Akash Tripathi", role: "CEO, Vedseem Info Tech", message: "Saddam built our e-commerce site flawlessly!" },
+  { name: "Dipendra Soni", role: "CMO, Vedseem Info Tech", message: "Exceptional MERN stack development skills!" },
+];
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 600,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 5000,
-  };
+const TestimonialsSlider = () => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-950">
-      <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">What Clients Say</h2>
-      <div className="max-w-3xl mx-auto">
-        <Slider {...settings}>
-          {testimonials.map((t, idx) => (
-            <motion.div
+    <section className="py-20 bg-[#0a0a0a]">
+      <div className="max-w-3xl mx-auto px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            {"//"} WHAT_CLIENTS_SAY
+          </h2>
+          <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <TerminalCard title="testimonial.sh" className="text-center">
+              <div className="font-mono text-lg text-[#cccccc] italic mb-4">
+                "{testimonials[current].message}"
+              </div>
+              <div className="text-[#33ff00] font-mono">
+                {testimonials[current].name}
+              </div>
+              <div className="font-mono text-xs text-[#666666]">
+                @ {testimonials[current].role}
+              </div>
+            </TerminalCard>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation dots - Terminal style */}
+        <div className="flex justify-center gap-2 mt-4">
+          {testimonials.map((_, idx) => (
+            <button
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-gray-100 dark:bg-gray-900 p-8 rounded-xl shadow-lg text-center mx-4"
+              onClick={() => setCurrent(idx)}
+              className={`font-mono text-xs transition-colors ${
+                current === idx ? "text-[#33ff00]" : "text-[#1f521f]"
+              }`}
             >
-              <p className="text-gray-700 dark:text-gray-300 italic mb-4">"{t.message}"</p>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{t.name}</h3>
-              <p className="text-gray-500 dark:text-gray-400">{t.role}</p>
-            </motion.div>
+              [{idx + 1}]
+            </button>
           ))}
-        </Slider>
+        </div>
       </div>
     </section>
   );
-}
+};
 
-
-export default TestimonialsSlider
+export default TestimonialsSlider;

@@ -1,139 +1,117 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { images } from "../../assets/asset";
-import { FaTrophy, FaUsers, FaStar, FaQuoteLeft, FaMedal } from "react-icons/fa";
+import TerminalText from "../Common/TerminalText";
 
-const floatVariants = {
-  float: (delay) => ({
-    y: [0, -20, 0],
-    transition: {
-      duration: 4,
-      repeat: Infinity,
-      delay,
-      ease: "easeInOut",
-    },
-  }),
-};
+const stats = [
+  { label: "10+ Awards", value: "10" },
+  { label: "50+ Happy Clients", value: "50" },
+  { label: "100+ Reviews", value: "100" },
+];
 
 const TestimonialsHero = () => {
   return (
-    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
-        <img
-          src={images.testimonial_bg}
-          alt="testimonials background"
-          className="w-full h-full object-cover opacity-70 dark:opacity-40"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-200/60 via-white/50 to-pink-200/60 dark:from-gray-900/80 dark:via-gray-950/90 dark:to-black/90"></div>
+    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden bg-[#0a0a0a] px-6">
+      {/* Scanline effect */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
+        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
       </div>
 
-      {/* Floating Icons */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial="hidden"
-        animate="show"
-      >
-        <motion.div
-          variants={floatVariants}
-          animate="float"
-          custom={0}
-          className="absolute top-[20%] left-[15%] text-yellow-400 text-5xl opacity-70"
-        >
-          <FaTrophy />
-        </motion.div>
-        <motion.div
-          variants={floatVariants}
-          animate="float"
-          custom={0.5}
-          className="absolute top-[30%] right-[15%] text-pink-400 text-5xl opacity-70"
-        >
-          <FaStar />
-        </motion.div>
-        <motion.div
-          variants={floatVariants}
-          animate="float"
-          custom={1}
-          className="absolute bottom-[25%] left-[25%] text-blue-400 text-5xl opacity-70"
-        >
-          <FaUsers />
-        </motion.div>
-        <motion.div
-          variants={floatVariants}
-          animate="float"
-          custom={1.5}
-          className="absolute bottom-[20%] right-[20%] text-purple-400 text-5xl opacity-70"
-        >
-          <FaMedal />
-        </motion.div>
-      </motion.div>
+      {/* Floating Labels - Terminal style */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {stats.map((item, index) => (
+          <motion.div
+            key={index}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{
+              y: [20, -20, 20],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              delay: index * 0.3,
+              ease: "easeInOut",
+            }}
+            className="absolute font-mono text-xs text-[#1f521f]"
+            style={{
+              top: `${20 + index * 25}%`,
+              left: `${10 + index * 25}%`,
+            }}
+          >
+            [{item.label}]
+          </motion.div>
+        ))}
+      </div>
 
-      {/* Content */}
-      <div className="relative z-10 px-6 flex flex-col items-center">
-        {/* Icon Accent */}
-        <motion.div
-          initial={{ rotate: -15, opacity: 0 }}
-          animate={{ rotate: 0, opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="text-6xl text-pink-500 mb-4"
-        >
-          <FaQuoteLeft />
-        </motion.div>
+      {/* Terminal Frame */}
+      <div className="border border-[#1f521f] max-w-4xl w-full">
+        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+          <div className="flex gap-1.5">
+            <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
+            <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
+            <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+          </div>
+          <span className="text-[#33ff00] font-mono text-xs ml-2">testimonials.sh</span>
+        </div>
 
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white drop-shadow-lg"
-        >
-          Testimonials & Achievements
-        </motion.h1>
+        <div className="p-8">
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Quote Icon - Terminal style */}
+            <div className="text-5xl text-[#1f521f] mb-4 font-mono">
+              ""
+            </div>
 
-        {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-4 text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed"
-        >
-          Words of appreciation and recognition from my clients and colleagues,
-          reflecting the dedication, quality and innovation I bring to every
-          project.
-        </motion.p>
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+              <TerminalText text="> TESTIMONIALS_&_ACHIEVEMENTS" speed={40} />
+            </h1>
 
-        {/* Gradient Divider */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.8, duration: 1 }}
-          className="mx-auto mt-6 w-40 h-[3px] bg-gradient-to-r from-blue-500 via-pink-500 to-yellow-400 rounded-full shadow-md shadow-pink-300/40"
-        ></motion.div>
-
-        {/* Achievement Highlights */}
-        <div className="mt-10 flex flex-wrap justify-center gap-8 text-center">
-          {[
-            { icon: <FaTrophy />, title: "10+ Awards", color: "text-yellow-400" },
-            { icon: <FaUsers />, title: "50+ Happy Clients", color: "text-blue-400" },
-            { icon: <FaStar />, title: "100+ Positive Reviews", color: "text-pink-400" },
-          ].map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + i * 0.2 }}
-              className="flex flex-col items-center gap-2"
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
             >
-              <div
-                className={`text-5xl ${item.color} drop-shadow-md transition-transform hover:scale-110`}
-              >
-                {item.icon}
-              </div>
-              <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                {item.title}
-              </p>
+              Words of appreciation and recognition from my clients and colleagues, reflecting the dedication, quality and innovation I bring to every project.
+            </motion.p>
+
+            {/* ASCII Divider */}
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.8, duration: 1 }}
+              className="mx-auto mt-6 text-[#1f521f] font-mono text-xs"
+            >
+              {"═══════════════════════════════════"}
             </motion.div>
-          ))}
+
+            {/* Stats - Terminal style grid */}
+            <div className="mt-10 grid grid-cols-3 gap-4">
+              {stats.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + i * 0.2 }}
+                  className="border border-[#1f521f] p-4"
+                >
+                  <span className="block text-2xl font-mono text-[#ffb000]">{item.value}+</span>
+                  <span className="font-mono text-xs text-[#666666]">{item.label}</span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Footer */}
+        <div className="border-t border-[#1f521f] p-2 text-right">
+          <span className="font-mono text-xs text-[#33ff00]">user@testimonials:~$ _</span>
         </div>
       </div>
     </section>

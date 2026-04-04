@@ -81,53 +81,62 @@ export default function SkillsManager() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-bold">Skills</h3>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="border border-[#1f521f] flex-1">
+          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
+            <span className="text-[#33ff00] font-mono text-xs">skills_manager.sh</span>
+          </div>
+          <div className="p-3">
+            <h3 className="font-mono text-[#33ff00] text-lg">SKILLS_MANAGEMENT</h3>
+          </div>
+        </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg shadow-md"
+          className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
         >
-          <FaPlus /> Add Skill
+          [ + ] ADD_SKILL
         </button>
       </div>
 
       {loading && (
         <div className="flex justify-center py-4">
-          <FaSpinner className="animate-spin text-pink-600 text-2xl" />
+          <FaSpinner className="animate-spin text-[#33ff00] text-xl" />
         </div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Skills Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {Array.isArray(skills) &&
           skills.map((skill) => (
             <motion.div
               key={skill._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white dark:bg-gray-900 p-3 rounded-xl shadow-md flex flex-col items-center text-center gap-2"
+              className="border border-[#1f521f] bg-[#0a0a0a] p-3"
             >
               {skill.icon?.url && (
                 <img
                   src={skill.icon.url}
                   alt={skill.name}
-                  className="w-12 h-12 object-contain"
+                  className="w-10 h-10 object-contain mx-auto mb-2"
                 />
               )}
-              <h4 className="font-semibold">{skill.name}</h4>
-              <p className="text-sm text-gray-500">{skill.category}</p>
-              <span className="text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded-full">
+              <h4 className="font-mono text-[#33ff00] text-sm text-center">{skill.name}</h4>
+              <p className="font-mono text-xs text-[#666666] text-center">{skill.category}</p>
+              <span className="block font-mono text-xs text-[#ffb000] text-center mt-1">
                 {skill.level}
               </span>
-              <div className="flex gap-3 mt-2">
+              <div className="flex justify-center gap-3 mt-2">
                 <button
                   onClick={() => openModal(skill)}
-                  className="text-blue-500 hover:text-blue-600"
+                  className="text-[#ffb000] hover:text-[#33ff00]"
                 >
                   <FaEdit />
                 </button>
                 <button
                   onClick={() => handleDelete(skill._id)}
-                  className="text-red-500 hover:text-red-600"
+                  className="text-[#ff3333] hover:text-[#ffb000]"
                 >
                   <FaTrash />
                 </button>
@@ -138,69 +147,69 @@ export default function SkillsManager() {
 
       {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
+            initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-white dark:bg-gray-900 p-6 rounded-2xl w-full max-w-md shadow-2xl"
+            className="bg-[#0a0a0a] border border-[#1f521f] w-full max-w-md"
           >
-            <h4 className="text-xl font-bold mb-4">
-              {currentSkill ? "Edit Skill" : "Add Skill"}
-            </h4>
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-3"
-              encType="multipart/form-data"
-            >
+            <div className="border-b border-[#1f521f] p-3 flex justify-between items-center">
+              <span className="font-mono text-xs text-[#33ff00]">
+                {currentSkill ? "edit_skill.sh" : "add_skill.sh"}
+              </span>
+              <button
+                onClick={() => setModalOpen(false)}
+                className="text-[#ff3333] hover:text-[#ffb000]"
+              >
+                ×
+              </button>
+            </div>
+            <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-3">
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Skill Name"
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="skill_name"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
                 required
               />
-
               <input
                 type="text"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                placeholder="Category (e.g. Frontend, Backend)"
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                placeholder="category (e.g. Frontend, Backend)"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
               />
-
               <select
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
-                className="p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] focus:outline-none focus:border-[#33ff00]"
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
                 <option value="Advanced">Advanced</option>
               </select>
-
               <input
                 type="file"
                 accept="image/*"
                 onChange={(e) => setIcon(e.target.files[0])}
-                className="p-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="font-mono text-xs text-[#666666]"
               />
-
               <div className="flex justify-end gap-2 mt-4">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-lg hover:bg-gray-400 transition-all"
+                  className="font-mono text-xs px-4 py-2 border border-[#666666] text-[#666666] hover:border-[#ff3333] hover:text-[#ff3333]"
                 >
-                  Cancel
+                  [CANCEL]
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-all flex items-center gap-2"
+                  className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a]"
                 >
-                  {loading && <FaSpinner className="animate-spin" />}{" "}
-                  {currentSkill ? "Update" : "Add"}
+                  {loading && <FaSpinner className="animate-spin mr-1" />}
+                  {currentSkill ? "[UPDATE]" : "[ADD]"}
                 </button>
               </div>
             </form>
