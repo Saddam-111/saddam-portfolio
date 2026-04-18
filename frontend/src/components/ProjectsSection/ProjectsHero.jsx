@@ -39,36 +39,36 @@ const ProjectsHero = () => {
           {/* Content */}
           <div className="p-8">
             {/* Heading */}
-            <h1 className="text-4xl md:text-6xl font-mono text-[#33ff00] uppercase tracking-wider mb-4" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-mono text-[#33ff00] uppercase tracking-wider mb-4" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
               <TerminalText text="> MY_PROJECTS" speed={60} />
             </h1>
 
             {/* Subtitle - Terminal Command Style */}
             <div className="mb-8">
-              <span className="text-[#ffb000] font-mono text-sm">$ cat description.txt</span>
-              <p className="text-gray-400 font-mono mt-3 text-lg md:text-xl max-w-2xl leading-relaxed">
+              <span className="text-[#ffb000] font-mono text-xs sm:text-sm">$ cat description.txt</span>
+              <p className="text-gray-400 font-mono mt-3 text-sm sm:text-base md:text-lg lg:text-xl max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4">
                 A showcase of MERN stack applications, interactive web solutions, and freelance projects with modern UI/UX.
               </p>
             </div>
 
             {/* Project Stats */}
-            <div className="flex justify-center gap-8 mb-10">
+            <div className="flex justify-center gap-4 sm:gap-8 mb-8 sm:mb-10">
               <div className="text-center">
-                <span className="block text-[#33ff00] font-mono text-3xl font-bold">20+</span>
-                <span className="text-gray-500 font-mono text-sm">Projects</span>
+                <span className="block text-[#33ff00] font-mono text-2xl sm:text-3xl font-bold">20+</span>
+                <span className="text-gray-500 font-mono text-xs sm:text-sm">Projects</span>
               </div>
               <div className="text-center">
-                <span className="block text-[#ffb000] font-mono text-3xl font-bold">5+</span>
-                <span className="text-gray-500 font-mono text-sm">Years Exp</span>
+                <span className="block text-[#ffb000] font-mono text-2xl sm:text-3xl font-bold">5+</span>
+                <span className="text-gray-500 font-mono text-xs sm:text-sm">Years Exp</span>
               </div>
               <div className="text-center">
-                <span className="block text-[#33ff00] font-mono text-3xl font-bold">50+</span>
-                <span className="text-gray-500 font-mono text-sm">Clients</span>
+                <span className="block text-[#33ff00] font-mono text-2xl sm:text-3xl font-bold">50+</span>
+                <span className="text-gray-500 font-mono text-xs sm:text-sm">Clients</span>
               </div>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4">
               <Link to="/projects">
                 <TerminalButton variant="primary">
                   EXPLORE_PROJECTS

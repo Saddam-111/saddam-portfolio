@@ -23,7 +23,7 @@ const Footer = () => {
             <span className="text-[#33ff00] font-mono text-xs ml-2">footer.sh</span>
           </div>
           
-          <div className="p-6 grid md:grid-cols-4 gap-6">
+          <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* About Section */}
             <div>
               <h3 className="text-[#33ff00] font-mono text-sm uppercase mb-3">
@@ -145,7 +145,7 @@ const Footer = () => {
           </div>
 
           {/* Footer Bottom */}
-          <div className="border-t border-[#1f521f] p-3 flex justify-between items-center">
+          <div className="border-t border-[#1f521f] p-3 flex flex-col sm:flex-row justify-between items-center gap-2">
             <span className="font-mono text-xs text-[#666666]">
               © {new Date().getFullYear()} Saddam Ansari. All rights reserved.
             </span>

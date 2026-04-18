@@ -69,7 +69,7 @@ const ContactHero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl md:text-5xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
               <TerminalText text="> GET_IN_TOUCH" speed={60} />
             </h1>
 
@@ -77,7 +77,7 @@ const ContactHero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
+              className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
             >
               Have an idea, a collaboration or a project in mind? Let's connect and turn your vision into a reality.
             </motion.p>
@@ -93,7 +93,7 @@ const ContactHero = () => {
             </motion.div>
 
             {/* Contact Buttons - Terminal style */}
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-2 sm:gap-3 px-4">
               {contactLinks.map((item, idx) => (
                 <motion.a
                   key={idx}
@@ -101,7 +101,7 @@ const ContactHero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
-                  className="font-mono text-sm px-4 py-2 border border-[#1f521f] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
+                  className="font-mono text-xs sm:text-sm px-3 sm:px-4 py-2 border border-[#1f521f] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
                 >
                   {item.label}
                 </motion.a>

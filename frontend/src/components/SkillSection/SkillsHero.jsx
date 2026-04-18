@@ -65,14 +65,14 @@ const SkillsHero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-4xl md:text-5xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
               <TerminalText text="> MY_SKILLS" speed={60} />
             </h1>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
+              className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
             >
               A showcase of my technical stack, tools, and technologies I use to craft performant, scalable, and modern web applications.
             </motion.p>

@@ -20,7 +20,7 @@ const ExperienceHero = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
-        className="mb-6 font-mono text-5xl md:text-6xl text-[#1f521f]"
+        className="mb-4 sm:mb-6 font-mono text-4xl sm:text-5xl md:text-6xl text-[#1f521f]"
       >
         [EXP]
       </motion.div>
@@ -42,7 +42,7 @@ const ExperienceHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-mono text-[#33ff00] uppercase tracking-wider"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono text-[#33ff00] uppercase tracking-wider"
             style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}
           >
             <TerminalText text="> MY_EXPERIENCE" speed={60} />
@@ -53,7 +53,7 @@ const ExperienceHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
+            className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
           >
             A journey through my professional milestones, learning experiences and impactful projects.
           </motion.p>

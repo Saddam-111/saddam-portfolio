@@ -67,7 +67,7 @@ const TestimonialsHero = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
               <TerminalText text="> TESTIMONIALS_&_ACHIEVEMENTS" speed={40} />
             </h1>
 
@@ -76,7 +76,7 @@ const TestimonialsHero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="font-mono text-[#999999] mt-4 text-sm md:text-base max-w-2xl mx-auto leading-relaxed"
+              className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
             >
               Words of appreciation and recognition from my clients and colleagues, reflecting the dedication, quality and innovation I bring to every project.
             </motion.p>
@@ -92,16 +92,16 @@ const TestimonialsHero = () => {
             </motion.div>
 
             {/* Stats - Terminal style grid */}
-            <div className="mt-10 grid grid-cols-3 gap-4">
+            <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-2 sm:gap-4">
               {stats.map((item, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 + i * 0.2 }}
-                  className="border border-[#1f521f] p-4"
+                  className="border border-[#1f521f] p-2 sm:p-4"
                 >
-                  <span className="block text-2xl font-mono text-[#ffb000]">{item.value}+</span>
+                  <span className="block text-xl sm:text-2xl font-mono text-[#ffb000]">{item.value}+</span>
                   <span className="font-mono text-xs text-[#666666]">{item.label}</span>
                 </motion.div>
               ))}

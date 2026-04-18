@@ -89,7 +89,7 @@ const ContactForm = () => {
                 </span>
               )}
 
-              <div className="flex items-center gap-4 mt-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-4">
                 <TerminalButton variant="primary" disabled={loading}>
                   {loading ? "SENDING..." : "SEND_MESSAGE"}
                 </TerminalButton>

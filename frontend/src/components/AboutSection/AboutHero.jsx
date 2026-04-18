@@ -27,7 +27,7 @@ const AboutHero = () => {
       const rect = el.getBoundingClientRect();
       const cx = rect.width / 2;
       const cy = rect.height / 2;
-      const r = Math.max(80, Math.min(rect.width, rect.height) / 2 - 60);
+      const r = Math.max(60, Math.min(rect.width, rect.height) / 2 - 40);
       setCenter({ x: cx, y: cy });
       setRadius(r);
     };
@@ -75,7 +75,7 @@ const AboutHero = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-5xl font-mono text-[#33ff00] uppercase tracking-wider text-center"
+            className="text-2xl sm:text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider text-center"
             style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}
           >
             <span className="text-[#ffb000]">$</span> whoami
@@ -86,16 +86,16 @@ const AboutHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="font-mono text-[#999999] mt-4 text-center max-w-2xl"
+            className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 text-center max-w-lg sm:max-w-2xl px-4"
           >
             I'm a creative <span className="text-[#ffb000]">Full Stack Developer</span> passionate about crafting immersive web experiences.
           </motion.p>
 
           {/* Profile + Orbiting Text */}
-          <div className="relative mt-16 flex items-center justify-center">
+          <div className="relative mt-12 lg:mt-16 flex items-center justify-center">
             <div
               ref={containerRef}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px]"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px]"
               style={{ pointerEvents: "none" }}
             >
               {textOrbit.map((text, i) => (
@@ -132,7 +132,7 @@ const AboutHero = () => {
                   ease: "easeInOut",
                 },
               }}
-              className="w-36 h-36 border-2 border-[#1f521f] object-cover z-10 grayscale hover:grayscale-0 transition-all duration-500"
+              className="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 border-2 border-[#1f521f] object-cover z-10 grayscale hover:grayscale-0 transition-all duration-500"
             />
           </div>
 
