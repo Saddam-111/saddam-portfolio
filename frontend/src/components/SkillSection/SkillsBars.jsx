@@ -66,10 +66,10 @@ const SkillsBars = () => {
     }
   }, [skills, fetchSkills]);
 
-  const categories = [...new Set(skills.map((s) => s.category).filter(Boolean))];
+  const categories = [...new Set(skills.map((s) => s.category || "General"))];
 
   const skillsByCategory = categories.reduce((acc, cat) => {
-    acc[cat] = skills.filter((s) => s.category === cat);
+    acc[cat] = skills.filter((s) => (s.category || "General") === cat);
     return acc;
   }, {});
 

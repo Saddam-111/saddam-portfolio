@@ -6,26 +6,15 @@ import { FaPlus, FaEdit, FaTrash, FaSpinner } from "react-icons/fa";
 import { Card, Badge, Button, Input } from "../Common";
 
 const SkillsManager = () => {
-  const { setError } = useContext(AdminContext);
-  const [skills, setSkills] = useState([]);
+  const { skills, fetchSkills, loading: contextLoading, setError } = useContext(AdminContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentSkill, setCurrentSkill] = useState(null);
   const [form, setForm] = useState({ name: "", level: "Intermediate", category: "", icon: null });
   const [loading, setLoading] = useState(false);
 
-  const fetchSkills = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get("/skills");
-      setSkills(res.data.skills);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch skills");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { fetchSkills(); }, []);
+  useEffect(() => {
+    fetchSkills();
+  }, [fetchSkills]);
 
   const openModal = (skill = null) => {
     setCurrentSkill(skill);
@@ -87,7 +76,7 @@ const SkillsManager = () => {
         <Button onClick={() => openModal()} size="sm">+ Add Skill</Button>
       </div>
 
-      {loading && skills.length === 0 ? (
+      {contextLoading && skills.length === 0 ? (
         <div className="flex justify-center py-12">
           <FaSpinner className="animate-spin text-primary text-2xl" />
         </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useCallback, useMemo } from "react";
 import API from "../utils/api";
 
 export const AdminContext = createContext();
@@ -8,7 +8,7 @@ export const AdminProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-   const [resumes, setResumes] = useState([]);
+  const [resumes, setResumes] = useState([]);
   const [projects, setProjects] = useState([]);
   const [skills, setSkills] = useState([]);
   const [experiences, setExperiences] = useState([]);
@@ -27,7 +27,7 @@ export const AdminProvider = ({ children }) => {
   }, []);
 
   // ✅ Login Function
-  const loginAdmin = async (email, password, remember = false) => {
+  const loginAdmin = useCallback(async (email, password, remember = false) => {
     try {
       setLoading(true);
       const res = await API.post("/admin/login", { email, password });
@@ -55,18 +55,18 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // ✅ Logout Function
-  const logoutAdmin = () => {
+  const logoutAdmin = useCallback(() => {
     setToken(null);
     setIsAuthenticated(false);
     localStorage.removeItem("adminToken");
     localStorage.removeItem("rememberMe");
-  };
+  }, []);
 
   // ✅ Data Fetching Functions
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/projects");
@@ -76,9 +76,9 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchSkills = async () => {
+  const fetchSkills = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/skills");
@@ -88,9 +88,9 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchExperience = async () => {
+  const fetchExperience = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/experience");
@@ -100,9 +100,9 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchCertificates = async () => {
+  const fetchCertificates = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/certificates");
@@ -112,9 +112,9 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchMessages = async () => {
+  const fetchMessages = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/messages");
@@ -124,9 +124,9 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const fetchResumes = async () => {
+  const fetchResumes = useCallback(async () => {
     try {
       setLoading(true);
       const res = await API.get("/resume");
@@ -136,37 +136,58 @@ export const AdminProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect( () => {
-    fetchResumes()
-  },[])
+  useEffect(() => {
+    fetchResumes();
+  }, [fetchResumes]);
+
+  const value = useMemo(() => ({
+    token,
+    isAuthenticated,
+    loginAdmin,
+    logoutAdmin,
+    projects,
+    fetchProjects,
+    skills,
+    fetchSkills,
+    experiences,
+    fetchExperience,
+    testimonials,
+    certificates,
+    fetchCertificates,
+    messages,
+    fetchMessages,
+    resumes,
+    fetchResumes,
+    loading,
+    error,
+    setError,
+  }), [
+    token,
+    isAuthenticated,
+    loginAdmin,
+    logoutAdmin,
+    projects,
+    fetchProjects,
+    skills,
+    fetchSkills,
+    experiences,
+    fetchExperience,
+    testimonials,
+    certificates,
+    fetchCertificates,
+    messages,
+    fetchMessages,
+    resumes,
+    fetchResumes,
+    loading,
+    error,
+    testimonials,
+  ]);
 
   return (
-    <AdminContext.Provider
-      value={{
-        token,
-        isAuthenticated,
-        loginAdmin,
-        logoutAdmin,
-        projects,
-        fetchProjects,
-        skills,
-        fetchSkills,
-        experiences,
-        fetchExperience,
-        testimonials,
-        certificates,
-        fetchCertificates,
-        messages,
-        fetchMessages,
-        resumes,
-        fetchResumes,
-        loading,
-        error,
-        setError,
-      }}
-    >
+    <AdminContext.Provider value={value}>
       {children}
     </AdminContext.Provider>
   );
