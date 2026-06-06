@@ -1,39 +1,44 @@
-import AnimatedSection from "../Common/AnimatedSection";
-import TerminalCard from "../Common/TerminalCard";
+import { motion } from "framer-motion";
+import { Card, Badge } from "../Common";
+
+const facts = [
+  { label: "Coffee Lover", icon: "☕" },
+  { label: "Music Enthusiast", icon: "🎵" },
+  { label: "Problem Solver", icon: "🧩" },
+  { label: "Open Source", icon: "💻" },
+];
 
 const FunFacts = () => {
-  const facts = [
-    { label: "coffee_lover", icon: "☕" },
-    { label: "music_enthusiast", icon: "🎵" },
-    { label: "gamer", icon: "🎮" },
-    { label: "open_source", icon: "💻" }
-  ];
-
   return (
-    <AnimatedSection>
-      <section className="py-20 bg-[#0a0a0a]">
-        <div className="max-w-4xl mx-auto px-4">
-          {/* Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              {"//"} FUN_FACTS
-            </h2>
-            <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            {facts.map((f, idx) => (
-              <TerminalCard key={idx} title="fun_fact.sh" glowOnHover className="w-40">
-                <div className="text-center">
-                  <div className="text-3xl mb-2">{f.icon}</div>
-                  <div className="font-mono text-xs text-[#666666]">$ {f.label}</div>
-                </div>
-              </TerminalCard>
-            ))}
-          </div>
+    <section className="py-20 sm:py-24 bg-surface">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">
+            Beyond Code
+          </span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-text-primary tracking-tight">
+            Fun Facts
+          </h2>
         </div>
-      </section>
-    </AnimatedSection>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {facts.map((f, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+            >
+              <Card hoverable gradient className="rounded-xl text-center py-6 sm:py-8">
+                <span className="text-3xl mb-3 block">{f.icon}</span>
+                <Badge variant="default" size="sm">{f.label}</Badge>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

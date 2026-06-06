@@ -2,40 +2,35 @@ import React, { useEffect, useState, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
-import { FaPlus, FaEdit, FaTrash, FaSpinner } from "react-icons/fa";
+import { Button, Input, TextArea } from "../Common";
 
 export default function ExperienceManager() {
   const { setError } = useContext(AdminContext);
   const [experiences, setExperiences] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentExp, setCurrentExp] = useState(null);
+  const [form, setForm] = useState({ role: "", company: "", duration: "", description: "", thumbnail: null });
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    company: "",
-    role: "",
-    duration: "",
-    description: "",
-    thumbnail: null,
-  });
 
   const fetchExperiences = async () => {
     try {
+      setLoading(true);
       const res = await axios.get("/experience");
-      setExperiences(res.data.experiences || []);
+      setExperiences(res.data.experiences);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to fetch experiences");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchExperiences();
-  }, []);
+  useEffect(() => { fetchExperiences(); }, []);
 
   const openModal = (exp = null) => {
     setCurrentExp(exp);
-    setFormData({
-      company: exp?.company || "",
+    setForm({
       role: exp?.role || "",
+      company: exp?.company || "",
       duration: exp?.duration || "",
       description: exp?.description || "",
       thumbnail: null,
@@ -48,22 +43,17 @@ export default function ExperienceManager() {
     setLoading(true);
     try {
       const data = new FormData();
-      data.append("company", formData.company);
-      data.append("role", formData.role);
-      data.append("duration", formData.duration);
-      data.append("description", formData.description);
-      if (formData.thumbnail) data.append("thumbnail", formData.thumbnail);
+      data.append("role", form.role);
+      data.append("company", form.company);
+      data.append("duration", form.duration);
+      data.append("description", form.description);
+      if (form.thumbnail) data.append("thumbnail", form.thumbnail);
 
       if (currentExp) {
-        await axios.put(`/experience/${currentExp._id}`, data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.put(`/experience/${currentExp._id}`, data, { headers: { "Content-Type": "multipart/form-data" } });
       } else {
-        await axios.post("/experience", data, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.post("/experience", data, { headers: { "Content-Type": "multipart/form-data" } });
       }
-
       await fetchExperiences();
       setModalOpen(false);
     } catch (err) {
@@ -74,7 +64,7 @@ export default function ExperienceManager() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete this experience?")) return;
+    if (!confirm("Delete this experience entry?")) return;
     setLoading(true);
     try {
       await axios.delete(`/experience/${id}`);
@@ -88,149 +78,57 @@ export default function ExperienceManager() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <div className="border border-[#1f521f] flex-1">
-          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-            <span className="text-[#33ff00] font-mono text-xs">experience_manager.sh</span>
-          </div>
-          <div className="p-3">
-            <h3 className="font-mono text-[#33ff00] text-lg">EXPERIENCE_MANAGEMENT</h3>
-          </div>
+        <div>
+          <h3 className="font-display font-semibold text-lg sm:text-xl text-text-primary mb-1">
+            Experience Management
+          </h3>
+          <p className="text-text-secondary text-sm">Add, edit, or remove work experiences.</p>
         </div>
-        <button
-          onClick={() => openModal()}
-          className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
-        >
-          [ + ] ADD_EXPERIENCE
-        </button>
+        <Button onClick={() => openModal()} size="sm">+ Add Experience</Button>
       </div>
 
-      {loading && (
-        <div className="flex justify-center py-4">
-          <FaSpinner className="animate-spin text-[#33ff00] text-xl" />
-        </div>
-      )}
-
-      {/* Experience List */}
-      <div className="grid gap-3">
-        {Array.isArray(experiences) &&
-          experiences.map((exp) => (
-            <motion.div
-              key={exp._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="border border-[#1f521f] bg-[#0a0a0a] p-4"
-            >
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-3">
-                <div className="flex-1">
-                  <h4 className="font-mono text-[#33ff00] text-sm">{exp.role}</h4>
-                  <p className="font-mono text-xs text-[#ffb000]">
-                    @ {exp.company} • {exp.duration}
-                  </p>
-                  <p className="font-mono text-xs text-[#666666] mt-2">{exp.description}</p>
-                  {exp.thumbnail?.url && (
-                    <img
-                      src={exp.thumbnail.url}
-                      alt={exp.role}
-                      className="w-20 h-20 object-cover mt-2 border border-[#1f521f]"
-                    />
-                  )}
+      {loading && experiences.length === 0 ? (
+        <p className="text-center text-text-secondary">Loading...</p>
+      ) : (
+        <div className="space-y-3">
+          {experiences.map((exp) => (
+            <motion.div key={exp._id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card border border-border p-4 rounded-xl">
+              <div className="flex flex-col sm:flex-row justify-between gap-3">
+                <div>
+                  <h4 className="font-display font-medium text-text-primary">{exp.role}</h4>
+                  <p className="text-text-secondary text-sm">{exp.company} • {exp.duration}</p>
+                  <p className="text-text-secondary text-xs mt-1 line-clamp-2">{exp.description}</p>
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    onClick={() => openModal(exp)}
-                    className="font-mono text-xs px-2 py-1 border border-[#ffb000] text-[#ffb000] hover:bg-[#ffb000] hover:text-[#0a0a0a]"
-                  >
-                    [EDIT]
-                  </button>
-                  <button
-                    onClick={() => handleDelete(exp._id)}
-                    className="font-mono text-xs px-2 py-1 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a]"
-                  >
-                    [DEL]
-                  </button>
+                  <button onClick={() => openModal(exp)} className="text-text-secondary hover:text-primary" aria-label="Edit">✏️</button>
+                  <button onClick={() => handleDelete(exp._id)} className="text-text-secondary hover:text-error" aria-label="Delete">🗑️</button>
                 </div>
               </div>
             </motion.div>
           ))}
-      </div>
+        </div>
+      )}
 
-      {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="bg-[#0a0a0a] border border-[#1f521f] w-full max-w-md"
-          >
-            <div className="border-b border-[#1f521f] p-3 flex justify-between items-center">
-              <span className="font-mono text-xs text-[#33ff00]">
-                {currentExp ? "edit_experience.sh" : "add_experience.sh"}
-              </span>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="text-[#ff3333] hover:text-[#ffb000]"
-              >
-                ×
-              </button>
-            </div>
-            <form onSubmit={handleSubmit} className="p-4 flex flex-col gap-3">
-              <input
-                type="text"
-                placeholder="company"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
-                required
-              />
-              <input
-                type="text"
-                placeholder="role"
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
-                required
-              />
-              <input
-                type="text"
-                placeholder="duration (e.g. Jan 2023 - Dec 2023)"
-                value={formData.duration}
-                onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00]"
-              />
-              <textarea
-                placeholder="description"
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full bg-[#0a0a0a] border border-[#1f521f] px-3 py-2 font-mono text-sm text-[#cccccc] placeholder-[#666666] focus:outline-none focus:border-[#33ff00] resize-none"
-                rows={3}
-              />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setFormData({ ...formData, thumbnail: e.target.files[0] })}
-                className="font-mono text-xs text-[#666666]"
-              />
-              <div className="flex justify-end gap-2 mt-4">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="font-mono text-xs px-4 py-2 border border-[#666666] text-[#666666] hover:border-[#ff3333] hover:text-[#ff3333]"
-                >
-                  [CANCEL]
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a]"
-                >
-                  {loading && <FaSpinner className="animate-spin mr-1" />}
-                  {currentExp ? "[UPDATE]" : "[ADD]"}
-                </button>
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setModalOpen(false)}>
+          <div className="bg-card border border-border rounded-xl w-full max-w-lg p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-display font-semibold text-lg text-text-primary mb-4">{currentExp ? "Edit Experience" : "Add Experience"}</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input label="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} required />
+              <Input label="Company" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} required />
+              <Input label="Duration" value={form.duration} onChange={(e) => setForm({ ...form, duration: e.target.value })} placeholder="e.g. Jan 2023 - Present" />
+              <TextArea label="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={3} />
+              <div>
+                <label className="block font-mono text-xs uppercase tracking-wider text-text-secondary mb-1.5">Logo (optional)</label>
+                <input type="file" accept="image/*" onChange={(e) => setForm({ ...form, thumbnail: e.target.files[0] })} className="w-full text-sm text-text-secondary" />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <Button variant="ghost" size="sm" onClick={() => setModalOpen(false)}>Cancel</Button>
+                <Button type="submit" size="sm" disabled={loading} isLoading={loading}>{currentExp ? "Update" : "Add"}</Button>
               </div>
             </form>
-          </motion.div>
+          </div>
         </div>
       )}
     </div>

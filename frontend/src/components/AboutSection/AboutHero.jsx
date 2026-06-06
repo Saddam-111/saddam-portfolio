@@ -1,10 +1,10 @@
 import React, { useRef, useLayoutEffect, useState } from "react";
-import { motion, useAnimationFrame } from "framer-motion";
-import { images } from "../../assets/asset";
 import { Link } from "react-router-dom";
-import TerminalButton from "../Common/TerminalButton";
+import { Button, Badge } from "../Common";
+import { images } from "../../assets/asset";
+import { motion, useAnimationFrame } from "framer-motion";
 
-const textOrbit = [
+const orbitItems = [
   "MERN Stack",
   "React.js",
   "Node.js",
@@ -15,7 +15,7 @@ const textOrbit = [
 ];
 
 const AboutHero = () => {
-  const orbitRefs = useRef([]);
+  const textRefs = useRef([]);
   const containerRef = useRef(null);
   const [center, setCenter] = useState({ x: 0, y: 0 });
   const [radius, setRadius] = useState(140);
@@ -24,14 +24,9 @@ const AboutHero = () => {
     const measure = () => {
       const el = containerRef.current;
       if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.width / 2;
-      const cy = rect.height / 2;
-      const r = Math.max(60, Math.min(rect.width, rect.height) / 2 - 40);
-      setCenter({ x: cx, y: cy });
-      setRadius(r);
+      setCenter({ x: el.offsetWidth / 2, y: el.offsetHeight / 2 });
+      setRadius(Math.max(60, Math.min(el.offsetWidth, el.offsetHeight) / 2 - 40));
     };
-
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
@@ -39,127 +34,92 @@ const AboutHero = () => {
 
   useAnimationFrame((t) => {
     const speed = 0.0006;
-    orbitRefs.current.forEach((el, i) => {
+    textRefs.current.forEach((el, i) => {
       if (!el || !containerRef.current) return;
-      const base = (i * (2 * Math.PI)) / textOrbit.length;
+      const base = (i * (2 * Math.PI)) / orbitItems.length;
       const angle = speed * t + base;
       const x = radius * Math.cos(angle);
       const y = radius * Math.sin(angle);
-      el.style.left = `${center.x}px`;
-      el.style.top = `${center.y}px`;
       el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
     });
   });
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-screen bg-[#0a0a0a] px-6 overflow-hidden">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
+    <section className="relative flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] bg-background overflow-hidden">
+      <div className="absolute inset-0 noise-bg" />
+      <div className="absolute top-1/4 left-1/4 w-64 sm:w-80 h-64 sm:h-80 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-64 sm:w-80 h-64 sm:h-80 bg-accent/5 rounded-full blur-3xl" />
 
-      {/* Terminal Frame */}
-      <div className="border border-[#1f521f] max-w-4xl w-full">
-        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-          </div>
-          <span className="text-[#33ff00] font-mono text-xs ml-2">about.sh</span>
-        </div>
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
+        >
+          About me
+        </motion.span>
 
-        <div className="p-8">
-          {/* Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider text-center"
-            style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}
-          >
-            <span className="text-[#ffb000]">$</span> whoami
-          </motion.h1>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-tight"
+        >
+          Saddam Ansari
+        </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 text-center max-w-lg sm:max-w-2xl px-4"
-          >
-            I'm a creative <span className="text-[#ffb000]">Full Stack Developer</span> passionate about crafting immersive web experiences.
-          </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-4 text-text-secondary text-base sm:text-lg max-w-xl mx-auto"
+        >
+          Full Stack Developer passionate about crafting immersive, scalable, and user-centric web experiences.
+        </motion.p>
 
-          {/* Profile + Orbiting Text */}
-          <div className="relative mt-12 lg:mt-16 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-10 flex justify-center"
+        >
+          <div className="relative w-[220px] h-[220px] sm:w-[280px] sm:h-[280px]">
             <div
               ref={containerRef}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] lg:w-[350px] lg:h-[350px]"
+              className="absolute inset-0"
               style={{ pointerEvents: "none" }}
             >
-              {textOrbit.map((text, i) => (
-                <div
+              {orbitItems.map((text, i) => (
+                <span
                   key={i}
-                  ref={(el) => (orbitRefs.current[i] = el)}
-                  className="absolute font-mono text-xs text-[#666666]"
-                  style={{
-                    left: "50%",
-                    top: "50%",
-                    transform: "translate(-50%, -50%)",
-                    whiteSpace: "nowrap",
-                    pointerEvents: "none",
-                  }}
-                  aria-hidden
+                  ref={(el) => (textRefs.current[i] = el)}
+                  className="absolute font-mono text-[10px] sm:text-xs text-text-secondary whitespace-nowrap"
+                  style={{ left: "50%", top: "50%" }}
                 >
                   [{text}]
-                </div>
+                </span>
               ))}
             </div>
-
-            {/* Floating Profile Image */}
-            <motion.img
-              src={images.profile_img}
-              alt="Profile"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1, y: [0, -10, 0] }}
-              transition={{
-                duration: 1,
-                delay: 0.5,
-                y: {
-                  repeat: Infinity,
-                  duration: 3,
-                  ease: "easeInOut",
-                },
-              }}
-              className="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 border-2 border-[#1f521f] object-cover z-10 grayscale hover:grayscale-0 transition-all duration-500"
-            />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl z-10">
+              <img
+                src={images.profile_img}
+                alt="Saddam Ansari"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
+        </motion.div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="mt-10 flex flex-wrap justify-center gap-4"
-          >
-            <Link to="/projects">
-              <TerminalButton variant="primary">
-                VIEW_PROJECTS
-              </TerminalButton>
-            </Link>
-            <Link to="/contact">
-              <TerminalButton variant="secondary">
-                CONTACT_ME
-              </TerminalButton>
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Footer */}
-        <div className="border-t border-[#1f521f] p-2 text-right">
-          <span className="font-mono text-xs text-[#33ff00]">user@about:~$ _</span>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-10 flex flex-wrap justify-center gap-3"
+        >
+          <Badge variant="primary">MERN Stack</Badge>
+          <Badge variant="secondary">Full Stack</Badge>
+          <Badge variant="default">Open Source</Badge>
+        </motion.div>
       </div>
     </section>
   );

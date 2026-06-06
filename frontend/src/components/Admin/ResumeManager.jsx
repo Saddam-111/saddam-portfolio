@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
-import { FaPlus, FaTrash, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 export default function ResumeManager() {
@@ -64,13 +63,11 @@ export default function ResumeManager() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="border border-[#1f521f]">
-        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-          <span className="text-[#33ff00] font-mono text-xs">resume_manager.sh</span>
-        </div>
-        <div className="p-3">
-          <h3 className="font-mono text-[#33ff00] text-lg">RESUME_MANAGEMENT</h3>
-        </div>
+      <div className="flex-1">
+        <h3 className="font-display font-semibold text-lg sm:text-xl text-text-primary mb-1">
+          Resume Management
+        </h3>
+        <p className="text-text-secondary text-sm">Upload and manage your resume</p>
       </div>
 
       {/* Upload Section */}
@@ -79,20 +76,20 @@ export default function ResumeManager() {
           type="file"
           accept="application/pdf"
           onChange={(e) => setFile(e.target.files[0])}
-          className="font-mono text-xs text-[#666666] bg-[#0a0a0a] border border-[#1f521f] px-3 py-2"
+          className="font-mono text-xs text-text-secondary bg-card border border-border px-3 py-2 rounded-lg"
         />
         <button
           onClick={handleUpload}
           disabled={loading}
-          className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
+          className="font-mono text-xs px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all rounded-lg disabled:opacity-50"
         >
-          {loading ? "UPLOADING..." : "[ + ] UPLOAD / REPLACE"}
+          {loading ? "Uploading..." : "+ Upload / Replace"}
         </button>
       </div>
 
       {loading && (
-        <p className="font-mono text-xs text-[#ffb000] animate-pulse text-center">
-          $ executing operation...
+        <p className="text-text-secondary text-sm animate-pulse text-center">
+          Processing...
         </p>
       )}
 
@@ -101,12 +98,12 @@ export default function ResumeManager() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="border border-[#1f521f] bg-[#0a0a0a] p-4"
+          className="bg-card border border-border p-4 rounded-xl"
         >
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-2xl text-[#ff3333]">PDF</span>
-              <span className="font-mono text-sm text-[#33ff00]">
+              <span className="font-mono text-2xl text-error">PDF</span>
+              <span className="font-mono text-sm text-primary">
                 {resume.title || "my_resume.pdf"}
               </span>
             </div>
@@ -116,23 +113,23 @@ export default function ResumeManager() {
                 onClick={() =>
                   navigate("/resume-view", { state: { resumeUrl: resume.resumeFile?.url } })
                 }
-                className="font-mono text-xs px-3 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a]"
+                className="font-mono text-xs px-3 py-2 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all"
               >
-                [VIEW]
+                View
               </button>
               <button
                 onClick={() => handleDelete(resume._id)}
                 disabled={loading}
-                className="font-mono text-xs px-3 py-2 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a]"
+                className="font-mono text-xs px-3 py-2 border border-error text-error hover:bg-error hover:text-white rounded-lg transition-all disabled:opacity-50"
               >
-                [DELETE]
+                Delete
               </button>
             </div>
           </div>
         </motion.div>
       ) : (
-        <p className="font-mono text-xs text-[#666666] text-center">
-          error: no resume found
+        <p className="text-text-secondary text-sm text-center">
+          No resume found. Upload one above.
         </p>
       )}
     </div>

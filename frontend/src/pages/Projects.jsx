@@ -1,15 +1,15 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 import ProjectsHero from '../components/ProjectsSection/ProjectsHero'
 import FeaturedProjects from '../components/ProjectsSection/FeaturedProjects'
-import Footer from '../components/Footer'
 import ProjectsCTA from '../components/ProjectsSection/ProjectsCTA'
 
 const Projects = () => {
   return (
-    <div className="bg-[#0a0a0a] text-gray-300 min-h-screen">
+    <div className="min-h-screen bg-background text-text-primary">
       <Navbar />
-      <main className="pt-15 overflow-hidden">
+      <main className="pt-[130px] space-y-20">
         <ProjectsHero />
         <FeaturedProjects />
         <ProjectsCTA />

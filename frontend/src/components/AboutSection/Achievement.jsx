@@ -1,45 +1,47 @@
 import { motion } from "framer-motion";
-import { FaAward, FaProjectDiagram, FaGithub } from "react-icons/fa";
-import AnimatedSection from "../Common/AnimatedSection";
-import TerminalCard from "../Common/TerminalCard";
+import { Card, Badge } from "../Common";
 
 const Achievement = () => {
   const achievements = [
-    { icon: <FaAward />, title: "Certified MERN Developer", color: "#ffb000" },
-    { icon: <FaProjectDiagram />, title: "5+ Completed Projects", color: "#33ff00" },
-    { icon: <FaGithub />, title: "500+ GitHub Commits", color: "#ff3333" }
+    { title: "Certified MERN Developer", description: "Completed full-stack development certification with distinction.", metric: "MERN" },
+    { title: "5+ Completed Projects", description: "Successfully delivered and deployed multiple production-ready applications.", metric: "5+" },
+    { title: "500+ GitHub Commits", description: "Active open-source contributor with consistent development activity.", metric: "500+" },
   ];
 
   return (
-    <AnimatedSection>
-      <section className="py-20 bg-[#0a0a0a]">
-        <div className="max-w-4xl mx-auto px-4">
-          {/* Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              {"//"} ACHIEVEMENTS
-            </h2>
-            <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            {achievements.map((a, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ scale: 1.02 }}
-              >
-                <TerminalCard title="achievement.sh" glowOnHover className="w-64">
-                  <div className="text-4xl mb-3" style={{ color: a.color }}>
-                    {a.icon}
-                  </div>
-                  <h3 className="font-mono text-[#cccccc] text-sm">{a.title}</h3>
-                </TerminalCard>
-              </motion.div>
-            ))}
-          </div>
+    <section className="py-20 sm:py-24 bg-background">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">
+            Milestones
+          </span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-text-primary tracking-tight">
+            Achievements
+          </h2>
         </div>
-      </section>
-    </AnimatedSection>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          {achievements.map((a, idx) => (
+            <Card
+              key={idx}
+              hoverable
+              gradient
+              className="rounded-xl text-center py-6 sm:py-8"
+            >
+              <div className="text-3xl sm:text-4xl font-display font-bold text-primary mb-3">
+                {a.metric}
+              </div>
+              <h3 className="font-display font-semibold text-sm sm:text-base text-text-primary mb-2">
+                {a.title}
+              </h3>
+              <p className="text-text-secondary text-xs sm:text-sm leading-relaxed">
+                {a.description}
+              </p>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 };
 

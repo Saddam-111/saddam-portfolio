@@ -2,9 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaTrash, FaSpinner } from "react-icons/fa";
+import { Card, Badge, Button } from "../Common";
 
-export default function CertificatesManager() {
+const CertificatesManager = () => {
   const { setError } = useContext(AdminContext);
   const [certificates, setCertificates] = useState([]);
   const [file, setFile] = useState(null);
@@ -22,19 +23,15 @@ export default function CertificatesManager() {
     }
   };
 
-  useEffect(() => {
-    fetchCertificates();
-  }, []);
+  useEffect(() => { fetchCertificates(); }, []);
 
   const handleUpload = async () => {
-    if (!file) return alert("Select a file!");
+    if (!file) return;
+    setLoading(true);
     try {
-      setLoading(true);
       const data = new FormData();
       data.append("certificateImage", file);
-      await axios.post("/certificates", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await axios.post("/certificates", data, { headers: { "Content-Type": "multipart/form-data" } });
       setFile(null);
       fetchCertificates();
     } catch (err) {
@@ -46,10 +43,10 @@ export default function CertificatesManager() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this certificate?")) return;
+    setLoading(true);
     try {
-      setLoading(true);
       await axios.delete(`/certificates/${id}`);
-      fetchCertificates();
+      await fetchCertificates();
     } catch (err) {
       setError(err.response?.data?.message || "Delete failed");
     } finally {
@@ -59,69 +56,53 @@ export default function CertificatesManager() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="border border-[#1f521f]">
-        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-          <span className="text-[#33ff00] font-mono text-xs">certificates_manager.sh</span>
-        </div>
-        <div className="p-3">
-          <h3 className="font-mono text-[#33ff00] text-lg">CERTIFICATES_MANAGEMENT</h3>
-        </div>
+      <div>
+        <h3 className="font-display font-semibold text-lg sm:text-xl text-text-primary mb-1">
+          Certificates
+        </h3>
+        <p className="text-text-secondary text-sm">Upload and manage your certificates.</p>
       </div>
 
-      {/* Upload Section */}
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setFile(e.target.files[0])}
-          className="font-mono text-xs text-[#666666] bg-[#0a0a0a] border border-[#1f521f] px-3 py-2"
+          className="flex-1 bg-background border border-border rounded-lg px-3 py-2 text-text-secondary font-mono text-sm"
         />
         <button
           onClick={handleUpload}
-          disabled={loading}
-          className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
+          disabled={!file || loading}
+          className="px-4 py-2 bg-primary text-white font-mono text-xs rounded-lg hover:bg-primary-hover transition-all disabled:opacity-50 whitespace-nowrap"
         >
-          {loading ? "UPLOADING..." : "[ + ] UPLOAD"}
+          {loading ? "Uploading..." : "+ Add Certificate"}
         </button>
       </div>
 
-      {loading && (
-        <p className="font-mono text-xs text-[#ffb000] animate-pulse text-center">
-          $ executing operation...
-        </p>
-      )}
-
-      {/* Certificates Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-        {Array.isArray(certificates) && certificates.length > 0 ? (
-          certificates.map((cert) => (
-            <motion.div
-              key={cert._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="border border-[#1f521f] bg-[#0a0a0a] p-2"
-            >
-              <img
-                src={cert.certificateImage?.url}
-                alt="Certificate"
-                className="w-full h-24 object-cover mb-2 border border-[#1f521f]"
-              />
-              <button
-                onClick={() => handleDelete(cert._id)}
-                disabled={loading}
-                className="w-full font-mono text-xs px-2 py-1 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a]"
-              >
-                [DELETE]
-              </button>
+      {loading && certificates.length === 0 ? (
+        <div className="flex justify-center py-12"><FaSpinner className="animate-spin text-primary text-2xl" /></div>
+      ) : certificates.length === 0 ? (
+        <p className="text-text-secondary text-center py-12">No certificates uploaded yet.</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {certificates.map((cert) => (
+            <motion.div key={cert._id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+              <Card hoverable className="rounded-xl overflow-hidden p-0">
+                <img src={cert.certificateImage?.url} alt="Certificate" className="w-full h-32 object-cover" />
+                <button
+                  onClick={() => handleDelete(cert._id)}
+                  className="absolute top-2 right-2 bg-error/80 text-white p-1 rounded-full hover:bg-error transition-all"
+                  aria-label="Delete certificate"
+                >
+                  <FaTrash className="text-xs" />
+                </button>
+              </Card>
             </motion.div>
-          ))
-        ) : (
-          <p className="font-mono text-xs text-[#666666] col-span-full text-center">
-            error: no certificates found
-          </p>
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default CertificatesManager;

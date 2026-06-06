@@ -1,105 +1,74 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import TerminalText from "../Common/TerminalText";
-import TerminalButton from "../Common/TerminalButton";
+import { Button } from "../Common";
+
+const stats = [
+  { value: "20+", label: "Projects" },
+  { value: "5+", label: "Years Exp" },
+  { value: "50+", label: "Clients" },
+];
 
 const ProjectsHero = () => {
-  const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setShowCursor((v) => !v);
-    }, 530);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section className="relative min-h-[95vh] flex flex-col justify-center items-center text-center bg-[#0a0a0a] overflow-hidden">
-      {/* Scanline Effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-5">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
+    <section className="relative min-h-[60vh] sm:min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden bg-background px-4 sm:px-6">
+      <div className="absolute inset-0 noise-bg" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-primary/5 rounded-full blur-3xl" />
 
-      {/* Terminal Frame */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4">
-        {/* Terminal Header */}
-        <div className="border border-[#1f521f] mb-6">
-          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
+      <div className="relative max-w-4xl mx-auto px-4">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
+        >
+          Portfolio
+        </motion.span>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-tight"
+        >
+          Featured Projects
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-6 text-text-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
+        >
+          A collection of MERN stack applications, interactive web solutions, and freelance projects built with modern UI/UX.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-4 sm:gap-8"
+        >
+          {stats.map((stat, i) => (
+            <div key={i} className="text-center">
+              <span className="block font-display font-bold text-2xl sm:text-3xl text-primary">{stat.value}</span>
+              <span className="text-xs sm:text-sm text-text-secondary font-mono">{stat.label}</span>
             </div>
-            <span className="text-[#33ff00] font-mono text-xs ml-2">
-              projects.sh
-            </span>
-          </div>
-          
-          {/* Content */}
-          <div className="p-8">
-            {/* Heading */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-mono text-[#33ff00] uppercase tracking-wider mb-4" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              <TerminalText text="> MY_PROJECTS" speed={60} />
-            </h1>
+          ))}
+        </motion.div>
 
-            {/* Subtitle - Terminal Command Style */}
-            <div className="mb-8">
-              <span className="text-[#ffb000] font-mono text-xs sm:text-sm">$ cat description.txt</span>
-              <p className="text-gray-400 font-mono mt-3 text-sm sm:text-base md:text-lg lg:text-xl max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4">
-                A showcase of MERN stack applications, interactive web solutions, and freelance projects with modern UI/UX.
-              </p>
-            </div>
-
-            {/* Project Stats */}
-            <div className="flex justify-center gap-4 sm:gap-8 mb-8 sm:mb-10">
-              <div className="text-center">
-                <span className="block text-[#33ff00] font-mono text-2xl sm:text-3xl font-bold">20+</span>
-                <span className="text-gray-500 font-mono text-xs sm:text-sm">Projects</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-[#ffb000] font-mono text-2xl sm:text-3xl font-bold">5+</span>
-                <span className="text-gray-500 font-mono text-xs sm:text-sm">Years Exp</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-[#33ff00] font-mono text-2xl sm:text-3xl font-bold">50+</span>
-                <span className="text-gray-500 font-mono text-xs sm:text-sm">Clients</span>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 px-4">
-              <Link to="/projects">
-                <TerminalButton variant="primary">
-                  EXPLORE_PROJECTS
-                </TerminalButton>
-              </Link>
-              <Link to="/contact">
-                <TerminalButton variant="secondary">
-                  HIRE_ME
-                </TerminalButton>
-              </Link>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="border-t border-[#1f521f] p-2 text-right">
-            <span className="text-[#33ff00] font-mono text-xs">
-              user@portfolio:~$ <span className={showCursor ? "opacity-100" : "opacity-0"}>█</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ASCII Art Decoration */}
-      <div className="absolute bottom-4 left-4 text-[#1f521f] font-mono text-xs hidden md:block opacity-50">
-        <pre>{`
-  _________
- |  _____  |
- | |     | |
- | |_____| |
- |_________|
-        `}</pre>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-10 flex flex-wrap justify-center gap-3"
+        >
+          <Link to="/projects">
+            <Button variant="primary" size="lg">Explore Projects</Button>
+          </Link>
+          <Link to="/contact">
+            <Button variant="outline" size="lg">Get in Touch</Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,84 +1,106 @@
-import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const NavLinkComponent = ({ to, children }) => {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `block w-full px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+          isActive
+            ? "text-primary bg-primary/8"
+            : "text-text-secondary hover:text-text-primary hover:bg-surface-muted"
+        }`
+      }
+    >
+      {children}
+    </NavLink>
+  );
+};
+
+const MobileMenu = ({ links }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="md:hidden"
+    >
+      <details className="relative">
+        <summary className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-muted cursor-pointer list-none text-text-secondary marker:hidden">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M3 5h14M3 10h14M3 15h14"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </summary>
+
+        <motion.div
+          initial={{ opacity: 0, y: -8, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.15 }}
+          className="absolute top-full right-0 mt-2 w-56 bg-surface border border-border rounded-xl shadow-xl p-2 z-50 flex flex-col gap-1"
+        >
+          {links.map((link) => (
+            <NavLinkComponent key={link.name} to={link.path}>
+              {link.name}
+            </NavLinkComponent>
+          ))}
+
+          <div className="h-px bg-border my-1" />
+
+          <a
+            href="/admin"
+            className="block w-full px-3.5 py-2 text-sm font-mono uppercase tracking-widest text-text-secondary hover:text-primary hover:bg-surface-muted rounded-lg transition-all duration-200"
+          >
+            Admin
+          </a>
+        </motion.div>
+      </details>
+    </motion.div>
+  );
+};
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const navLinks = [
-    { name: "HOME", path: "/" },
-    { name: "ABOUT", path: "/about" },
-    { name: "PROJECTS", path: "/projects" },
-    { name: "EXPERIENCE", path: "/experience" },
-    { name: "SKILLS", path: "/skills" },
-    { name: "TESTIMONIALS", path: "/testimonials" },
-    { name: "CONTACT", path: "/contact" },
-    { name: "ADMIN", path: "/admin" },
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+    { name: "Experience", path: "/experience" },
+    { name: "Skills", path: "/skills" },
+    { name: "Contact", path: "/contact" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#0a0a0a] border-b border-[#1f521f]">
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-4 sm:px-6 py-3">
-        {/* Logo - Terminal Style */}
-        <Link to="/" className="text-sm md:text-xl font-mono">
-          <span className="text-[#33ff00]">saddam@dev</span>
-          <span className="text-[#ffb000]">:~$</span>
-          <span className="text-[#1f521f] ml-1">/home</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-border">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <Link
+          to="/"
+          className="font-display font-bold text-2xl text-text-primary hover:text-primary transition-colors"
+        >
+          SADDAM ANSARI<span className="text-primary">.</span>
         </Link>
 
-        {/* Desktop Menu - tablet (lg) and desktop */}
-        <div className="hidden lg:flex items-center gap-1">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              className={({ isActive }) =>
-                `px-2 lg:px-3 py-1.5 font-mono text-xs lg:text-sm transition-all duration-200 border border-transparent ${
-                  isActive
-                    ? "bg-[#33ff00] text-[#0a0a0a] border-[#33ff00]"
-                    : "text-[#33ff00] hover:bg-[#1f521f]/50 hover:border-[#1f521f]"
-                }`
-              }
-            >
+            <NavLinkComponent key={link.name} to={link.path}>
               {link.name}
-            </NavLink>
+            </NavLinkComponent>
           ))}
+
+          <a
+            href="/admin"
+            className="ml-3 px-3 py-1.5 text-xs font-mono uppercase tracking-widest text-text-secondary hover:text-primary border border-border hover:border-primary/30 rounded-lg transition-colors"
+          >
+            Admin
+          </a>
         </div>
 
-        {/* Tablet Menu Button - shows on lg breakpoint */}
-        <button
-          className="lg:hidden text-[#33ff00] font-mono text-xl focus:outline-none p-1"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {/* Mobile/Tablet Menu */}
-      <div
-        className={`lg:hidden absolute left-0 w-full bg-[#0a0a0a] border-b border-[#1f521f] transition-all duration-300 ${
-          menuOpen
-            ? "max-h-screen opacity-100 py-4"
-            : "max-h-0 opacity-0 overflow-hidden"
-        }`}
-      >
-        <div className="flex flex-col items-center space-y-2 px-4">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.name}
-              to={link.path}
-              onClick={() => setMenuOpen(false)}
-              className={({ isActive }) =>
-                `px-4 py-2 font-mono text-sm w-full max-w-[300px] text-center transition-all duration-200 border ${
-                  isActive
-                    ? "bg-[#33ff00] text-[#0a0a0a] border-[#33ff00]"
-                    : "text-[#33ff00] border-[#1f521f] hover:bg-[#1f521f]/50"
-                }`
-              }
-            >
-              {link.name}
-            </NavLink>
-          ))}
-        </div>
+        {/* Mobile Navigation */}
+        <MobileMenu links={navLinks} />
       </div>
     </nav>
   );

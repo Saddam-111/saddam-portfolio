@@ -1,15 +1,13 @@
-import React, { useContext, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion";
+import { useContext, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { AdminContext } from "../../context/AdminContext";
 import { images } from "../../assets/asset";
-import TerminalButton from "../Common/TerminalButton";
-import TerminalText from "../Common/TerminalText";
+import { Button, Badge } from "../Common";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   const { resumes, fetchResumes } = useContext(AdminContext);
-  const controls = useAnimation();
 
   useEffect(() => {
     if (!resumes.length) fetchResumes();
@@ -24,121 +22,93 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col-reverse lg:flex-row justify-center items-center gap-6 lg:gap-10 px-4 md:px-12 py-20 lg:py-0 bg-[#0a0a0a] overflow-hidden relative">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
+    <section className="relative min-h-screen flex items-center overflow-hidden noise-bg">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+      <div className="absolute top-1/4 -right-64 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-float" />
+      <div className="absolute bottom-1/4 -left-64 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }} />
 
-      {/* Left Text Section */}
-      <motion.div
-        initial={{ x: -100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-2xl"
-      >
-        {/* Terminal-style header */}
-        <div className="border border-[#1f521f] mb-6">
-          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-            </div>
-            <span className="text-[#33ff00] font-mono text-xs ml-2">whoami.sh</span>
-          </div>
-          <div className="p-6">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-mono text-[#33ff00] leading-tight" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              <span className="text-[#ffb000]">root@</span>
-              <span className="text-[#33ff00]">portfolio</span>
-              <span className="text-[#666666]">:~$</span>
+<div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <Badge variant="primary" dot size="sm" className="mb-4 sm:mb-6">
+              Available for work
+            </Badge>
+
+            <h1 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-tight leading-[1.1]">
+              Saddam Ansari<span className="text-primary">.</span>
             </h1>
-            
-            <h2 className="text-lg sm:text-xl md:text-2xl font-mono text-[#cccccc] mt-2">
-              HI, I'M <span className="text-[#ffb000]">SADDAM ANSARI</span>
+
+            <h2 className="mt-3 sm:mt-4 text-lg sm:text-xl md:text-2xl text-text-secondary font-medium">
+              MERN Stack Developer
             </h2>
 
-            <p className="font-mono text-sm sm:text-base text-[#999999] mt-4 leading-relaxed">
-              <span className="text-[#33ff00]">const</span> role = <span className="text-[#ffb000]">"MERN Stack Developer"</span>;
-              <br />
-              <span className="text-[#33ff00]">const</span> passion = <span className="text-[#ffb000]">"Building amazing web experiences"</span>;
+            <p className="mt-4 sm:mt-6 text-text-secondary text-sm sm:text-base md:text-lg leading-relaxed max-w-lg">
+              Building scalable full-stack web applications with modern technologies.
+              Focused on clean architecture, performance, and exceptional user experiences.
             </p>
 
-            {/* Buttons */}
-            <div className="mt-6 lg:mt-8 flex flex-wrap gap-3 lg:gap-4 justify-center lg:justify-start">
+            <div className="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-4">
               <Link to="/projects">
-                <TerminalButton variant="primary">
-                  VIEW_PROJECTS
-                </TerminalButton>
+                <Button variant="primary">View Projects</Button>
               </Link>
-              <Link to="/contact">
-                <TerminalButton variant="secondary">
-                  CONTACT_ME
-                </TerminalButton>
+              <Link to="/experience">
+                <Button variant="outline">Experience</Button>
               </Link>
-              <TerminalButton 
-                variant="ghost" 
-                onClick={handleViewResume}
-              >
-                VIEW_RESUME
-              </TerminalButton>
+              <Button variant="ghost" onClick={handleViewResume}>
+                Resume
+              </Button>
             </div>
-          </div>
-        </div>
-      </motion.div>
 
-      {/* Right Image Section - Terminal Frame */}
-      <motion.div
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-        className="relative flex justify-center"
-      >
-        <motion.div
-          animate={{
-            scale: [1, 1.02, 1],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: 4,
-            ease: "easeInOut",
-          }}
-          className="border-2 border-[#1f521f] p-1 w-[200px] sm:w-[240px] md:w-[280px]"
-        >
-          {/* Terminal Header */}
-          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2 bg-[#1f521f]/20">
-            <div className="flex gap-1.5">
-              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#ff3333] rounded-full"></span>
-              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#ffb000] rounded-full"></span>
-              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#33ff00] rounded-full"></span>
+            <div className="mt-8 sm:mt-10 flex items-center gap-4 sm:gap-6">
+              <StatItem value="20+" label="Projects" />
+              <div className="w-px h-6 sm:h-8 bg-border" />
+              <StatItem value="5+" label="Years Exp" />
+              <div className="w-px h-6 sm:h-8 bg-border" />
+              <StatItem value="50+" label="Clients" />
             </div>
-            <span className="text-[#33ff00] font-mono text-xs ml-2 hidden sm:block">profile.png</span>
-          </div>
-          
-          {/* Image */}
-          <motion.div
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 200 }}
-          >
-            <img
-              src={images.profile_img}
-              alt="Saddam Ansari"
-              className="w-full h-48 sm:h-56 md:h-64 object-cover grayscale hover:grayscale-0 transition-all duration-500"
-            />
           </motion.div>
-        </motion.div>
 
-        {/* ASCII decoration */}
-        <div className="absolute -bottom-8 -left-4 text-[#1f521f] font-mono text-xs hidden lg:block">
-          <pre>{`
-   .____.
-   |    |
-   |____|
-          `}</pre>
-        </div>
-      </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 30, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="relative flex items-center justify-center mt-8 lg:mt-0"
+          >
+          <div className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-2xl animate-pulse-glow" />
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full overflow-hidden border-4 border-card shadow-2xl">
+              <img
+                src={images.profile_img}
+                alt="Saddam Ansari"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="absolute -bottom-4 -right-4 bg-card border border-border rounded-xl px-5 py-3 shadow-lg"
+            >
+              <span className="font-mono text-sm">
+                <span className="text-accent">{">"} </span>
+                <span className="text-text-primary">Let's build</span>
+              </span>
+            </motion.div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
+
+const StatItem = ({ value, label }) => (
+  <div>
+    <span className="block font-display font-bold text-2xl text-text-primary">{value}</span>
+    <span className="text-xs text-text-secondary font-mono uppercase tracking-wider">{label}</span>
+  </div>
+);
 
 export default HeroSection;

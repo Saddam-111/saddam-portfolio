@@ -7,28 +7,32 @@ A modern, fully responsive **MERN Stack Portfolio Website** built to showcase pr
 ## 🚀 Features
 
 ### 🌐 **Frontend**
-- Fully responsive UI with a premium, modern design
-- Built using **React + Tailwind CSS**
-- Smooth animations and elegant layout
+- Fully responsive UI with a premium, modern design (Vercel × Linear × Stripe hybrid)
+- Built using **React 19 + Vite + Tailwind CSS v4**
+- Smooth Framer Motion animations and scroll-triggered reveals
 - Sections included:
   - Home
   - About
   - Skills
   - Experience
-  - Projects (with filters)
+  - Projects (with category filters)
   - Testimonials
   - Contact Form
-- Reusable components and clean code architecture
+- Reusable design system with consistent components
+- WCAG AA accessible with keyboard navigation and focus states
 
 ### 🔐 **Admin Panel**
-- Secure login system
+- Secure JWT-based login with "Remember Me"
 - Manage everything from one dashboard:
   - Add / Edit / Delete **Projects**
   - Add / Edit / Delete **Skills**
   - Add / Edit / Delete **Experience**
-- Image uploads using **Cloudinary**
-- Toast notifications & loading states
+  - Add / Edit / Delete **Certificates**
+  - Upload / Delete **Resume**
+  - View / Delete **Contact Messages**
+- Image uploads via multipart/form-data
 - Modal-based forms for CRUD operations
+- Collapsible sidebar with mobile support
 
 ### 🛠️ **Backend**
 - Built with **Node.js + Express**
@@ -37,42 +41,47 @@ A modern, fully responsive **MERN Stack Portfolio Website** built to showcase pr
   - Projects
   - Skills
   - Experience
+  - Certificates
+  - Messages
+  - Resume
 - JWT-based authentication for Admin
-- Cloudinary integration for image upload storage
+- File upload support
 
 ---
 
 ## 📂 Project Structure
 
 ```
-/client        -> React Frontend
-/server        -> Node.js Backend
+/frontend      -> React Frontend (Vite + Tailwind CSS)
+/server        -> Node.js Backend (Express + MongoDB)
 ```
 
 Key folders:
-- `client/src/components/` – All UI components  
-- `client/src/pages/` – Page layouts  
-- `server/routes/` – Backend routes  
-- `server/models/` – Mongoose schemas  
-- `server/controllers/` – API logic  
+- `frontend/src/components/` – Reusable UI components & page sections
+- `frontend/src/pages/` – Route-level page components
+- `frontend/src/context/` – React Context for global state
+- `frontend/src/utils/` – Axios client with interceptors
+- `server/routes/` – Backend routes
+- `server/models/` – Mongoose schemas
+- `server/controllers/` – API logic
 
 ---
 
 ## 🧰 Tech Stack
 
 ### **Frontend**
-- React  
-- Tailwind CSS  
-- Axios  
-- React Router  
-- Cloudinary upload widget  
+- React 19 + Vite 7
+- Tailwind CSS v4
+- Framer Motion
+- React Router DOM v7
+- Axios
+- React Icons
 
 ### **Backend**
-- Node.js  
-- Express.js  
-- MongoDB + Mongoose  
-- Cloudinary  
+- Node.js + Express.js
+- MongoDB + Mongoose
 - JSON Web Token (JWT)
+- Multer / FormData for file uploads
 
 ---
 
@@ -81,12 +90,12 @@ Key folders:
 ### 1️⃣ Clone repository
 ```bash
 git clone <your-repo-link>
-cd saddam-portfolio
+cd portfolio
 ```
 
 ### 2️⃣ Install frontend dependencies
 ```bash
-cd client
+cd frontend
 npm install
 npm run dev
 ```
@@ -107,19 +116,27 @@ Create a `.env` file inside `/server`:
 ```
 MONGO_URL=your_mongodb_url
 JWT_SECRET=your_secret
-CLOUDINARY_CLOUD_NAME=xxx
-CLOUDINARY_API_KEY=xxx
-CLOUDINARY_API_SECRET=xxx
+PORT=5000
+```
+
+Create a `.env` file inside `/frontend`:
+
+```
+VITE_API_URL=http://localhost:5000
 ```
 
 ---
 
 ## 📸 Screenshots
 
-<img width="1920" height="1080" alt="Screenshot 2025-11-15 151059" src="https://github.com/user-attachments/assets/c1f9cef3-13a7-4a82-b8c1-dd8292702aa2" />
-<img width="1920" height="1080" alt="Screenshot 2025-11-15 151139" src="https://github.com/user-attachments/assets/477f118a-d5ff-4679-a549-37ff07324444" />
-<img width="1920" height="1080" alt="Screenshot 2025-11-15 151152" src="https://github.com/user-attachments/assets/dd044903-c868-4582-bf27-9104bd14ffd0" />
-<img width="1920" height="1080" alt="Screenshot 2025-11-15 151203" src="https://github.com/user-attachments/assets/6c458080-f38d-4dbb-9f3e-92954730e0eb" />
+**Home Page**
+<img width="1920" height="1080" alt="Home" src="https://github.com/user-attachments/assets/placeholder" />
+
+**Projects Page**
+<img width="1920" height="1080" alt="Projects" src="https://github.com/user-attachments/assets/placeholder" />
+
+**Admin Dashboard**
+<img width="1920" height="1080" alt="Admin" src="https://github.com/user-attachments/assets/placeholder" />
 
 ---
 
@@ -127,14 +144,13 @@ CLOUDINARY_API_SECRET=xxx
 
 If you want to connect or check other projects:
 
-**Saddam Ansari**  
-- GitHub: https://github.com/Saddam-111  
-- LinkedIn: https://linkedin.com/in/saddam11  
-- Portfolio Link: https://saddam-portfolio-ten.vercel.app
+**Saddam Ansari**
+- GitHub: https://github.com/Saddam-111
+- LinkedIn: https://linkedin.com/in/saddam11
+- Email: saddam6389046@gmail.com
 
 ---
 
 ## ⭐ Show Your Support
 
 If you like this project, consider giving it a ⭐ on GitHub!
-

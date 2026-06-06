@@ -1,66 +1,99 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useLayoutEffect, useRef } from "react";
+import { motion, useAnimationFrame } from "framer-motion";
 import { Link } from "react-router-dom";
-import TerminalCard from "../Common/TerminalCard";
+import { images } from "../../assets/asset";
+import { SectionHeader, Button } from "../Common";
 
 const skills = [
-  { name: "React.js", color: "#61dafb" },
-  { name: "Node.js", color: "#68a063" },
-  { name: "MongoDB", color: "#47a248" },
-  { name: "Express", color: "#000000" },
-  { name: "Tailwind CSS", color: "#06b6d4" },
-  { name: "JavaScript", color: "#f7df1e" },
-  { name: "TypeScript", color: "#3178c6" },
-  { name: "Python", color: "#3776ab" },
-  { name: "C++", color: "#00599c" },
-  { name: "MySQL", color: "#4479a1" },
-  { name: "Git", color: "#f05032" },
-  { name: "Docker", color: "#2496ed" },
+  "MERN Stack",
+  "React.js",
+  "Node.js",
+  "MongoDB",
+  "Express.js",
+  "Tailwind CSS",
+  "JavaScript",
+  "TypeScript",
 ];
 
-const SkillsSection = () => {
+const ExpertiseSection = () => {
+  const textRefs = useRef([]);
+  const containerRef = useRef(null);
+  const [center, setCenter] = React.useState({ x: 0, y: 0 });
+  const [radius, setRadius] = React.useState(140);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      setCenter({ x: rect.width / 2, y: rect.height / 2 });
+      setRadius(Math.max(60, Math.min(rect.width, rect.height) / 2 - 40));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useAnimationFrame((t) => {
+    const speed = 0.0006;
+    textRefs.current.forEach((el, i) => {
+      if (!el || !containerRef.current) return;
+      const base = (i * (2 * Math.PI)) / skills.length;
+      const angle = speed * t + base;
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      el.style.left = `${center.x}px`;
+      el.style.top = `${center.y}px`;
+      el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+    });
+  });
+
   return (
-    <section className="py-20 bg-[#0a0a0a]">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-            {"//"} SKILLS
-          </h2>
-          <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
-        </div>
+    <section className="py-20 sm:py-24 bg-background relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          label="Expertise"
+          title="Skills & technologies"
+          subtitle="A glimpse into my technical toolkit and areas of specialization."
+          align="center"
+        />
 
-        {/* Infinite scroll container - Terminal style */}
-        <div className="relative w-full overflow-hidden py-4">
-          <motion.div
-            className="flex gap-8 w-max"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{
-              ease: "linear",
-              duration: 25,
-              repeat: Infinity,
-            }}
+        <div className="relative flex items-center justify-center min-h-[360px] sm:min-h-[400px]">
+          <div
+            ref={containerRef}
+            className="absolute w-[280px] h-[280px] sm:w-[340px] sm:h-[340px]"
+            style={{ pointerEvents: "none" }}
           >
-            {[...skills, ...skills].map((skill, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.1, textShadow: `0 0 10px ${skill.color}` }}
-                className="flex items-center gap-2 font-mono text-lg whitespace-nowrap"
+            {skills.map((text, i) => (
+              <span
+                key={i}
+                ref={(el) => (textRefs.current[i] = el)}
+                className="absolute font-mono text-xs sm:text-sm text-text-secondary whitespace-nowrap"
+                style={{ left: "50%", top: "50%" }}
               >
-                <span style={{ color: skill.color }}>●</span>
-                <span className="text-[#cccccc]">{skill.name}</span>
-              </motion.div>
+                [{text}]
+              </span>
             ))}
-          </motion.div>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center gap-4">
+            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl">
+              <img
+                src={images.profile_img}
+                alt="Saddam Ansari"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span className="font-display font-semibold text-lg text-text-primary">
+              Saddam Ansari
+            </span>
+            <span className="font-mono text-xs text-text-secondary">Full Stack Developer</span>
+          </div>
         </div>
 
-        {/* View More Link */}
-        <div className="mt-8 text-center">
-          <Link
-            to="/skills"
-            className="text-[#33ff00] font-mono text-sm hover:text-[#ffb000] transition-colors"
-          >
-            [ EXPLORE_MORE_SKILLS ]
+        <div className="mt-10 flex justify-center">
+          <Link to="/skills">
+            <Button variant="primary">View All Skills</Button>
           </Link>
         </div>
       </div>
@@ -68,4 +101,4 @@ const SkillsSection = () => {
   );
 };
 
-export default SkillsSection;
+export default ExpertiseSection;

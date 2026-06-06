@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AdminContext } from "../../context/AdminContext";
-import AnimatedSection from "../Common/AnimatedSection";
-import { TerminalCard, TerminalFilter, TerminalModal, TerminalText } from "../Common/TerminalComponents";
 import { motion } from "framer-motion";
+import { AdminContext } from "../../context/AdminContext";
+import { SectionHeader, Badge, Button } from "../Common";
+import ProjectModal from "./ProjectModal";
 
 const FeaturedProjects = () => {
   const { projects, fetchProjects, loading } = useContext(AdminContext);
@@ -10,151 +10,130 @@ const FeaturedProjects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    if (!projects || projects.length === 0) {
-      fetchProjects();
-    }
+    if (!projects || projects.length === 0) fetchProjects();
   }, [projects, fetchProjects]);
 
-  const categories = ["All", ...new Set(projects.map((p) => p.category))];
-  const filteredProjects =
-    filter === "All" ? projects : projects.filter((p) => p.category === filter);
+  const categories = ["All", ...new Set(projects.map((p) => p.category).filter(Boolean))];
+  const filteredProjects = filter === "All" ? projects : projects.filter((p) => p.category === filter);
 
   if (loading) {
     return (
-      <section className="py-20 bg-[#0a0a0a] text-center">
-        <div className="max-w-6xl mx-auto px-4">
-          <TerminalCard title="loading_projects.sh">
-            <TerminalText text="Fetching repository data..." />
-          </TerminalCard>
+      <section className="py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeader title="Projects" subtitle="Loading..." align="center" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="animate-pulse bg-card rounded-2xl h-80 border border-border" />
+            ))}
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <AnimatedSection>
-      <section className="py-20 bg-[#0a0a0a]">
-        <div className="max-w-6xl mx-auto px-4">
-          {/* Header */}
-          <div className="mb-6 sm:mb-8">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-mono text-[#33ff00] uppercase tracking-wider mb-2">
-              <TerminalText text="> FEATURED_PROJECTS" speed={40} />
-            </h2>
-            <div className="text-[#1f521f] border-b border-[#1f521f] w-full"></div>
-          </div>
+    <section className="py-20 sm:py-28 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          label="Projects"
+          title="All Projects"
+          subtitle="A selection of my recent work and experiments."
+          align="left"
+        />
 
-          {/* Filters */}
-          <TerminalFilter 
-            categories={categories} 
-            onFilter={setFilter} 
-            activeFilter={filter}
-          />
+        <div className="flex flex-wrap gap-2 mb-10">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                filter === cat
+                  ? "bg-primary text-white shadow-lg shadow-primary/25"
+                  : "bg-card border border-border text-text-secondary hover:text-text-primary hover:border-text-secondary/40"
+              }`}
+              aria-pressed={filter === cat}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
-          {/* Desktop Grid - shows on lg and above */}
-          <div className="hidden lg:grid lg:grid-cols-3 gap-3 sm:gap-4">
+        {filteredProjects.length === 0 ? (
+          <p className="text-text-secondary text-center py-12">No projects in this category yet.</p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project, idx) => (
               <motion.div
-                key={idx}
+                key={project._id || idx}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
               >
-                <TerminalCard
-                  title={project.category || "PROJECT"}
-                  glowOnHover
+                <div
                   onClick={() => setSelectedProject(project)}
+                  className="bg-card border border-border rounded-2xl overflow-hidden cursor-pointer group hover:shadow-xl hover:shadow-primary/5 transition-all h-full flex flex-col"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && setSelectedProject(project)}
                 >
-                  {project.image && (
-                    <div className="mb-2 sm:mb-3 border border-[#1f521f] p-1">
+                  {project.thumbnail?.url ? (
+                    <div className="relative h-44 overflow-hidden">
                       <img
-                        src={project.image}
+                        src={project.thumbnail.url}
                         alt={project.title}
-                        className="w-full h-32 sm:h-40 object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
+                    </div>
+                  ) : (
+                    <div className="h-44 bg-card flex items-center justify-center">
+                      <span className="font-mono text-sm text-text-secondary">[ No Preview ]</span>
                     </div>
                   )}
-                  <h3 className="text-sm sm:text-lg font-mono text-[#33ff00] mb-1 sm:mb-2 uppercase">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-400 font-mono text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
-                    {project.description
-                      ? project.description.split(" ").slice(0, 20).join(" ") +
-                        (project.description.split(" ").length > 20 ? "..." : "")
-                      : ""}
-                  </p>
-                  <div className="flex flex-wrap gap-1 sm:gap-2 mt-2 sm:mt-3">
-                    {project.techStack?.slice(0, 3).map((tech, i) => (
-                      <span
-                        key={i}
-                        className="font-mono text-xs text-[#ffb000] border border-[#ffb000] px-1.5 sm:px-2 py-0.5"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.techStack?.length > 3 && (
-                      <span className="font-mono text-xs text-gray-500">
-                        +{project.techStack.length - 3}
-                      </span>
+
+                  <div className="p-5 flex-1 flex flex-col">
+                    {project.category && (
+                      <Badge variant="default" size="sm" className="self-start mb-3">
+                        {project.category}
+                      </Badge>
+                    )}
+                    <h3 className="font-display font-semibold text-lg text-text-primary mb-2 group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-text-secondary text-sm leading-relaxed line-clamp-2 mb-4 flex-1">
+                      {project.description || "A modern web application built with the MERN stack."}
+                    </p>
+                    {project.techStack && project.techStack.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.techStack.slice(0, 4).map((tech, i) => (
+                          <span
+                            key={i}
+                            className="font-mono text-[11px] text-text-secondary bg-card/80 border border-border px-2 py-0.5 rounded"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {project.techStack.length > 4 && (
+                          <span className="font-mono text-[11px] text-text-secondary">
+                            +{project.techStack.length - 4}
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
-                </TerminalCard>
+                </div>
               </motion.div>
             ))}
           </div>
+        )}
 
-          {/* Tablet & Mobile Carousel - Terminal Style */}
-          <div className="lg:hidden mt-6 sm:mt-8">
-            <div className="text-[#33ff00] font-mono text-xs sm:text-sm mb-3 sm:mb-4">
-              user@portfolio:~/projects$ ls -la
-            </div>
-            <div className="flex overflow-x-auto gap-3 sm:gap-4 pb-3 sm:pb-4 scrollbar-hide px-1">
-              {filteredProjects.map((project, idx) => (
-                <div key={idx} className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] flex-shrink-0">
-                  <TerminalCard
-                    title={project.category || "PROJECT"}
-                    glowOnHover
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    {project.image && (
-                      <div className="mb-2 sm:mb-3 border border-[#1f521f] p-1">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-28 sm:h-32 md:h-40 object-cover grayscale hover:grayscale-0 transition-all duration-300"
-                        />
-                      </div>
-                    )}
-                    <h3 className="text-sm sm:text-lg font-mono text-[#33ff00] mb-1 sm:mb-2 uppercase">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-400 font-mono text-xs sm:text-sm line-clamp-2">
-                      {project.description}
-                    </p>
-                  </TerminalCard>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Empty State */}
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-12">
-              <span className="text-[#ff3333] font-mono text-lg">
-                error: no projects found in this category
-              </span>
-            </div>
-          )}
-
-          {selectedProject && (
-            <TerminalModal
-              project={selectedProject}
-              isOpen={!!selectedProject}
-              onClose={() => setSelectedProject(null)}
-            />
-          )}
-        </div>
-      </section>
-    </AnimatedSection>
+        {selectedProject && (
+          <ProjectModal project={selectedProject} isOpen={!!selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </div>
+    </section>
   );
 };
 

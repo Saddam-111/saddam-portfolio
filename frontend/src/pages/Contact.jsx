@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import ContactHero from '../components/ContactSection/ContactHero'
@@ -8,9 +8,9 @@ import ContactCTA from '../components/ContactSection/ContactCTA'
 
 const Contact = () => {
   return (
-    <div className="bg-[#0a0a0a] text-[#cccccc] min-h-screen">
+    <div className="min-h-screen bg-background text-text-primary">
       <Navbar />
-      <main className="pt-15 overflow-hidden">
+      <main>
         <ContactHero />
         <ContactForm />
         <ContactMap />

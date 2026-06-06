@@ -1,103 +1,63 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../components/Common";
 
 const ResumeView = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const resumeUrl =
-    location.state?.resumeUrl ||
-    new URLSearchParams(location.search).get("url");
+    location.state?.resumeUrl || new URLSearchParams(location.search).get("url");
 
   if (!resumeUrl) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4">
-        <div className="border border-[#1f521f] max-w-md w-full">
-          <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-            </div>
-            <span className="text-[#33ff00] font-mono text-xs ml-2">error.sh</span>
-          </div>
-          <div className="p-8 text-center">
-            <h2 className="font-mono text-xl text-[#ff3333] mb-4">ERROR</h2>
-            <p className="font-mono text-sm text-[#666666] mb-6">
-              error: no resume found in memory
-            </p>
-            <button
-              onClick={() => navigate(-1)}
-              className="font-mono text-xs px-4 py-2 border border-[#33ff00] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a]"
-            >
-              [ GO_BACK ]
-            </button>
-          </div>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="bg-surface border border-border rounded-2xl max-w-md w-full p-8 text-center">
+          <div className="text-4xl mb-4">📄</div>
+          <h2 className="font-display font-bold text-xl text-text-primary mb-2">No Resume Found</h2>
+          <p className="text-text-secondary text-sm mb-6">
+            No resume URL was provided. Please navigate from a valid link.
+          </p>
+          <Button variant="outline" onClick={() => navigate(-1)}>Go Back</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="relative w-full h-screen bg-[#0a0a0a] text-[#cccccc] overflow-hidden">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
-
-      {/* Terminal-style Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a] border-b border-[#1f521f]">
-        <div className="flex items-center justify-between px-4 py-2">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1.5">
-              <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-              <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-            </div>
-            <span className="text-[#33ff00] font-mono text-xs ml-2">resume_viewer.sh</span>
-          </div>
-          
-          <button
-            onClick={() => navigate(-1)}
-            className="font-mono text-xs text-[#33ff00] hover:text-[#ffb000] transition-colors"
-          >
-            [ × ] CLOSE
-          </button>
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-border">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 h-14">
+          <span className="font-mono text-xs text-text-secondary">resume.pdf</span>
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)}>Close ✕</Button>
         </div>
-      </div>
+      </header>
 
-      {/* Resume Viewer */}
-      <div className="flex items-center justify-center w-full h-full pt-10">
-        <div className="relative w-full h-[calc(100vh-48px)] flex items-center justify-center overflow-hidden">
-          {/* Resume Image */}
+      <div className="flex-1 flex items-center justify-center w-full pt-14">
+        <div className="w-full max-w-5xl px-4 py-8">
+          {loading && (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+              <p className="font-mono text-sm text-text-secondary">Loading resume...</p>
+            </div>
+          )}
+          {error && (
+            <div className="text-center py-20">
+              <p className="text-error font-mono text-sm">Failed to load resume.</p>
+              <Button variant="outline" className="mt-4" onClick={() => navigate(-1)}>Go Back</Button>
+            </div>
+          )}
           <img
             src={resumeUrl}
             alt="Resume"
             onLoad={() => setLoading(false)}
-            className="max-w-full max-h-full object-contain"
+            onError={() => { setLoading(false); setError(true); }}
+            className="w-full h-auto rounded-xl shadow-lg border border-border"
+            style={{ display: loading ? "none" : "block" }}
           />
-
-          {/* Loading */}
-          {loading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/90 z-10">
-              <div className="border-2 border-[#1f521f] border-t-[#33ff00] w-10 h-10 rounded-full animate-spin"></div>
-              <p className="font-mono text-xs text-[#33ff00] mt-4">
-                $ loading resume...
-              </p>
-            </div>
-          )}
         </div>
-      </div>
-
-      {/* Bottom Status Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1f521f] px-4 py-1 flex justify-between items-center">
-        <span className="font-mono text-xs text-[#666666]">
-          FILE: resume.pdf
-        </span>
-        <span className="font-mono text-xs text-[#33ff00]">
-          user@portfolio:~$ _
-        </span>
       </div>
     </div>
   );

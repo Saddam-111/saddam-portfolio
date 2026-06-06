@@ -1,117 +1,60 @@
 import React from "react";
 import { motion } from "framer-motion";
-import TerminalText from "../Common/TerminalText";
+import { SectionHeader, Card, Badge, Button } from "../Common";
 
 const stats = [
-  { label: "10+ Awards", value: "10" },
-  { label: "50+ Happy Clients", value: "50" },
-  { label: "100+ Reviews", value: "100" },
+  { label: "Awards", value: "10+" },
+  { label: "Happy Clients", value: "50+" },
+  { label: "Reviews", value: "100+" },
 ];
 
 const TestimonialsHero = () => {
   return (
-    <section className="relative min-h-[70vh] flex flex-col justify-center items-center text-center overflow-hidden bg-[#0a0a0a] px-6">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
+    <section className="relative min-h-[50vh] sm:min-h-[60vh] flex flex-col justify-center items-center text-center overflow-hidden bg-background px-4 sm:px-6">
+      <div className="absolute inset-0 noise-bg" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-primary/5 rounded-full blur-3xl" />
 
-      {/* Floating Labels - Terminal style */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {stats.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{
-              y: [20, -20, 20],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              delay: index * 0.3,
-              ease: "easeInOut",
-            }}
-            className="absolute font-mono text-xs text-[#1f521f]"
-            style={{
-              top: `${20 + index * 25}%`,
-              left: `${10 + index * 25}%`,
-            }}
-          >
-            [{item.label}]
-          </motion.div>
-        ))}
-      </div>
+      <div className="relative max-w-4xl mx-auto px-4">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
+        >
+          Testimonials
+        </motion.span>
 
-      {/* Terminal Frame */}
-      <div className="border border-[#1f521f] max-w-4xl w-full">
-        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-          </div>
-          <span className="text-[#33ff00] font-mono text-xs ml-2">testimonials.sh</span>
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-tight"
+        >
+          What Clients Say<span className="text-primary">.</span>
+        </motion.h1>
 
-        <div className="p-8">
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Quote Icon - Terminal style */}
-            <div className="text-5xl text-[#1f521f] mb-4 font-mono">
-              ""
-            </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-4 text-text-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
+        >
+          Words of appreciation and recognition from clients and colleagues,
+          reflecting the dedication and quality I bring to every project.
+        </motion.p>
 
-            {/* Title */}
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              <TerminalText text="> TESTIMONIALS_&_ACHIEVEMENTS" speed={40} />
-            </h1>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
-            >
-              Words of appreciation and recognition from my clients and colleagues, reflecting the dedication, quality and innovation I bring to every project.
-            </motion.p>
-
-            {/* ASCII Divider */}
+        <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-4 sm:gap-6 max-w-lg mx-auto">
+          {stats.map((stat, i) => (
             <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              className="mx-auto mt-6 text-[#1f521f] font-mono text-xs"
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.1 }}
+              className="text-center"
             >
-              {"═══════════════════════════════════"}
+              <span className="block font-display font-bold text-xl sm:text-2xl text-primary">{stat.value}</span>
+              <span className="text-xs sm:text-sm text-text-secondary font-mono uppercase tracking-wider">{stat.label}</span>
             </motion.div>
-
-            {/* Stats - Terminal style grid */}
-            <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-2 sm:gap-4">
-              {stats.map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 + i * 0.2 }}
-                  className="border border-[#1f521f] p-2 sm:p-4"
-                >
-                  <span className="block text-xl sm:text-2xl font-mono text-[#ffb000]">{item.value}+</span>
-                  <span className="font-mono text-xs text-[#666666]">{item.label}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Footer */}
-        <div className="border-t border-[#1f521f] p-2 text-right">
-          <span className="font-mono text-xs text-[#33ff00]">user@testimonials:~$ _</span>
+          ))}
         </div>
       </div>
     </section>

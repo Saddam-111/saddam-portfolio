@@ -1,9 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import axios from "../../utils/api";
-import AnimatedSection from "../Common/AnimatedSection";
-import TerminalCard from "../Common/TerminalCard";
-import TerminalInput from "../Common/TerminalInput";
-import TerminalButton from "../Common/TerminalButton";
+import { Input, TextArea, Button } from "../Common";
 
 const ContactForm = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -13,15 +11,14 @@ const ContactForm = () => {
 
   const validate = () => {
     const temp = {};
-    if (!form.name) temp.name = "Name is required";
-    if (!form.email) temp.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(form.email)) temp.email = "Email is invalid";
-    if (!form.message) temp.message = "Message cannot be empty";
+    if (!form.name.trim()) temp.name = "Name is required";
+    if (!form.email.trim()) temp.email = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(form.email)) temp.email = "Please enter a valid email";
+    if (!form.message.trim()) temp.message = "Message cannot be empty";
+    else if (form.message.trim().length < 10) temp.message = "Message must be at least 10 characters";
     setErrors(temp);
     return Object.keys(temp).length === 0;
   };
-
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,80 +32,88 @@ const ContactForm = () => {
       setForm({ name: "", email: "", message: "" });
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.message || "Failed to send message");
+      setErrors({ submit: err.response?.data?.message || "Failed to send message. Please try again." });
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <AnimatedSection>
-      <section className="py-20 bg-[#0a0a0a]">
-        <div className="max-w-2xl mx-auto px-4">
-          <TerminalCard title="contact_form.sh">
-            <h2 className="text-xl font-mono text-[#33ff00] uppercase tracking-wider mb-6" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              {"//"} SEND_MESSAGE
-            </h2>
-            
-            <form onSubmit={handleSubmit}>
-              <TerminalInput
-                label="name"
-                placeholder="Your Name"
-                value={form.name}
-                onChange={handleChange}
-              />
-              {errors.name && (
-                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
-                  error: {errors.name}
-                </span>
-              )}
-
-              <TerminalInput
-                type="email"
-                label="email"
-                placeholder="your@email.com"
-                value={form.email}
-                onChange={handleChange}
-              />
-              {errors.email && (
-                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
-                  error: {errors.email}
-                </span>
-              )}
-
-              <TerminalInput
-                type="textarea"
-                label="message"
-                placeholder="Your message here..."
-                value={form.message}
-                onChange={handleChange}
-              />
-              {errors.message && (
-                <span className="font-mono text-xs text-[#ff3333] block -mt-2 mb-3">
-                  error: {errors.message}
-                </span>
-              )}
-
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-4">
-                <TerminalButton variant="primary" disabled={loading}>
-                  {loading ? "SENDING..." : "SEND_MESSAGE"}
-                </TerminalButton>
-
-                {submitted && (
-                  <span className="font-mono text-sm text-[#33ff00]">
-                    ✓ message sent successfully
-                  </span>
-                )}
-              </div>
-            </form>
-
-            <div className="mt-4 font-mono text-xs text-[#666666]">
-              <span className="text-[#ffb000]">$</span> Press enter to submit
-            </div>
-          </TerminalCard>
+    <section className="py-20 sm:py-24 bg-background">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">Contact</span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-text-primary tracking-tight">
+            Send me a message
+          </h2>
+          <p className="mt-4 text-text-secondary text-sm sm:text-base">
+            I'd love to hear from you. Fill out the form below and I'll get back to you as soon as possible.
+          </p>
         </div>
-      </section>
-    </AnimatedSection>
+
+<motion.div
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true, margin: "-40px" }}
+           className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm"
+         >
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <Input
+              label="Full Name"
+              placeholder="Your name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              error={errors.name}
+              required
+            />
+
+            <Input
+              type="email"
+              label="Email Address"
+              placeholder="your@email.com"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              error={errors.email}
+              required
+            />
+
+            <TextArea
+              label="Message"
+              placeholder="Tell me about your project or opportunity..."
+              rows={5}
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              error={errors.message}
+              required
+            />
+
+            {errors.submit && (
+              <p className="text-sm text-error font-mono">{errors.submit}</p>
+            )}
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-auto"
+              isLoading={loading}
+            >
+              Send Message
+            </Button>
+
+            {submitted && (
+              <motion.p
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-success font-mono"
+              >
+                ✓ Message sent successfully! I'll get back to you soon.
+              </motion.p>
+            )}
+          </form>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 

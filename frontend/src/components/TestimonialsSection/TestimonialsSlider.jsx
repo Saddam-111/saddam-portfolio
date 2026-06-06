@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import TerminalCard from "../Common/TerminalCard";
+import { Badge } from "../Common";
 
 const testimonials = [
-  { name: "Akash Tripathi", role: "CEO, Vedseem Info Tech", message: "Saddam built our e-commerce site flawlessly!" },
-  { name: "Dipendra Soni", role: "CMO, Vedseem Info Tech", message: "Exceptional MERN stack development skills!" },
+  {
+    name: "Akash Tripathi",
+    role: "CEO, Vedseem Info Tech",
+    message: "Saddam built our e-commerce site flawlessly! Exceptional attention to detail and performance.",
+  },
+  {
+    name: "Dipendra Soni",
+    role: "CMO, Vedseem Info Tech",
+    message: "Outstanding MERN stack development skills. Delivered the project ahead of schedule with excellent quality.",
+  },
 ];
 
 const TestimonialsSlider = () => {
@@ -18,50 +26,51 @@ const TestimonialsSlider = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-[#0a0a0a]">
-      <div className="max-w-3xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-            {"//"} WHAT_CLIENTS_SAY
+    <section className="py-20 sm:py-24 bg-background">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">Testimonials</span>
+          <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-text-primary tracking-tight">
+            What Clients Say
           </h2>
-          <div className="text-[#1f521f] border-b border-[#1f521f] w-full mt-2"></div>
         </div>
 
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="relative"
           >
-            <TerminalCard title="testimonial.sh" className="text-center">
-              <div className="font-mono text-lg text-[#cccccc] italic mb-4">
-                "{testimonials[current].message}"
+            <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm">
+              <div className="text-4xl sm:text-5xl text-primary/20 mb-4 font-display">"</div>
+              <p className="text-text-primary text-base sm:text-lg leading-relaxed mb-6">
+                {testimonials[current].message}
+              </p>
+              <div>
+                <p className="font-display font-semibold text-text-primary">
+                  {testimonials[current].name}
+                </p>
+                <p className="text-sm text-text-secondary">
+                  {testimonials[current].role}
+                </p>
               </div>
-              <div className="text-[#33ff00] font-mono">
-                {testimonials[current].name}
-              </div>
-              <div className="font-mono text-xs text-[#666666]">
-                @ {testimonials[current].role}
-              </div>
-            </TerminalCard>
+            </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation dots - Terminal style */}
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-8">
           {testimonials.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrent(idx)}
-              className={`font-mono text-xs transition-colors ${
-                current === idx ? "text-[#33ff00]" : "text-[#1f521f]"
+              className={`w-2.5 h-2.5 rounded-full transition-all ${
+                current === idx ? "bg-primary w-8" : "bg-border hover:bg-text-secondary/30"
               }`}
-            >
-              [{idx + 1}]
-            </button>
+              aria-label={`Go to testimonial ${idx + 1}`}
+            />
           ))}
         </div>
       </div>

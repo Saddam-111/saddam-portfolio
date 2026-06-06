@@ -1,48 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
+import { Card, Button } from "../Common";
 import { Link } from "react-router-dom";
-import TerminalCard from "../Common/TerminalCard";
-import TerminalButton from "../Common/TerminalButton";
 
 const ContactSection = () => {
-  const [showCursor, setShowCursor] = useState(true);
-
-  useEffect(() => {
-    const timer = setInterval(() => setShowCursor(v => !v), 530);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section className="py-20 bg-[#0a0a0a]">
-      <div className="max-w-4xl mx-auto px-4">
-        <TerminalCard title="contact.sh">
-          <div className="text-center">
-            <motion.h2
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="text-2xl md:text-3xl font-mono text-[#33ff00] uppercase tracking-wider mb-4"
-              style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}
-            >
-              <span className="text-[#ffb000]">$</span> LET'S_BUILD_SOMETHING_GREAT
-            </motion.h2>
+    <section className="py-20 sm:py-28 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
 
-            <p className="font-mono text-[#999999] mb-8 max-w-xl mx-auto leading-relaxed">
-              Have an idea or project in mind? Let's collaborate and make it happen. 
-              Your vision, my expertise—let's create magic.
-            </p>
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
+        >
+          Get in Touch
+        </motion.span>
 
-            <Link to="/contact">
-              <TerminalButton variant="primary">
-                CONTACT_ME
-              </TerminalButton>
-            </Link>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-text-primary tracking-tight mb-6"
+        >
+          Let's build something{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+            great
+          </span>
+        </motion.h2>
 
-            <div className="mt-6 font-mono text-xs text-[#666666]">
-              user@portfolio:~$ <span className={showCursor ? "text-[#33ff00]" : "opacity-0"}>█</span>
-            </div>
-          </div>
-        </TerminalCard>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-text-secondary text-lg max-w-2xl mx-auto leading-relaxed mb-10"
+        >
+          Have a project in mind or just want to connect? I'm always open to discussing new opportunities and ideas.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-wrap justify-center gap-4"
+        >
+          <Link to="/contact">
+            <Button variant="primary" size="lg">Get in Touch</Button>
+          </Link>
+          <Link to="/projects">
+            <Button variant="outline" size="lg">View Projects</Button>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );

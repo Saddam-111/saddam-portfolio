@@ -1,28 +1,72 @@
-import React, { useState } from "react";
-import {
-  Link,
-  useNavigate,
-  Outlet,
-  useLocation,
-} from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   FaSignOutAlt,
   FaProjectDiagram,
   FaEnvelope,
   FaCogs,
   FaCertificate,
-  FaBriefcase,
   FaFileAlt,
-  FaHome
+  FaBars,
+  FaUsers,
+  FaBriefcase,
+  FaChartBar,
 } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { AdminContext } from "../../context/AdminContext";
+import axios from "../../utils/api";
 
-export default function AdminDashboard() {
+const menuItems = [
+  { name: "Dashboard", icon: <FaChartBar />, path: "" },
+  { name: "Projects", icon: <FaProjectDiagram />, path: "projects" },
+  { name: "Messages", icon: <FaEnvelope />, path: "messages" },
+  { name: "Skills", icon: <FaCogs />, path: "skills" },
+  { name: "Experience", icon: <FaBriefcase />, path: "experience" },
+  { name: "Certificates", icon: <FaCertificate />, path: "certificates" },
+  { name: "Resume", icon: <FaFileAlt />, path: "resume" },
+];
+
+const AdminDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [stats, setStats] = useState({
+    projects: 0,
+    messages: 0,
+    skills: 0,
+    experiences: 0,
+    certificates: 0,
+  });
+  const [loading, setLoading] = useState(false);
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const { setError } = useContext(AdminContext);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const [projRes, msgRes, skillRes, expRes, certRes] = await Promise.all([
+          axios.get("/projects"),
+          axios.get("/messages"),
+          axios.get("/skills"),
+          axios.get("/experience"),
+          axios.get("/certificates"),
+        ]);
+        setStats({
+          projects: projRes.data?.projects?.length || 0,
+          messages: msgRes.data?.messages?.length || 0,
+          skills: skillRes.data?.skills?.length || 0,
+          experiences: expRes.data?.experiences?.length || 0,
+          certificates: certRes.data?.certificates?.length || 0,
+        });
+      } catch (err) {
+        setError("Failed to load stats");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth");
@@ -31,189 +75,189 @@ export default function AdminDashboard() {
     navigate("/admin");
   };
 
-  const menuItems = [
-    { name: "PROJECTS", icon: <FaProjectDiagram />, path: "projects" },
-    { name: "MESSAGES", icon: <FaEnvelope />, path: "messages" },
-    { name: "SKILLS", icon: <FaCogs />, path: "skills" },
-    { name: "EXPERIENCE", icon: <FaBriefcase />, path: "experience" },
-    { name: "CERTIFICATES", icon: <FaCertificate />, path: "certificates" },
-    { name: "RESUME", icon: <FaFileAlt />, path: "resume" },
-  ];
-
-  const isDashboardRoot =
-    location.pathname === "/admin/dashboard" || location.pathname === "/admin/dashboard/";
+  const isDashboardRoot = location.pathname === "/admin/dashboard";
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-[#cccccc] flex">
-      {/* Sidebar */}
-      <aside
-        className={`fixed lg:relative top-0 left-0 h-screen bg-[#0a0a0a] border-r border-[#1f521f] flex flex-col transform transition-all duration-300 z-50 ${
-          sidebarCollapsed ? "w-16" : "w-56"
-        } ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="border-b border-[#1f521f] p-3 flex items-center justify-between">
-          {!sidebarCollapsed && (
-            <Link to="/admin/dashboard" className="font-mono text-xs sm:text-sm text-[#33ff00]">
-              ADMIN_PANEL
-            </Link>
-          )}
-
-          <button
-            className="lg:hidden text-[#33ff00] text-xl"
-            onClick={() => setSidebarOpen(false)}
-          >
-            ×
-          </button>
+    <div className="min-h-screen bg-background flex">
+      <aside className="fixed top-0 left-0 h-screen w-56 bg-surface border-r border-border flex flex-col z-50">
+        <div className="h-16 flex items-center px-4 border-b border-border">
+          <Link to="/admin/dashboard" className="font-display font-semibold text-sm text-text-primary">
+            Admin Panel
+          </Link>
         </div>
 
-        {/* Sidebar Links */}
         <nav className="flex-1 flex flex-col gap-1 p-2 overflow-y-auto">
           {menuItems.map((item) => {
-            const isActive = location.pathname.includes(item.path);
+            const isActive = item.path === ""
+              ? isDashboardRoot
+              : location.pathname.includes(item.path);
             return (
               <Link
                 key={item.name}
                 to={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 p-2 font-mono text-xs transition-all ${
-                  isActive
-                    ? "bg-[#33ff00] text-[#0a0a0a]"
-                    : "text-[#33ff00] hover:bg-[#1f521f]/50"
-                } ${sidebarCollapsed ? "justify-center" : ""}`}
-                title={sidebarCollapsed ? item.name : ""}
+                className={`
+                  flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all
+                  ${isActive
+                    ? "bg-primary text-white"
+                    : "text-text-secondary hover:text-text-primary hover:bg-card"}
+                `}
               >
-                <span className="text-sm">{item.icon}</span>
-                {!sidebarCollapsed && (
-                  <span className="whitespace-nowrap hidden sm:inline">{item.name}</span>
-                )}
+                <span className="text-base">{item.icon}</span>
+                <span>{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* Collapse Toggle */}
-        <button
-          className="hidden lg:block p-3 border-t border-[#1f521f] text-[#666666] hover:text-[#33ff00] text-xs font-mono text-center"
-          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-        >
-          {sidebarCollapsed ? "[ + ]" : "[ - ]"}
-        </button>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Navbar */}
-        <header className="fixed top-0 left-0 right-0 z-40 bg-[#0a0a0a] border-b border-[#1f521f] transition-all duration-300 flex justify-between items-center p-2 sm:p-3 md:p-4">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              className="lg:hidden text-[#33ff00] text-lg sm:text-xl px-2"
-              onClick={() => setSidebarOpen(true)}
-            >
-              ☰
-            </button>
-            
-            {/* Logo */}
-            <Link to="/admin/dashboard" className="font-mono text-xs text-[#33ff00] hover:text-[#ffb000]">
-              <span className="text-[#ffb000]">root@</span>admin:~
-            </Link>
-
-            {/* Back to Home */}
-            <Link 
-              to="/" 
-              className="hidden lg:block font-mono text-xs text-[#666666] hover:text-[#33ff00] ml-4"
-            >
-              [ &lt; ] HOME
-            </Link>
-          </div>
-
+        <div className="p-4 border-t border-border">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 font-mono text-xs px-2 sm:px-3 py-2 border border-[#ff3333] text-[#ff3333] hover:bg-[#ff3333] hover:text-[#0a0a0a] transition-all"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:text-error transition-all"
           >
             <FaSignOutAlt />
-            <span className="hidden sm:inline">LOGOUT</span>
+            <span>Logout</span>
           </button>
+        </div>
+      </aside>
+
+      <div className="flex-1 flex flex-col min-w-0 lg:ml-56">
+        <header className="h-16 bg-surface border-b border-border flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
+          <div className="flex items-center gap-3">
+            <button
+              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg hover:bg-card text-text-secondary"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <FaBars />
+            </button>
+            <span className="font-mono text-2xl text-primary hidden sm:block">
+              SADDAM ANSARI<span className="text-primary">.</span>
+            </span>
+          </div>
+          <Link
+            to="/"
+            className="text-xs text-text-secondary hover:text-primary transition-colors"
+          >
+            ← Back to Site
+          </Link>
         </header>
 
-        {/* Scrollable Page Content */}
-        <main className="mt-12 sm:mt-14 lg:mt-16 p-2 sm:p-4 md:p-6 overflow-y-auto min-h-[calc(100vh-3rem)]">
-          <Outlet />
-
-          {/* Default Dashboard Overview */}
+        <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
           {isDashboardRoot && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="max-w-4xl mx-auto"
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
             >
-              {/* Terminal-style header */}
-              <div className="border border-[#1f521f] mb-6">
-                <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-                  <div className="flex gap-1.5">
-                    <span className="w-2 h-2 sm:w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-                    <span className="w-2 h-2 sm:w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-                    <span className="w-2 h-2 sm:w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-                  </div>
-                  <span className="text-[#33ff00] font-mono text-xs ml-2">dashboard.sh</span>
-                </div>
-                <div className="p-4 sm:p-6 text-center">
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-mono text-[#33ff00] mb-2" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-                    <span className="text-[#ffb000]">$</span> WELCOME_ADMIN
-                  </h2>
-                  <p className="font-mono text-xs text-[#666666]">
-                    Manage your portfolio's projects, skills, experiences, and more.
-                  </p>
-                </div>
+              <div>
+                <span className="font-mono text-xs uppercase tracking-widest text-primary block mb-2">
+                  Dashboard Overview
+                </span>
+                <h1 className="font-display font-bold text-2xl sm:text-3xl text-text-primary">
+                  Welcome back, Admin
+                </h1>
+                <p className="text-text-secondary text-sm mt-1 max-w-2xl">
+                  Manage your portfolio's content, view messages, and monitor your online presence.
+                </p>
               </div>
 
-              {/* Menu Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                {menuItems.map((item, idx) => (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className="border border-[#1f521f] p-3 sm:p-4 text-center hover:bg-[#1f521f]/30 hover:border-[#33ff00] transition-all group"
-                  >
-                    <span className="text-xl sm:text-2xl text-[#33ff00] group-hover:text-[#ffb000]">{item.icon}</span>
-                    <span className="block font-mono text-xs text-[#666666] mt-2 group-hover:text-[#33ff00]">
-                      {item.name}
-                    </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-card border border-border rounded-xl p-5 text-center"
+                >
+                  <FaProjectDiagram className="text-2xl text-primary mx-auto mb-3" />
+                  <span className="block font-display font-bold text-2xl text-text-primary mb-1">
+                    {stats.projects}
+                  </span>
+                  <span className="font-mono text-xs text-text-secondary uppercase">
+                    Projects
+                  </span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-card border border-border rounded-xl p-5 text-center"
+                >
+                  <FaEnvelope className="text-2xl text-primary mx-auto mb-3" />
+                  <span className="block font-display font-bold text-2xl text-text-primary mb-1">
+                    {stats.messages}
+                  </span>
+                  <span className="font-mono text-xs text-text-secondary uppercase">
+                    Messages
+                  </span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-card border border-border rounded-xl p-5 text-center"
+                >
+                  <FaCogs className="text-2xl text-primary mx-auto mb-3" />
+                  <span className="block font-display font-bold text-2xl text-text-primary mb-1">
+                    {stats.skills}
+                  </span>
+                  <span className="font-mono text-xs text-text-secondary uppercase">
+                    Skills
+                  </span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-card border border-border rounded-xl p-5 text-center"
+                >
+                  <FaBriefcase className="text-2xl text-primary mx-auto mb-3" />
+                  <span className="block font-display font-bold text-2xl text-text-primary mb-1">
+                    {stats.experiences}
+                  </span>
+                  <span className="font-mono text-xs text-text-secondary uppercase">
+                    Experience
+                  </span>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="bg-card border border-border rounded-xl p-5 text-center"
+                >
+                  <FaCertificate className="text-2xl text-primary mx-auto mb-3" />
+                  <span className="block font-display font-bold text-2xl text-text-primary mb-1">
+                    {stats.certificates}
+                  </span>
+                  <span className="font-mono text-xs text-text-secondary uppercase">
+                    Certificates
+                  </span>
+                </motion.div>
+              </div>
+
+              <div className="bg-card border border-border rounded-xl p-6">
+                <h2 className="font-display font-semibold text-lg text-text-primary mb-4">
+                  Quick Actions
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  <Link to="/admin/dashboard/projects">
+                    <button className="px-4 py-2 bg-primary text-white font-mono text-xs rounded-lg hover:bg-primary-hover transition-all">
+                      + Add Project
+                    </button>
                   </Link>
-                ))}
-              </div>
-
-              {/* Quick Stats */}
-              <div className="mt-4 sm:mt-6 border border-[#1f521f]">
-                <div className="border-b border-[#1f521f] p-2">
-                  <span className="font-mono text-xs text-[#33ff00]">$ system_status</span>
-                </div>
-                <div className="p-3 sm:p-4 grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 text-center">
-                  <div>
-                    <span className="block font-mono text-sm sm:text-base md:text-lg text-[#ffb000]">OK</span>
-                    <span className="font-mono text-xs text-[#666666]">Database</span>
-                  </div>
-                  <div>
-                    <span className="block font-mono text-sm sm:text-base md:text-lg text-[#33ff00]">RUNNING</span>
-                    <span className="font-mono text-xs text-[#666666]">Server</span>
-                  </div>
-                  <div>
-                    <span className="block font-mono text-sm sm:text-base md:text-lg text-[#33ff00]">ACTIVE</span>
-                    <span className="font-mono text-xs text-[#666666]">Session</span>
-                  </div>
-                  <div>
-                    <span className="block font-mono text-sm sm:text-base md:text-lg text-[#33ff00]">v1.0.0</span>
-                    <span className="font-mono text-xs text-[#666666]">Version</span>
-                  </div>
+                  <Link to="/admin/dashboard/messages">
+                    <button className="px-4 py-2 border border-border text-text-secondary font-mono text-xs rounded-lg hover:bg-card transition-all">
+                      View Messages
+                    </button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
           )}
+          {!isDashboardRoot && <Outlet />}
         </main>
       </div>
     </div>
   );
-}
+};
+
+export default AdminDashboard;

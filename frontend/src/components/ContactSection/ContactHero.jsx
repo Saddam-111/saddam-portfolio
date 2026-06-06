@@ -5,114 +5,66 @@ import {
   FaLinkedin,
   FaGithub,
   FaPhoneAlt,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import TerminalText from "../Common/TerminalText";
-import TerminalButton from "../Common/TerminalButton";
-
-const contactLinks = [
-  { label: "[Email]", href: "mailto:saddam6389046@gmail.com", icon: <FaEnvelope /> },
-  { label: "[LinkedIn]", href: "https://www.linkedin.com/in/saddam11", icon: <FaLinkedin /> },
-  { label: "[GitHub]", href: "https://github.com/Saddam-111", icon: <FaGithub /> },
-  { label: "[Phone]", href: "tel:+916389046018", icon: <FaPhoneAlt /> },
-];
 
 const ContactHero = () => {
+  const contactLinks = [
+    { icon: <FaEnvelope />, label: "Email", href: "mailto:saddam6389046@gmail.com" },
+    { icon: <FaLinkedin />, label: "LinkedIn", href: "https://www.linkedin.com/in/saddam11" },
+    { icon: <FaGithub />, label: "GitHub", href: "https://github.com/Saddam-111" },
+    { icon: <FaPhoneAlt />, label: "Phone", href: "tel:+916389046018" },
+  ];
+
   return (
-    <section className="relative min-h-[65vh] flex flex-col justify-center items-center text-center overflow-hidden bg-[#0a0a0a] px-6">
-      {/* Scanline effect */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-        <div className="w-full h-full bg-[linear-gradient(transparent_50%,rgba(51,255,0,0.1)_50%)] bg-[length:100%_4px]"></div>
-      </div>
+    <section className="relative py-20 sm:py-24 bg-background overflow-hidden">
+      <div className="absolute inset-0 noise-bg" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-primary/5 rounded-full blur-3xl" />
 
-      {/* Floating Labels - Terminal style */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {contactLinks.map((item, index) => (
-          <motion.div
-            key={index}
-            initial={{ y: 30, opacity: 0 }}
-            animate={{
-              y: [30, -30, 30],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              delay: index * 0.2,
-              ease: "easeInOut",
-            }}
-            className="absolute font-mono text-xs text-[#1f521f]"
-            style={{
-              top: `${Math.random() * 70 + 15}%`,
-              left: `${Math.random() * 70 + 15}%`,
-            }}
-          >
-            {item.label}
-          </motion.div>
-        ))}
-      </div>
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
+        >
+          Get in Touch
+        </motion.span>
 
-      {/* Terminal Frame */}
-      <div className="border border-[#1f521f] max-w-3xl w-full">
-        <div className="border-b border-[#1f521f] p-2 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 bg-[#ff3333] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#ffb000] rounded-full"></span>
-            <span className="w-2.5 h-2.5 bg-[#33ff00] rounded-full"></span>
-          </div>
-          <span className="text-[#33ff00] font-mono text-xs ml-2">contact.sh</span>
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-text-primary tracking-tight mb-6"
+        >
+          Let's work together<span className="text-primary">.</span>
+        </motion.h1>
 
-        <div className="p-8">
-          {/* Main Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-mono text-[#33ff00] uppercase tracking-wider" style={{ textShadow: "0 0 10px rgba(51,255,0,0.5)" }}>
-              <TerminalText text="> GET_IN_TOUCH" speed={60} />
-            </h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-text-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-12"
+        >
+          Have a project in mind or want to discuss opportunities?
+          I'd love to hear from you.
+        </motion.p>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="font-mono text-xs sm:text-sm md:text-base text-[#999999] mt-4 max-w-lg sm:max-w-2xl mx-auto leading-relaxed px-4"
+        <div className="flex flex-wrap justify-center gap-3">
+          {contactLinks.map((link, i) => (
+            <motion.a
+              key={i}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 + i * 0.1 }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-card border border-border rounded-xl text-sm text-text-secondary hover:text-primary hover:border-primary/30 hover:shadow-sm transition-all"
             >
-              Have an idea, a collaboration or a project in mind? Let's connect and turn your vision into a reality.
-            </motion.p>
-
-            {/* ASCII Divider */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ delay: 0.8, duration: 1 }}
-              className="mx-auto mt-6 text-[#1f521f] font-mono text-xs"
-            >
-              {"══════════════════════════════════"}
-            </motion.div>
-
-            {/* Contact Buttons - Terminal style */}
-            <div className="mt-6 sm:mt-8 flex flex-wrap justify-center gap-2 sm:gap-3 px-4">
-              {contactLinks.map((item, idx) => (
-                <motion.a
-                  key={idx}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  className="font-mono text-xs sm:text-sm px-3 sm:px-4 py-2 border border-[#1f521f] text-[#33ff00] hover:bg-[#33ff00] hover:text-[#0a0a0a] transition-all"
-                >
-                  {item.label}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Footer */}
-        <div className="border-t border-[#1f521f] p-2 text-right">
-          <span className="font-mono text-xs text-[#33ff00]">user@contact:~$ _</span>
+              <span className="text-primary">{link.icon}</span>
+              {link.label}
+            </motion.a>
+          ))}
         </div>
       </div>
     </section>
