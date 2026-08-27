@@ -39,8 +39,11 @@ app.use("/api/certificates", certificateRoute);
 app.use("/api/messages", messageRoute);
 app.use("/api/resume", resumeRoute);
 
-app.get("/", (req, res) => {
-  res.send("Portfolio Backend Running 🚀");
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is running"
+  });
 });
 
 

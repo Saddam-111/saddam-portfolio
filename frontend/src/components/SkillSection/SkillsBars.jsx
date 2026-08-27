@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import { SectionHeader, Badge, Card } from "../Common";
-import { motion } from "framer-motion";
 
 const categoryIcons = {
   Frontend: "⚛️",
@@ -28,7 +27,7 @@ const SkillCard = ({ skill, index }) => {
   };
 
   return (
-    <motion.div
+    <div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -53,7 +52,7 @@ const SkillCard = ({ skill, index }) => {
           </Badge>
         </div>
       </Card>
-    </motion.div>
+    </div>
   );
 };
 
