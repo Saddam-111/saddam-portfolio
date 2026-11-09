@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Card, Badge } from "../Common";
 
 const achievements = [
@@ -6,7 +6,7 @@ const achievements = [
   { title: "Companies Worked", value: "1" },
   { title: "Lines of Code", value: "10k+" },
   { title: "AI Projects", value: "1" },
-  { title: "Full Stack", value: "✓" },
+  { title: "Full Stack", value: "âœ“" },
 ];
 
 const AchievementsGrid = () => {
@@ -46,3 +46,4 @@ const AchievementsGrid = () => {
 };
 
 export default AchievementsGrid;
+

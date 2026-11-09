@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "../Common";
 
@@ -44,7 +44,7 @@ const TestimonialsSlider = () => {
             transition={{ duration: 0.4 }}
             className="relative"
           >
-            <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.7)]">
               <div className="text-4xl sm:text-5xl text-primary/20 mb-4 font-display">"</div>
               <p className="text-text-primary text-base sm:text-lg leading-relaxed mb-6">
                 {testimonials[current].message}

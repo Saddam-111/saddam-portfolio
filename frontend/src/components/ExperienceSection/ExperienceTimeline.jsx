@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+﻿import React, { useContext, useEffect, useState } from "react";
 import AnimatedSection from "../Common/AnimatedSection";
 import { motion, AnimatePresence } from "framer-motion";
 import { AdminContext } from "../../context/AdminContext";
@@ -112,7 +112,7 @@ const ExperienceTimeline = () => {
                       onClick={() => setSelectedImage(null)}
                       className="text-[#ff3333] font-mono text-lg hover:text-[#ffb000]"
                     >
-                      ×
+                      Ã—
                     </button>
                   </div>
                   <img
@@ -131,3 +131,4 @@ const ExperienceTimeline = () => {
 };
 
 export default ExperienceTimeline;
+

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button, Badge } from "../Common";
 
@@ -73,3 +73,4 @@ const saddam = {
 };
 
 export default PersonalIntro;
+

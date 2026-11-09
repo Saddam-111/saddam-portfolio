@@ -16,19 +16,19 @@ const Input = forwardRef(
               {icon}
             </span>
           )}
-<input
+           <input
              ref={ref}
              className={`
-               w-full px-4 py-2.5 rounded-lg
-               bg-card border border-border
-               text-text-primary placeholder:text-text-secondary/50
+               w-full px-4 py-3 rounded-xl
+               bg-background/60 border border-border
+               text-text-primary placeholder:text-text-secondary/45
                font-sans text-sm
                transition-all duration-200
-               hover:border-text-secondary/40
-               focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
+               hover:border-text-secondary/30
+               focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/15 focus:bg-surface/70
                ${icon ? "pl-10" : ""}
                ${rightElement ? "pr-10" : ""}
-               ${error ? "border-error focus:border-error focus:ring-error/20" : ""}
+               ${error ? "border-error/70 focus:border-error focus:ring-error/15" : ""}
              `}
              {...props}
            />

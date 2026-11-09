@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Card, Badge } from "../Common";
 
 const facts = [
-  { label: "Coffee Lover", icon: "☕" },
-  { label: "Music Enthusiast", icon: "🎵" },
-  { label: "Problem Solver", icon: "🧩" },
-  { label: "Open Source", icon: "💻" },
+  { label: "Coffee Lover", icon: "â˜•" },
+  { label: "Music Enthusiast", icon: "ðŸŽµ" },
+  { label: "Problem Solver", icon: "ðŸ§©" },
+  { label: "Open Source", icon: "ðŸ’»" },
 ];
 
 const FunFacts = () => {
@@ -43,3 +43,4 @@ const FunFacts = () => {
 };
 
 export default FunFacts;
+

@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from "react";
+﻿import React, { useContext, useEffect } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import { SectionHeader, Badge, Card } from "../Common";
 
 const categoryIcons = {
-  Frontend: "⚛️",
-  Backend: "🔧",
-  Database: "🗄️",
-  DevOps: "🚀",
-  Tools: "🛠️",
-  default: "💻",
+  Frontend: "âš›ï¸",
+  Backend: "ðŸ”§",
+  Database: "ðŸ—„ï¸",
+  DevOps: "ðŸš€",
+  Tools: "ðŸ› ï¸",
+  default: "ðŸ’»",
 };
 
 const SkillCard = ({ skill, index }) => {

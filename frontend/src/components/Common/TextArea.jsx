@@ -10,18 +10,18 @@ const TextArea = forwardRef(
             {label}
           </label>
         )}
-<textarea
+        <textarea
            ref={ref}
            rows={rows}
            className={`
-             w-full px-4 py-3 rounded-lg
-             bg-card border border-border
-             text-text-primary placeholder:text-text-secondary/50
-             font-sans text-sm resize-y
+             w-full px-4 py-3.5 rounded-xl
+             bg-background/60 border border-border
+             text-text-primary placeholder:text-text-secondary/45
+             font-sans text-sm resize-y min-h-[120px]
              transition-all duration-200
-             hover:border-text-secondary/40
-             focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
-             ${error ? "border-error focus:border-error focus:ring-error/20" : ""}
+             hover:border-text-secondary/30
+             focus:outline-none focus:border-primary/60 focus:ring-2 focus:ring-primary/15 focus:bg-surface/70
+             ${error ? "border-error/70 focus:border-error focus:ring-error/15" : ""}
            `}
            {...props}
          />

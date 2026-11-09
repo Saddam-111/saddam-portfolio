@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect, useState } from "react";
+﻿import React, { useRef, useLayoutEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Badge } from "../Common";
 import { images } from "../../assets/asset";
@@ -126,3 +126,4 @@ const AboutHero = () => {
 };
 
 export default AboutHero;
+

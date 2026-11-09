@@ -1,4 +1,4 @@
-import { Card, Badge, SectionHeader } from "../Common";
+﻿import { Card, Badge, SectionHeader } from "../Common";
 
 const ContactMap = () => {
   return (
@@ -14,7 +14,7 @@ const ContactMap = () => {
         <Card className="rounded-xl overflow-hidden">
           <div className="flex items-start gap-4">
             <div className="text-primary text-xl mt-1">
-              <span className="text-2xl">📍</span>
+              <span className="text-2xl">ðŸ“</span>
             </div>
             <div>
               <h3 className="font-display font-semibold text-text-primary text-lg">Gorakhpur, Uttar Pradesh, India</h3>
@@ -34,3 +34,4 @@ const ContactMap = () => {
 };
 
 export default ContactMap;
+

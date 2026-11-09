@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "../../utils/api";
 import { Input, TextArea, Button } from "../Common";
@@ -55,7 +55,7 @@ const ContactForm = () => {
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true, margin: "-40px" }}
-           className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-sm"
+           className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-[0_20px_50px_-35px_rgba(0,0,0,0.7)]"
          >
           <form onSubmit={handleSubmit} className="space-y-5">
             <Input
@@ -107,7 +107,7 @@ const ContactForm = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-sm text-success font-mono"
               >
-                ✓ Message sent successfully! I'll get back to you soon.
+                âœ“ Message sent successfully! I'll get back to you soon.
               </motion.p>
             )}
           </form>
@@ -118,3 +118,4 @@ const ContactForm = () => {
 };
 
 export default ContactForm;
+

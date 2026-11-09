@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+﻿import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -168,7 +168,7 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen flex relative">
       {mobileOpen && (
         <button
           type="button"
@@ -180,7 +180,7 @@ const AdminDashboard = () => {
 
       <aside
         className={`
-          fixed top-0 left-0 h-screen w-56 bg-surface border-r border-border flex flex-col z-50
+          fixed top-0 left-0 h-screen w-56 glass border-r border-border flex flex-col z-50
           transition-transform duration-200 ease-out lg:translate-x-0 lg:transition-[width] lg:duration-200
           ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
           ${sidebarWidth}
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
       </aside>
 
       <div className={`flex-1 flex flex-col min-w-0 transition-[margin] duration-200 ${contentOffset}`}>
-        <header className="h-16 bg-surface border-b border-border flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
+        <header className="h-16 glass border-b border-border flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
@@ -208,7 +208,7 @@ const AdminDashboard = () => {
             to="/"
             className="text-xs text-text-secondary hover:text-primary transition-colors shrink-0 ml-3"
           >
-            ← Back to Site
+            â† Back to Site
           </Link>
         </header>
 
@@ -247,11 +247,11 @@ const AdminDashboard = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: card.delay }}
-                      className="bg-card border border-border rounded-xl p-5 text-center"
+                      className="glass-card rounded-2xl p-5 text-center"
                     >
                       <Icon className="text-2xl text-primary mx-auto mb-3" />
                       <span className="block font-display font-bold text-2xl text-text-primary mb-1">
-                        {loading ? "—" : card.value}
+                        {loading ? "â€”" : card.value}
                       </span>
                       <span className="font-mono text-xs text-text-secondary uppercase">{card.label}</span>
                     </motion.div>
@@ -259,7 +259,7 @@ const AdminDashboard = () => {
                 })}
               </div>
 
-              <div className="bg-card border border-border rounded-xl p-6">
+              <div className="glass-card rounded-2xl p-6">
                 <h2 className="font-display font-semibold text-lg text-text-primary mb-4">Quick Actions</h2>
                 <div className="flex flex-wrap gap-3">
                   <Link to="/admin/dashboard/projects">

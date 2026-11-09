@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+﻿import React, { useEffect, useState, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
@@ -104,8 +104,8 @@ const SkillsManager = () => {
       )}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setModalOpen(false)}>
-          <div className="bg-card border border-border rounded-xl w-full max-w-md p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-[#05070d]/70 backdrop-blur-md flex items-center justify-center z-50 p-4" onClick={() => setModalOpen(false)}>
+          <div className="glass-card rounded-2xl w-full max-w-md p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-display font-semibold text-lg text-text-primary mb-4">{currentSkill ? "Edit Skill" : "Add Skill"}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input label="Skill Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />

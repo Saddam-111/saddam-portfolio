@@ -1,4 +1,4 @@
-import { TerminalFilter } from "../Common/TerminalComponents";
+﻿import { TerminalFilter } from "../Common/TerminalComponents";
 
 const ProjectFilters = ({ categories, onFilter }) => {
   return (
@@ -11,3 +11,4 @@ const ProjectFilters = ({ categories, onFilter }) => {
 };
 
 export default ProjectFilters;
+

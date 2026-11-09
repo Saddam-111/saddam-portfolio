@@ -1,98 +1,59 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../context/AdminContext";
-import { Card, Badge, Button } from "../Common";
+import { Badge, Button } from "../Common";
 
 const ProjectsSection = () => {
   const { projects, fetchProjects, loading } = useContext(AdminContext);
-  const featuredProjects = projects.slice(0, 3);
+  const featured = projects.slice(0, 3);
 
   useEffect(() => {
     if (!projects.length) fetchProjects();
-  }, []);
+  }, [fetchProjects, projects.length]);
 
   return (
-    <section className="py-20 sm:py-28 bg-background relative">
+    <section className="py-20 sm:py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-end justify-between mb-12">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <div>
-            <span className="font-mono text-xs uppercase tracking-widest text-primary mb-2 block">Work</span>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">
-              Featured Projects
-            </h2>
+            <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-secondary mb-2">Selected Work</p>
+            <h2 className="font-display font-bold text-3xl sm:text-4xl text-text-primary tracking-tight">Featured projects</h2>
           </div>
-          <Link to="/projects">
-            <Button variant="ghost" size="sm">View all →</Button>
-          </Link>
+          <Link to="/projects"><Button variant="ghost">View all projects →</Button></Link>
         </div>
 
         {loading ? (
-          <div className="grid md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse bg-surface-muted rounded-xl p-4 h-72 border border-border" />
-            ))}
+          <div className="grid md:grid-cols-3 gap-5">
+            {[1, 2, 3].map((i) => <div key={i} className="h-72 rounded-3xl glass-card animate-pulse" />)}
           </div>
-        ) : featuredProjects.length === 0 ? (
-          <p className="text-text-secondary text-center py-12">
-            No projects yet. Check back soon.
-          </p>
+        ) : featured.length === 0 ? (
+          <div className="glass-card rounded-3xl p-10 text-center text-text-secondary">Projects will appear here once added from the admin panel.</div>
         ) : (
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredProjects.map((project, index) => (
-              <Card
-                key={project._id || index}
-                hoverable
-                gradient
-                padding="none"
-                className="overflow-hidden rounded-xl"
-              >
-                {project.thumbnail?.url ? (
-                  <div className="relative h-44 overflow-hidden">
-                    <img
-                      src={project.thumbnail.url}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark/40 to-transparent" />
-                  </div>
-                ) : (
-                  <div className="h-44 bg-surface-muted flex items-center justify-center">
-                    <span className="font-mono text-sm text-text-secondary">
-                      [ No Preview ]
-                    </span>
-                  </div>
-                )}
-
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+            {featured.map((project, index) => (
+              <motion.article key={project._id || index} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.07 }} className="group glass-card rounded-3xl overflow-hidden hover:border-primary/25 transition-all">
+                <div className="relative h-48 overflow-hidden bg-background/50">
+                  {project.thumbnail?.url ? (
+                    <img src={project.thumbnail.url} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center font-mono text-xs text-text-secondary/70">[ preview unavailable ]</div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/75 via-background/10 to-transparent" />
+                  <div className="absolute top-3 left-3"><Badge variant="default" size="sm">{project.category || "Project"}</Badge></div>
+                </div>
                 <div className="p-5">
-                  <div className="flex items-center justify-between mb-2">
-                    <Badge variant="default" size="sm">
-                      {project.category || "Project"}
-                    </Badge>
-                  </div>
-
-                  <h3 className="font-display font-semibold text-lg text-text-primary mb-2">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-text-secondary text-sm leading-relaxed line-clamp-2 mb-4">
-                    {project.description || "A modern web application."}
-                  </p>
-
-                  {project.techStack && (
-                    <div className="flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 3).map((tech, i) => (
-                        <span
-                          key={i}
-                          className="font-mono text-[11px] text-text-secondary bg-surface-muted border border-border px-2 py-0.5 rounded"
-                        >
-                          {tech}
-                        </span>
+                  <h3 className="font-display font-semibold text-lg text-text-primary">{project.title}</h3>
+                  <p className="mt-2 text-sm text-text-secondary leading-relaxed line-clamp-2">{project.description || "A modern web application."}</p>
+                  {project.techStack?.length ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {project.techStack.slice(0, 4).map((tech, i) => (
+                        <span key={i} className="font-mono text-[10px] uppercase tracking-wider text-text-secondary/90 border border-border bg-white/[0.02] px-2 py-1 rounded-lg">{tech}</span>
                       ))}
                     </div>
-                  )}
+                  ) : null}
                 </div>
-              </Card>
+              </motion.article>
             ))}
           </div>
         )}

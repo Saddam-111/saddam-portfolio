@@ -1,20 +1,17 @@
-import React from 'react';
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { ExperienceHero, ExperienceTimeline, ExperienceCTA } from '../components/ExperienceSection/ExperienceHero'
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { ExperienceHero, ExperienceTimeline, ExperienceCTA } from "../components/ExperienceSection/ExperienceHero";
 
-const Experience = () => {
-  return (
-    <div className="min-h-screen bg-background text-text-primary">
-      <Navbar />
-      <main>
-        <ExperienceHero />
-        <ExperienceTimeline />
-        <ExperienceCTA />
-      </main>
-      <Footer />
-    </div>
-  )
-}
+const Experience = () => (
+  <div className="min-h-screen text-text-primary">
+    <Navbar />
+    <main className="pt-24 sm:pt-28">
+      <ExperienceHero />
+      <ExperienceTimeline />
+      <ExperienceCTA />
+    </main>
+    <Footer />
+  </div>
+);
 
-export default Experience
+export default Experience;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+﻿import React, { useEffect, useState, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
@@ -97,12 +97,12 @@ export default function ExperienceManager() {
               <div className="flex flex-col sm:flex-row justify-between gap-3">
                 <div>
                   <h4 className="font-display font-medium text-text-primary">{exp.role}</h4>
-                  <p className="text-text-secondary text-sm">{exp.company} • {exp.duration}</p>
+                  <p className="text-text-secondary text-sm">{exp.company} â€¢ {exp.duration}</p>
                   <p className="text-text-secondary text-xs mt-1 line-clamp-2">{exp.description}</p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => openModal(exp)} className="text-text-secondary hover:text-primary" aria-label="Edit">✏️</button>
-                  <button onClick={() => handleDelete(exp._id)} className="text-text-secondary hover:text-error" aria-label="Delete">🗑️</button>
+                  <button onClick={() => openModal(exp)} className="text-text-secondary hover:text-primary" aria-label="Edit">âœï¸</button>
+                  <button onClick={() => handleDelete(exp._id)} className="text-text-secondary hover:text-error" aria-label="Delete">ðŸ—‘ï¸</button>
                 </div>
               </div>
             </motion.div>
@@ -111,8 +111,8 @@ export default function ExperienceManager() {
       )}
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setModalOpen(false)}>
-          <div className="bg-card border border-border rounded-xl w-full max-w-lg p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-[#05070d]/70 backdrop-blur-md flex items-center justify-center z-50 p-4" onClick={() => setModalOpen(false)}>
+          <div className="glass-card rounded-2xl w-full max-w-lg p-4 sm:p-6" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-display font-semibold text-lg text-text-primary mb-4">{currentExp ? "Edit Experience" : "Add Experience"}</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input label="Role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} required />

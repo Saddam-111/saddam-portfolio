@@ -1,4 +1,4 @@
-import { SectionHeader, Button } from "../Common";
+﻿import { SectionHeader, Button } from "../Common";
 import { Link } from "react-router-dom";
 
 const ContactCTA = () => {
@@ -8,7 +8,7 @@ const ContactCTA = () => {
         <SectionHeader
           label="Let's Collaborate"
           title="Ready to build something amazing?"
-          subtitle="Whether you have a project in mind, a question, or just want to connect — my inbox is always open."
+          subtitle="Whether you have a project in mind, a question, or just want to connect â€” my inbox is always open."
           align="center"
         />
 
@@ -26,3 +26,4 @@ const ContactCTA = () => {
 };
 
 export default ContactCTA;
+

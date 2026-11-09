@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
 
 const buttonVariants = {
-  primary: "bg-primary text-white hover:bg-primary-hover shadow-lg shadow-primary/25 hover:shadow-primary/40",
-  secondary: "bg-secondary text-white hover:bg-secondary-light shadow-lg shadow-secondary/25 hover:shadow-secondary/40",
-  outline: "border-2 border-primary text-primary hover:bg-primary/5",
-  ghost: "text-text-secondary hover:text-primary hover:bg-primary/5",
-  gradient: "bg-gradient-to-r from-primary to-accent text-white hover:shadow-xl hover:shadow-primary/30",
+  primary:
+    "bg-gradient-to-r from-primary to-accent text-white shadow-[0_10px_30px_-12px_rgba(139,92,246,0.55)] hover:shadow-[0_18px_40px_-14px_rgba(34,211,238,0.45)] hover:brightness-110",
+  secondary:
+    "bg-card text-text-primary border border-border hover:border-primary/35 hover:bg-surface shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]",
+  outline:
+    "border border-border bg-surface/30 text-text-primary hover:border-primary/40 hover:bg-primary/10 hover:text-white",
+  ghost: "text-text-secondary hover:text-text-primary hover:bg-white/5",
+  gradient:
+    "bg-gradient-to-r from-primary via-[#7C6CF6] to-accent text-white hover:shadow-[0_18px_40px_-14px_rgba(139,92,246,0.5)] hover:brightness-110",
 };
 
 const Button = ({

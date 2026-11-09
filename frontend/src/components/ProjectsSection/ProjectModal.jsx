@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Badge, Button } from "../Common";
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
@@ -54,7 +54,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               className="text-text-secondary hover:text-text-primary text-xl leading-none p-1"
               aria-label="Close modal"
             >
-              ×
+              Ã—
             </button>
           </div>
 

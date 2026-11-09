@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Card, Badge } from "../Common";
 
 const Achievement = () => {
@@ -46,3 +46,4 @@ const Achievement = () => {
 };
 
 export default Achievement;
+

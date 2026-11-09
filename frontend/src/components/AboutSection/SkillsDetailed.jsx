@@ -1,4 +1,4 @@
-import { Card, Badge } from "../Common";
+﻿import { Card, Badge } from "../Common";
 
 const skillCategories = [
   { name: "Frontend", items: ["React", "React Router", "Tailwind CSS", "HTML5", "CSS3", "JavaScript", "TypeScript"] },
@@ -45,3 +45,4 @@ const SkillsDetailed = () => {
 };
 
 export default SkillsDetailed;
+

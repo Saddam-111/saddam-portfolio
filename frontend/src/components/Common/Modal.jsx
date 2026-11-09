@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+﻿import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 
 const Modal = ({
@@ -27,17 +27,17 @@ const Modal = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#05070d]/75 backdrop-blur-md"
             onClick={closeOnOverlay ? onClose : undefined}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.97, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            exit={{ opacity: 0, scale: 0.97, y: 18 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
             className={`
               relative z-10 w-full ${sizes[size]}
-              bg-surface border border-border rounded-2xl shadow-2xl
+              glass-card rounded-2xl shadow-2xl
               max-h-[90vh] flex flex-col overflow-hidden
             `}
           >
@@ -52,7 +52,7 @@ const Modal = ({
               </div>
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-surface-muted transition-colors"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-text-secondary hover:text-text-primary hover:bg-white/5 border border-transparent hover:border-border transition-all"
                 aria-label="Close modal"
               >
                 <FaTimes />
@@ -62,7 +62,7 @@ const Modal = ({
             <div className="flex-1 overflow-y-auto p-5">{children}</div>
 
             {footer && (
-              <div className="p-5 border-t border-border bg-surface-muted/50">
+              <div className="p-5 border-t border-border bg-white/[0.03]">
                 {footer}
               </div>
             )}
@@ -74,3 +74,4 @@ const Modal = ({
 };
 
 export default Modal;
+

@@ -1,64 +1,28 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { Card, Button } from "../Common";
 import { Link } from "react-router-dom";
+import { Button } from "../Common";
 
-const ContactSection = () => {
-  return (
-    <section className="py-20 sm:py-28 bg-background relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
-
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-4"
-        >
-          Get in Touch
-        </motion.span>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="font-display font-bold text-3xl sm:text-4xl md:text-5xl text-text-primary tracking-tight mb-6"
-        >
-          Let's build something{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-            great
-          </span>
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-text-secondary text-lg max-w-2xl mx-auto leading-relaxed mb-10"
-        >
-          Have a project in mind or just want to connect? I'm always open to discussing new opportunities and ideas.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-wrap justify-center gap-4"
-        >
-          <Link to="/contact">
-            <Button variant="primary" size="lg">Get in Touch</Button>
-          </Link>
-          <Link to="/projects">
-            <Button variant="outline" size="lg">View Projects</Button>
-          </Link>
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+const ContactSection = () => (
+  <section className="py-20 sm:py-24 relative overflow-hidden">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="relative glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(139,92,246,0.18),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(34,211,238,0.14),transparent_40%)]" />
+        <div className="relative">
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-secondary mb-3">Collaboration</p>
+          <h2 className="font-display font-bold text-3xl sm:text-4xl lg:text-5xl text-text-primary tracking-tight">
+            Let&apos;s build something <span className="gradient-text">exceptional</span>
+          </h2>
+          <p className="mt-4 text-text-secondary max-w-2xl mx-auto leading-relaxed">
+            Open to freelance projects, product collaborations, and full-time opportunities where thoughtful engineering and design matter.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Link to="/contact"><Button variant="gradient" size="lg">Get in Touch</Button></Link>
+            <Link to="/projects"><Button variant="outline" size="lg">View Projects</Button></Link>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </section>
+);
 
 export default ContactSection;

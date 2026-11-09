@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import {
   FaEnvelope,
@@ -58,7 +58,7 @@ const ContactHero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.1 }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-card border border-border rounded-xl text-sm text-text-secondary hover:text-primary hover:border-primary/30 hover:shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-card border border-border rounded-xl text-sm text-text-secondary hover:text-primary hover:border-primary/30 hover:shadow-[0_20px_50px_-35px_rgba(0,0,0,0.7)] transition-all"
             >
               <span className="text-primary">{link.icon}</span>
               {link.label}
@@ -71,3 +71,4 @@ const ContactHero = () => {
 };
 
 export default ContactHero;
+

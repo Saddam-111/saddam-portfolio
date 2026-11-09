@@ -21,8 +21,9 @@ const SectionHeader = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="inline-block font-mono text-xs uppercase tracking-widest text-primary mb-3"
+          className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] text-secondary mb-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/10"
         >
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
           {label}
         </motion.span>
       )}
@@ -50,8 +51,8 @@ const SectionHeader = ({
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className={`mt-6 h-0.5 bg-gradient-to-r from-primary to-secondary rounded-full ${align === "center" ? "mx-auto max-w-xs" : align === "right" ? "ml-auto max-w-xs" : "max-w-xs"}`}
+        transition={{ duration: 0.65, delay: 0.3 }}
+        className={`mt-6 h-px bg-gradient-to-r from-primary via-accent to-transparent rounded-full ${align === "center" ? "mx-auto max-w-xs" : align === "right" ? "ml-auto max-w-xs" : "max-w-xs"}`}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Card, Badge, Button } from "../Common";
@@ -156,7 +156,7 @@ const ExperienceTimeline = () => {
                 className="absolute top-3 right-3 w-8 h-8 bg-card/80 backdrop-blur rounded-full flex items-center justify-center text-text-secondary hover:text-text-primary transition-colors"
                 aria-label="Close preview"
               >
-                ✕
+                âœ•
               </button>
             </motion.div>
           </motion.div>

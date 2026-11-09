@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+﻿import React, { useState, useEffect, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import { motion } from "framer-motion";
 import axios from "../../utils/api";
@@ -119,7 +119,7 @@ export default function ProjectsManager() {
         </div>
         <button
           onClick={() => openModal()}
-          className="font-mono text-xs px-3 sm:px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-all whitespace-nowrap rounded-lg"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-primary to-accent text-white text-xs font-medium hover:brightness-110 transition-all"
         >
           + Add Project
         </button>
@@ -147,7 +147,7 @@ export default function ProjectsManager() {
               key={proj._id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-card border border-border rounded-xl overflow-hidden"
+              className="glass-card rounded-2xl overflow-hidden"
             >
               <div className="p-3">
                 {proj.thumbnail?.url && (
@@ -185,7 +185,7 @@ export default function ProjectsManager() {
 
       {/* Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-[#05070d]/70 backdrop-blur-md flex items-center justify-center z-50 p-4">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -200,7 +200,7 @@ export default function ProjectsManager() {
                 className="text-text-secondary hover:text-text-primary text-xl"
                 aria-label="Close modal"
               >
-                ×
+                Ã—
               </button>
             </div>
             <form className="p-4 flex flex-col gap-3" onSubmit={handleSubmit}>

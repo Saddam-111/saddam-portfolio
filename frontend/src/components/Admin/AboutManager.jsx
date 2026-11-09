@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+﻿import React, { useState, useEffect, useContext } from "react";
 import { AdminContext } from "../../context/AdminContext";
 import axios from "../../utils/api";
 import { motion } from "framer-motion";
@@ -73,7 +73,7 @@ export default function AboutManager() {
         </motion.div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl p-4">
+      <div className="glass-card rounded-2xl p-4">
         <p className="text-text-secondary text-sm">
           Content is managed through individual sections. Use Projects Manager and Experience Manager to update your portfolio.
         </p>

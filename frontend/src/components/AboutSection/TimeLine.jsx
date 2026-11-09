@@ -1,17 +1,17 @@
-import { motion } from "framer-motion";
+﻿import { motion } from "framer-motion";
 import { Card, Badge, Button } from "../Common";
 
 const TimeLine = () => {
   const events = [
     {
-      title: "Full Stack Intern — VEDSEEM INFOTECH",
-      date: "Jul 2025 – Oct 2025",
+      title: "Full Stack Intern â€” VEDSEEM INFOTECH",
+      date: "Jul 2025 â€“ Oct 2025",
       description:
         "Built scalable MERN stack web applications. Implemented responsive UIs using React, backend REST APIs with Express, and optimized data flow with MongoDB.",
     },
     {
       title: "Freelance Developer",
-      date: "2024 – 2025",
+      date: "2024 â€“ 2025",
       description:
         "Delivered multiple client web applications across the full project lifecycle. Focused on clean code, modern UI, and responsive design.",
     },
@@ -70,3 +70,4 @@ return (
 };
 
 export default TimeLine;
+
