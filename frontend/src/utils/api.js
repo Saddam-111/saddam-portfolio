@@ -25,9 +25,10 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Unauthorized, optionally logout admin here
       localStorage.removeItem("adminToken");
-      window.location.href = "/admin/login";
+      localStorage.removeItem("rememberMe");
+      if (!window.location.pathname.startsWith("/admin")) return Promise.reject(error);
+      window.location.replace("/admin");
     }
     return Promise.reject(error);
   }

@@ -6,7 +6,7 @@ const ContactMap = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           label="Location"
-          title="Based in Jhansi, India"
+          title="Based in Gorakhpur, India"
           subtitle="Open to remote work and collaborations worldwide."
           align="center"
         />
@@ -17,7 +17,7 @@ const ContactMap = () => {
               <span className="text-2xl">📍</span>
             </div>
             <div>
-              <h3 className="font-display font-semibold text-text-primary text-lg">Jhansi, Uttar Pradesh, India</h3>
+              <h3 className="font-display font-semibold text-text-primary text-lg">Gorakhpur, Uttar Pradesh, India</h3>
               <p className="text-text-secondary text-sm mt-1">
                 Available for remote work and open to relocation opportunities.
               </p>

@@ -102,7 +102,7 @@ const AboutHero = () => {
             </div>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-primary/20 shadow-xl z-10">
               <img
-                src={images.profile_img}
+                src={images.about_img}
                 alt="Saddam Ansari"
                 className="w-full h-full object-cover"
               />

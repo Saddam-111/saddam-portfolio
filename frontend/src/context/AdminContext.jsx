@@ -183,7 +183,6 @@ export const AdminProvider = ({ children }) => {
     fetchResumes,
     loading,
     error,
-    testimonials,
   ]);
 
   return (

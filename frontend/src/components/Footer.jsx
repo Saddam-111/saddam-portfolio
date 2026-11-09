@@ -63,8 +63,8 @@ const Footer = () => {
             </h4>
             <div className="space-y-2 text-sm text-text-secondary">
               <p>saddam6389046@gmail.com</p>
-              <p>+91 6389046018</p>
-              <p>Jhansi, India</p>
+              <p>+91 6389608228</p>
+              <p>Gorakhpur, India</p>
             </div>
           </div>
         </div>

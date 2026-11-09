@@ -5,7 +5,6 @@ import {
   FaLinkedin,
   FaGithub,
   FaPhoneAlt,
-  FaMapMarkerAlt,
 } from "react-icons/fa";
 
 const ContactHero = () => {
@@ -13,7 +12,7 @@ const ContactHero = () => {
     { icon: <FaEnvelope />, label: "Email", href: "mailto:saddam6389046@gmail.com" },
     { icon: <FaLinkedin />, label: "LinkedIn", href: "https://www.linkedin.com/in/saddam11" },
     { icon: <FaGithub />, label: "GitHub", href: "https://github.com/Saddam-111" },
-    { icon: <FaPhoneAlt />, label: "Phone", href: "tel:+916389046018" },
+    { icon: <FaPhoneAlt />, label: "Phone", href: "tel:+916389608228" },
   ];
 
   return (
